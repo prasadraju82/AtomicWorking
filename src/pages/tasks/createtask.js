@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import "../../css/tasks.css";
-import Navbar from '../../components/Navbar';
+import Navigation from '../../components/Navigation';
 import { useSelector } from "react-redux";
 import { Redirect } from 'react-router-dom';
 import ProjectsService from "../../services/projects";
 import AuthService from "../../services/auth.services";
-import { Input, Ul, Li, SuggestContainer } from './style';
+import { Ul, Li, SuggestContainer } from './style';
 import TaskService from "../../services/tasks";
 
 function CreateTask(props){
@@ -18,10 +18,10 @@ function CreateTask(props){
     const [taskType, setTaskType] = useState("0");
     const [taskPriority, setTaskPriority] = useState("1");
     const [taskDesc, setTaskDesc] = useState("");
-    const [assignee, setAssignee] = useState("");
+    //const [assignee, setAssignee] = useState("");
     const [estimatedTime, setEstimatedTime] = useState("");
 
-    const [inputValue, setInputValue] = useState({name: ""});
+    //const [inputValue, setInputValue] = useState({name: ""});
     const [users, setUsers] = useState([]);
     const [userId, setUserId] = useState("");
     const [userName, setUserName] = useState("");
@@ -107,25 +107,25 @@ function CreateTask(props){
         
     }
 
-    const debounce = (fn, waitTime) =>{
-        let timeoutID;
-        return function(args){
-            clearTimeout(timeoutID);
-            const context = this;
-            timeoutID = setTimeout(() => {
-                fn.call(context, args)
-            }, waitTime);
-        };
-    }
+    // const debounce = (fn, waitTime) =>{
+    //     let timeoutID;
+    //     return function(args){
+    //         clearTimeout(timeoutID);
+    //         const context = this;
+    //         timeoutID = setTimeout(() => {
+    //             fn.call(context, args)
+    //         }, waitTime);
+    //     };
+    // }
     
-    const debounced = debounce(getSearch, 2000);
+    // const debounced = debounce(getSearch, 2000);
     
-    function getSearch(inp){
-        debugger;
-        let resultArray = [];
-        let userInput = inp
+    // function getSearch(inp){
+    //     debugger;
+    //     let resultArray = [];
+    //     let userInput = inp
        
-    }
+    // }
     
     
     const selectElement = (usersname, userid) => {
@@ -158,7 +158,7 @@ function CreateTask(props){
 
     return(
         <div>
-            <Navbar />
+            <Navigation />
             <div className="flex-container">
                 <div>
                     <div style={{width:'100%', marginLeft: '50px',  marginTop: '30px', fontFamily:'Arial'}}>

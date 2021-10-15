@@ -4,6 +4,7 @@ import Navigation from '../../components/Navigation';
 import UserServices from "../../services/users";
 import { Redirect } from 'react-router-dom';
 import EditUserModal from './edituser';
+import DeleteUserModal from './deleteuser';
 
 function UserList(props){
     const { user: currentUser } = useSelector((state) => state.auth);
@@ -11,6 +12,7 @@ function UserList(props){
     const [isAdmin, setIsAdmin] = useState(true);
     const [userEditModalShow, setUserEditModalShow] = React.useState(false);
     const [userId, setUserId] = useState("");
+    const [userDeleteModalShow, setUserDeleteModalShow] = React.useState(false);
     const role = currentUser.role;
 
     useEffect(() => {
@@ -28,6 +30,13 @@ function UserList(props){
         // })
     },[])
 
+    const refreshState = () => {
+        UserServices.getAllUsers().then(response => {
+            console.log(response);
+            setUserData(response.data);
+        })
+    }
+
     useEffect(() => {
         if(currentUser.role === 1){
             setIsAdmin(true);
@@ -39,6 +48,11 @@ function UserList(props){
 
     const openEdit = (isModal, key) => {
         setUserEditModalShow(isModal);
+        setUserId(key);
+    }
+
+    const deleteUser = (isModal, key) => {
+        setUserDeleteModalShow(isModal);
         setUserId(key);
     }
 
@@ -61,7 +75,7 @@ function UserList(props){
                                         <thead>
                                         <tr>
                                             <th scope="col"></th>
-                                            <th scope="col">User Name</th>
+                                            <th scope="col">Name</th>
                                             <th scope="col">Email</th>
                                             <th scope="col">Role</th>
                                             <th scope="col"></th>
@@ -78,7 +92,7 @@ function UserList(props){
                                                         <td> {user.role === 1 ? 'Admin' : 'User' }</td>
                                                         <td>
                                                             <button type="button" className="btn btn-primary" onClick={() => openEdit(true, user.email)}>Edit</button>
-                                                            <button type="button" className="btn btn-danger" style={{marginLeft:'20px'}}>Delete</button>
+                                                            <button type="button" className="btn btn-danger" onClick={() => deleteUser(true, user.email)} style={{marginLeft:'20px'}}>Delete</button>
                                                         </td>
                                                     </tr>
                                                     
@@ -92,7 +106,8 @@ function UserList(props){
                         </div>
                     </div>
                 </div>        
-                <EditUserModal   show = {userEditModalShow} onHide={() => setUserEditModalShow(false)} userId = {userId}/>    
+                <EditUserModal show = {userEditModalShow} onHide={() => setUserEditModalShow(false)} userId = {userId} refreshUserList = { refreshState }/>
+                <DeleteUserModal show = {userDeleteModalShow} onHide={() => setUserDeleteModalShow(false)} userId = {userId} refreshUserList = { refreshState }/>    
         </div>
     )
 }

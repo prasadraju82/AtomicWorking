@@ -47,4 +47,11 @@ const updateTaskByTaskId = (task) => {
     });
 }
 
-export default { getRecentTaskList, getTaskById, saveWorkLog, updateTaskByTaskId, createTask };
+const getAllTaskList = (assignedUserId) =>{
+    console.log(assignedUserId);
+    return axios.get(API_URL + "alltaskslist/" + assignedUserId).then((response) => {
+        //console.log(response);
+        return response});
+}
+
+export default { getRecentTaskList, getTaskById, saveWorkLog, updateTaskByTaskId, createTask, getAllTaskList };

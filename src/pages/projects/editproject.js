@@ -6,7 +6,7 @@ import ProjectServices from "../../services/projects";
 import { Redirect } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import AuthService from "../../services/auth.services";
-import { Input, Ul, Li, SuggestContainer } from '../tasks/style';
+import { Ul, Li, SuggestContainer } from '../tasks/style';
 
 function EditProjectModal(props){
 
@@ -90,34 +90,34 @@ function EditProjectModal(props){
         }).catch((error) => {console.log(error)})
     }
 
-    const debounce = (fn, waitTime) =>{
-        let timeoutID;
-        return function(args){
-            clearTimeout(timeoutID);
-            const context = this;
-            timeoutID = setTimeout(() => {
-                fn.call(context, args)
-            }, waitTime);
-        };
-    }
+    // const debounce = (fn, waitTime) =>{
+    //     let timeoutID;
+    //     return function(args){
+    //         clearTimeout(timeoutID);
+    //         const context = this;
+    //         timeoutID = setTimeout(() => {
+    //             fn.call(context, args)
+    //         }, waitTime);
+    //     };
+    // }
     
-    const debounced = debounce(getSearch, 2000);
+    // const debounced = debounce(getSearch, 2000);
     
-    function getSearch(inp){
-        debugger;
-        let resultArray = [];
-        let userInput = inp
-        getUsers(userInput).then(t => {
+    // function getSearch(inp){
+    //     debugger;
+    //     let resultArray = [];
+    //     let userInput = inp
+    //     getUsers(userInput).then(t => {
             
-            resultArray = t;
-            resultArray = resultArray.map((data)=>{
-                return data = `<li>${data}</li>`;
-            });
+    //         resultArray = t;
+    //         resultArray = resultArray.map((data)=>{
+    //             return data = `<li>${data}</li>`;
+    //         });
     
            
-            return t;
-        });
-    }
+    //         return t;
+    //     });
+    // }
     
    
     
@@ -141,12 +141,12 @@ function EditProjectModal(props){
         })
     }
 
-    const getActualUser = (e) =>{
-        let userInput = e.target.value;
-//    console.log(userInput);
+//     const getActualUser = (e) =>{
+//         let userInput = e.target.value;
+// //    console.log(userInput);
     
-        debounced.call(getSearch, userInput);
-    }
+//         debounced.call(getSearch, userInput);
+//     }
 
     return(
         <Modal

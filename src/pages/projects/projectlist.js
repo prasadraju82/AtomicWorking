@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from 'react-router-dom';
 import { useSelector } from "react-redux";
-import Navbar from '../../components/Navbar'
-import ProjectsService from "../../services/projects";
+import Navigation from '../../components/Navigation';
 import "../../css/projects.css";
 import axios from "axios";
-import ProjectComponent from '../../components/projectcomponent';
 import EditProjectModal from './editproject';
 
 const API_URL = "http://localhost:5000/api/projects/";
@@ -44,7 +42,7 @@ function ProjectList(){
     }
     
     return(<div>
-                <Navbar />
+                <Navigation />
                 <div style={{textAlign:'right', marginRight:'200px'}}>
                    { isAdmin && <button type="button" className="btn btn-primary">CREATE PROJECT</button> } 
                 </div>

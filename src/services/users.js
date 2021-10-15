@@ -32,5 +32,26 @@ const getUserById = (emailid) => {
     });
 }
 
+const upadteUser = (user) =>{
+    return axios.post(API_URL + "updateuser", user).then((response) => {
+        // if (response.data.accessToken) {
+        //   window.localStorage.setItem("user", JSON.stringify(response.data));
+        // }
+    return response}).catch((error) => {
+        return error
+    });
+}
+
+const deleteUserById = (emailid) => {
+    console.log(emailid);
+    return axios.get(API_URL + "deleteuserbyid/" + emailid).then((response) => {
+        // if (response.data.accessToken) {
+        //   window.localStorage.setItem("user", JSON.stringify(response.data));
+        // }
+    return response}).catch((error) => {
+        return error
+    });
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { addUser, getAllUsers, getUserById };
+export default { addUser, getAllUsers, getUserById, upadteUser, deleteUserById };

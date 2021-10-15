@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/button'
 import TasksService from "../../../services/tasks";
@@ -12,7 +11,6 @@ function WorkLogModal(props){
     const [show, setShow] = useState(true);
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
     let userId = props.user;
     let taskId = props.taskId;

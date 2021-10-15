@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import '../../css/signup.css';
-import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
 import { register } from "../../action/auth";
@@ -15,7 +14,7 @@ function SignUp(){
         confirmPassword: "",
         gender: ""
     });
-    const[show, setShow] = useState(true);
+    //const[show, setShow] = useState(true);
 
     const options = [
         {

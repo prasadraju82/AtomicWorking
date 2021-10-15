@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import '../../css/login.css';
-import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
 import { checkUser } from "../../action/auth";
 import { savepassword } from "../../action/auth";
 import { login } from "../../action/auth";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 function Login(){
 
@@ -21,9 +20,9 @@ function Login(){
 
     let history = useHistory();
 
-    const redirectToProject = () => {
-        history.push('/projectlist/' + value)
-    }
+    // const redirectToProject = () => {
+    //     history.push('/projectlist/' + value)
+    // }
 
     const redirectToTask = () => {
         history.push('/recenttasks/')

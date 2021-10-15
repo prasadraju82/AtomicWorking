@@ -89,11 +89,11 @@ function TaskDetailsSummaryEditModal(props){
         //setTask(myTaskObject)
     },[props.tasks])
 
-    const handleChange = event =>{
-        console.log(event.target.value);
-        const {id, value} = event.target;
-        //setTask({...task, [id] : value})
-    };
+    // const handleChange = event =>{
+    //     console.log(event.target.value);
+    //     const {id, value} = event.target;
+    //     //setTask({...task, [id] : value})
+    // };
 
     console.log(props.tasks);
     const priorityOptions = [

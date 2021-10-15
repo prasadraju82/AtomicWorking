@@ -1,3 +1,7 @@
 .color-nav{
     background-color: royalblue;
 }
+
+.navbar.navbar-default {
+    border-bottom: 2px solid #000000;
+}

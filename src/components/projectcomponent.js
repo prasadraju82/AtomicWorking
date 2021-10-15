@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
-import ProjectTable from './projectTable'
+//import ProjectTable from './projectTable'
 
 const API_URL = "http://localhost:5000/api/projects/";
 
@@ -19,7 +19,7 @@ function ProjectComponent(props){
         // };
         // fetchProjects();
         console.log(projectData);
-    },[])
+    },[props.emailId])
 
     //console.log(projectData);
 

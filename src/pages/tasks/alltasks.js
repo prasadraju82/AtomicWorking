@@ -6,7 +6,7 @@ import TasksService from "../../services/tasks";
 import "../../css/tasks.css";
 import taskImage from '../../images/task.JPG'
 
-function RecentTasks(){
+function AllTasks(){
     const { user: currentUser } = useSelector((state) => state.auth);
     const [taskData, setTaskData] = useState([]);
    
@@ -16,7 +16,7 @@ function RecentTasks(){
         }
 
         if(currentUser !== undefined){
-            TasksService.getRecentTaskList(currentUser.id).then(
+            TasksService.getAllTaskList(currentUser.id).then(
                 (response) => {
                     setTaskData(response.data)
                 }
@@ -32,7 +32,7 @@ function RecentTasks(){
     console.log(currentUser);
     return(<div>
             <div>
-                <Navigation/>
+                <Navigation />
             </div>
             <div>
                 <div className="flex-container" style={{width:'80%', marginTop: '50px', marginLeft: '100px'}}>
@@ -96,4 +96,4 @@ function RecentTasks(){
     </div>)
 }
 
-export default RecentTasks;
+export default AllTasks;

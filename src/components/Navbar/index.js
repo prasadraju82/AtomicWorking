@@ -7,13 +7,13 @@ NavMenu,
 NavBtn,
 NavBtnLink,
 } from './NavbarElements';
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 
 const Navbar = () => {
 
-    const { user: currentUser } = useSelector((state) => state.auth);
-    var projectLink = '/projectlist/' + currentUser
+   // const { user: currentUser } = useSelector((state) => state.auth);
+    //var projectLink = '/projectlist/' + currentUser
 return (
 	<>
 	<Nav>

@@ -72,9 +72,9 @@ function Login(){
         }
     }
 
-    const setInitialPassword = () => {
-        setFirstTimeUser(true);
-    }
+    // const setInitialPassword = () => {
+    //     setFirstTimeUser(true);
+    // }
     
     return(
         <div>
@@ -123,7 +123,7 @@ function Login(){
                         <button type="button" className="btn btn-primary" style={{fontWeight:"bold", width:"300px"}}>SAVE PASSWORD</button>
                     </div>
                     <div  id="dvButton" style={{display:"block", margin: "0 auto", position: "relative", top: "5%", left:"19%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "18px", fontWeight:"bold", paddingTop:"15px"}}>
-                        Don't have an account? <a onClick="">Sign Up</a>
+                        {/* Don't have an account? <a onClick="">Sign Up</a> */}
                     </div>
                 </div>
             </div>

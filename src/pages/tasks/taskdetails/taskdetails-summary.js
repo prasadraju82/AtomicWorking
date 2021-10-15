@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from '../../../components/Navbar'
 import "../../../css/tasks.css";
 import WorkLogModal from './worklogmodal';
 import { useSelector } from "react-redux";

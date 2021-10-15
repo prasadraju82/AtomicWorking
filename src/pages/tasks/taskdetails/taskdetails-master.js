@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Redirect, useHistory } from 'react-router-dom';
-import Navbar from '../../../components/Navbar'
+import { useHistory } from 'react-router-dom';
+import Navigation from '../../../components/Navigation';
 import TasksService from "../../../services/tasks";
 import "../../../css/tasks.css";
 import TaskDetailsSummary from './taskdetails-summary';
@@ -38,7 +38,7 @@ function TaskDetails(){
 
    // console.log("master page state: " + currentTask);
     return(<div>
-            <Navbar />
+            <Navigation />
             <div className="flex-container" style={{verticalAlign: 'top'}}>
                 <div style={{width:'80%', marginLeft: '100px', marginRight: '50px'}}>
                     <TaskDetailsSummary taskObject = {taskdetails} />

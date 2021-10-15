@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/button'
 
 function EditUserModal(props){
     
+    const refreshParent = props.refreshUserList;
     const { user: currentUser } = useSelector((state) => state.auth);
 
     const [user, setUser] = useState({
@@ -16,14 +17,19 @@ function EditUserModal(props){
     });
 
     useEffect(() => {
+        console.log('child ' + props.userId);
         UserServices.getUserById(props.userId).then((response) => {
-            const userEdit = {
-                userName: response.data.name,
-                userRole: response.data.role,
-                gender: response.data.gender
-            }
+           
+            if(response !== undefined && response.data !== undefined){
+                console.log('child ' + response.data.name);
+                const userEdit = {
+                    userName: response.data.name,
+                    userRole: response.data.role,
+                    gender: response.data.gender
+                }
 
-            setUser(userEdit);
+                setUser(userEdit);
+            }
         })
     },[props.userId])
 
@@ -70,9 +76,11 @@ function EditUserModal(props){
         }
         console.log(userPayLoads);
         console.log(currentUser);
-        UserServices.updateProject(userPayLoads).then((response) => {
+        UserServices.upadteUser(userPayLoads).then((response) => {
             if(response.data.message === "Success"){
-               alert("Project Updated Successfully");
+                props.onHide();
+                refreshParent();
+               alert("User Updated Successfully");
             }
         }).catch((error) => {console.log(error)})
     }
@@ -86,7 +94,7 @@ function EditUserModal(props){
             >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    <h4 class="modal-title">Edit Project</h4>
+                    <h4 class="modal-title">Edit User</h4>
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -94,15 +102,15 @@ function EditUserModal(props){
                     <div>
                         <div className="flex-container">
                             <div style={{width:'35%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
-                                Key <span style={{color:'red'}}>*</span>
+                                Email Id:
                             </div>
                             <div style={{width:'65%', marginLeft: '20px',  marginTop: '25px'}}>
-                               <span style={{fontFamily:'Arial'}}> {props.email} </span>
+                               <span style={{fontFamily:'Arial'}}> {props.userId} </span>
                             </div>
                         </div>
                         <div className="flex-container">
                             <div style={{width:'35%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
-                                Project Name <span style={{color:'red'}}>*</span>
+                                Project Name: <span style={{color:'red'}}>*</span>
                             </div>
                             <div style={{width:'65%', marginLeft: '20px',  marginTop: '25px'}}>
                                 <input id="userName" type="text" value={user.userName} onChange={handleChange} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '400px', backgroundColor: '#ffffff'}} />
@@ -110,7 +118,7 @@ function EditUserModal(props){
                         </div>    
                         <div className="flex-container">
                             <div style={{width:'35%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
-                                Project Type <span style={{color:'red'}}>*</span>
+                                Project Type: <span style={{color:'red'}}>*</span>
                             </div>
                             <div style={{width:'65%', marginLeft: '20px',  marginTop: '25px'}}>
                                 <select id="userRole" className="selcls" value={ user.userRole } onChange={handleChange}>
@@ -122,7 +130,7 @@ function EditUserModal(props){
                         </div>
                         <div className="flex-container">
                             <div style={{width:'35%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
-                                Project Type <span style={{color:'red'}}>*</span>
+                                Project Type: <span style={{color:'red'}}>*</span>
                             </div>
                             <div style={{width:'65%', marginLeft: '20px',  marginTop: '25px'}}>
                                 <select id="gender" className="selcls" value={ user.gender } onChange={handleChange}>
