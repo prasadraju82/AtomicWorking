@@ -1,0 +1,30 @@
+.container {
+    padding: 2rem 0rem;
+  }
+  
+  h4 {
+    margin: 2rem 0rem 1rem;
+  }
+
+  .flex-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: top;
+
+  }
+  
+  .flex-container > div {
+   /* background-color: lightblue; */
+    /* width: 150px; */
+    margin: 1px;
+    text-align: left;
+    /* align-self: center; */
+    line-height: 18px;
+  }
+
+  .form-row {
+      display: flex;
+      justify-content: flex-end;
+      padding: .5em;
+    }
