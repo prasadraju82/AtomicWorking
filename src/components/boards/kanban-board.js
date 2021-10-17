@@ -2,6 +2,10 @@ import React, {useState, useEffect} from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import {v4 as uuidv4} from 'uuid';
 import TaskService from '../../services/tasks';
+import { Redirect, useHistory } from 'react-router-dom';
+import Navigation from '../../components/Navigation';
+import { useSelector } from "react-redux";
+import ProjectsService from "../../services/projects";
 
 const itemsFromBackEnd3 = [
     {id: uuidv4(), content: 'Fifth Component'},
@@ -43,14 +47,6 @@ let itemsFromBackEnd1 = [
     // {id: uuidv4(), content: 'Fourth Component'}
 ]
 //console.log(itemsFromBackEnd1);
-
-const openTasks = [];
-const reOpenTasks = [];
-const inProgressTasks = [];
-const onStagingTasks = [];
-const toDeployTasks = [];
-const onLiveTasks = [];
-
 
  const updateTaskStatus = (taskId, status) => {
     const taskPayLoad ={
@@ -116,14 +112,23 @@ const onLiveTasks = [];
  }
 
 function KanbanBoard(){
+    const { user: currentUser } = useSelector((state) => state.auth);
+    const [projects, setProjects] = useState([]);
+
     const[columns, setColumns] = useState({})
 
     const[tasks, setTasks] = useState([]);
-    const[inProgressTask, setInProgressTasks] = useState([]);
+    const[inProgressTasks, setInProgressTasks] = useState([]);
     const[reOpenTask, setReOpenTasks] =useState([]);
     const[onStagingTask, setOnStagingTasks] =useState([]);
     const[toDeployTask, setToDeployTask] =useState([]);
     const[onLiveTask, setOnLiveTasks] =useState([]);
+
+    let history = useHistory();
+
+    const gotoTaskDetails = (taskId) => {
+        history.push('/taskdetails/taskdetails-master', { taskid: taskId });
+    }
 
     useEffect(() => {
         
@@ -134,9 +139,6 @@ function KanbanBoard(){
         let openItem = []
         TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',1).then((response) => {
             console.log(response);
-            // response.data.forEach(item => {
-            //     openTasks.push(item)
-            // })
             setTasks(response.data);
         })
         
@@ -146,10 +148,120 @@ function KanbanBoard(){
         //     itemsFromBackEnd.push(item);
         // })
 
+        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',2).then((response) => {
+            console.log(response);
+            setInProgressTasks(response.data);
+        })
+
+        const inProgressItem = [{id:'PTD-9', content:{taskId:'PTD-9',taskName:'Add excel in the report', taskType:'Enhancement', taskPriority:'Normal'}},
+                {id:'PTD-8', content:{taskId:'PTD-8',taskName:'Implement MFA', taskType:'Enhancement', taskPriority:'Normal'}},
+                {id:'PTD-7', content:{taskId:'PTD-7',taskName:'Page crashed on save', taskType:'Enhancement', taskPriority:'Normal'}}]
+
+        // inProgressItem.map((item, index) => {
+        //     itemsFromBackEnd1.push(item);
+        // })
+
+        // const itemsFromBackEnd = [
+        //     // {id: uuidv4(), content: 'First Component'},
+        //     // {id: uuidv4(), content: 'Second Component'}
+        // ]
+        alert('Hi');
+        //re-Open
         TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',3).then((response) => {
-            // response.data.forEach(item => {
-            //     inProgressTasks.push(item)
-            // })
+            console.log(response);
+            setReOpenTasks(response.data);
+        })
+
+        //Staging
+        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',4).then((response) => {
+            console.log(response);
+            setOnStagingTasks(response.data);
+        })
+
+        //To Deploy
+        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',5).then((response) => {
+            console.log(response);
+            setToDeployTask(response.data);
+        })
+
+        //On Live
+        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',6).then((response) => {
+            console.log(response);
+            setOnLiveTasks(response.data);
+        })
+    },[])
+
+    useEffect(() => {
+        const columnsFromBackend = 
+        {
+            [uuidv4()]:{
+                name: 'Open',
+                statusId: 1,
+                items: tasks
+            },
+            [uuidv4()]:{
+                name: 'In Progress',
+                statusId: 2,
+                items: inProgressTasks
+            },
+            [uuidv4()]:{
+                name: 'Re-Open',
+                statusId: 3,
+                items: reOpenTask
+            },
+            [uuidv4()]:{
+                name: 'On Staging',
+                statusId: 4,
+                items: onStagingTask
+            },
+            [uuidv4()]:{
+                name: 'To Deploy',
+                statusId: 5,
+                items: toDeployTask
+            },
+            [uuidv4()]:{
+                name: 'On Live',
+                statusId: 6,
+                items: onLiveTask
+            },
+        }
+
+        console.log(columnsFromBackend);
+        setColumns(columnsFromBackend);
+    },[])
+
+    useEffect(() => {
+        
+    },[])
+
+    useEffect(() =>{
+        getAllProjects();
+    },[])
+
+    if (!currentUser) {
+        return <Redirect to="/login" />;
+    }
+
+    const getAllProjects = () => {
+        ProjectsService.getAllProjects().then(response =>
+        {
+            setProjects(response.data);
+        })
+    }
+
+    const setProject = (event) => {
+        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',1).then((response) => {
+            console.log(response);
+            setTasks(response.data);
+        })
+        
+        
+
+        // tasks.map((item, index) => {
+        //     itemsFromBackEnd.push(item);
+        // })
+
+        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',2).then((response) => {
             console.log(response);
             setInProgressTasks(response.data);
         })
@@ -168,47 +280,28 @@ function KanbanBoard(){
         // ]
 
         //re-Open
-        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',2).then((response) => {
+        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',3).then((response) => {
             console.log(response);
-            // response.data.forEach(item => {
-            //     reOpenTasks.push(item)
-            // })
             setReOpenTasks(response.data);
         })
 
         //Staging
         TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',4).then((response) => {
             console.log(response);
-            // response.data.forEach(item => {
-            //     onStagingTasks.push(item)
-            // })
             setOnStagingTasks(response.data);
         })
 
         //To Deploy
         TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',5).then((response) => {
             console.log(response);
-            // response.data.forEach(item => {
-            //     toDeployTasks.push(item)
-            // })
             setToDeployTask(response.data);
         })
 
         //On Live
         TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',6).then((response) => {
             console.log(response);
-            // response.data.forEach(item => {
-            //     onLiveTasks.push(item)
-            // })
             setOnLiveTasks(response.data);
         })
-        
-        console.log(tasks);
-        console.log(inProgressTasks);
-        console.log(reOpenTask);
-        console.log(onStagingTask);
-        console.log(toDeployTask);
-        console.log(onLiveTask);
 
         const columnsFromBackend = 
         {
@@ -218,14 +311,14 @@ function KanbanBoard(){
                 items: tasks
             },
             [uuidv4()]:{
-                name: 'Re-Open',
+                name: 'In Progress',
                 statusId: 2,
-                items: reOpenTask
+                items: inProgressTasks
             },
             [uuidv4()]:{
-                name: 'In Progress',
+                name: 'Re-Open',
                 statusId: 3,
-                items: inProgressTask
+                items: reOpenTask
             },
             [uuidv4()]:{
                 name: 'On Staging',
@@ -243,93 +336,97 @@ function KanbanBoard(){
                 items: onLiveTask
             },
         }
-        
+
         console.log(columnsFromBackend);
         setColumns(columnsFromBackend);
-        
-    },[])
+    }
 
-    useEffect(() => {
-       
-    },[])
-
-    useEffect(() => {
-        
-    },[])
-
-    console.log(openTasks);
-        console.log(reOpenTasks);
-        console.log(inProgressTasks);
-        console.log(onStagingTasks);
-        console.log(toDeployTasks);
-        console.log(onLiveTasks);
-
-    return(<div style={{ display: 'flex', justifyContent: 'center', height:'100%'}}>
-        <DragDropContext onDragEnd={result => onDragEnd(result, columns, setColumns)}>
-            {Object.entries(columns).map(([id, column])=>{
-                return(
-                    <div style={{ display:'flex', flexDirection:'column', alignItems:'center'}}>
-                        <div style={{margin:2}}>
-                            <h4>{ column.name }</h4>
-                            <Droppable droppableId={id} key={id}>
-                                {(provided, snapshot) => {
-                                    return(
-                                        <div 
-                                            {...provided.droppableProps}
-                                            ref={provided.innerRef}
-                                            style={{
-                                                background: snapshot.isDraggingOver ? 'lightblue' : 'lightgray',
-                                                padding: 4,
-                                                width: 240,
-                                                minHeight: 500    
-                                            }}
-                                        >
-                                            {column.items.map((item, index) => {
-                                                return(
-                                                    <Draggable key = {item.id} draggableId={item.id} index={index}>
-                                                        {(provided, snapshot) => {
-                                                            return(
-                                                                <div 
-                                                                    ref={provided.innerRef} 
-                                                                    {...provided.draggableProps}
-                                                                    {...provided.dragHandleProps}
-                                                                    style={{
-                                                                        userSelect:'none',
-                                                                        padding: 6,
-                                                                        margin: '0 0 8px 0',
-                                                                        minHeight: '50px',
-                                                                        backgroundColor: snapshot.isDragging ? '#263B4A' : '#456C86',
-                                                                        color: 'white',
-                                                                        ...provided.draggableProps.style
-                                                                    }}
-                                                                    >
-                                                                        <div>
-                                                                            {item.content.taskName}
-                                                                        </div>
-                                                                        <div>
-                                                                            <span style={{fontSize:'12px', fontVariant:'small-caps'}}>{item.content.taskType}</span> <span style={{fontSize:'12px', fontVariant:'small-caps', color:'#dcdcdc'}}>Normal</span>
-                                                                        </div>
-                                                                        <div>
-                                                                            {item.content.taskId}
-                                                                        </div>
-                                                                        
-                                                                </div>
-                                                            )
-                                                        }}
-                                                    </Draggable>
-                                                )
-                                            })}
-                                            {provided.placeholder}
-                                        </div>
-                                    );
-                                }}
-                            </Droppable>
-                        </div>     
-                    </div>    
-                )
-            })}
-        </DragDropContext>
-    </div>)
+    return(
+    <div>
+        <Navigation />
+        <div>
+            <div style={{width:'100%', marginLeft: '50px',  marginTop: '30px', fontFamily:'Arial'}}>
+                Project Name <span style={{color:'red'}}>*</span>
+            </div>
+            <div style={{width:'20%', marginLeft: '50px',  marginTop: '5px'}}>
+                <select id="Select1" className="selcls" style={{width:'220px'}} onChange={event => {setProject(event.target.value)}}>
+                    {/* <option key = '0' value='0'>-Select-</option> */}
+                    {projects.map(project => (
+                        <option key={project._id} value={project._id}>
+                            {project.projectName}
+                        </option>
+                    ))}
+                </select>
+            </div>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', height:'100%'}}>
+            <DragDropContext onDragEnd={result => onDragEnd(result, columns, setColumns)}>
+                {Object.entries(columns).map(([id, column])=>{
+                    return(
+                        <div style={{ display:'flex', flexDirection:'column', alignItems:'center'}}>
+                            <div style={{margin:2}}>
+                                <h4>{ column.name }</h4>
+                                <Droppable droppableId={id} key={id}>
+                                    {(provided, snapshot) => {
+                                        return(
+                                            <div 
+                                                {...provided.droppableProps}
+                                                ref={provided.innerRef}
+                                                style={{
+                                                    background: snapshot.isDraggingOver ? 'lightblue' : 'lightgray',
+                                                    padding: 4,
+                                                    width: 240,
+                                                    minHeight: 500    
+                                                }}
+                                            >
+                                                {column.items.map((item, index) => {
+                                                    return(
+                                                        <Draggable key = {item.id} draggableId={item.id} index={index}>
+                                                            {(provided, snapshot) => {
+                                                                return(
+                                                                    <div 
+                                                                        ref={provided.innerRef} 
+                                                                        {...provided.draggableProps}
+                                                                        {...provided.dragHandleProps}
+                                                                        style={{
+                                                                            userSelect:'none',
+                                                                            padding: 6,
+                                                                            margin: '0 0 8px 0',
+                                                                            minHeight: '50px',
+                                                                            backgroundColor: snapshot.isDragging ? '#263B4A' : '#456C86',
+                                                                            color: 'white',
+                                                                            ...provided.draggableProps.style
+                                                                        }}
+                                                                        >
+                                                                            <div onClick={() => gotoTaskDetails(item.content.taskId)}>
+                                                                                {item.content.taskName}
+                                                                            </div>
+                                                                            <div>
+                                                                                <span style={{fontSize:'12px', fontVariant:'small-caps'}}>{item.content.taskType}</span> <span style={{fontSize:'12px', fontVariant:'small-caps', color:'#dcdcdc'}}>Normal</span>
+                                                                            </div>
+                                                                            <div onClick={() => gotoTaskDetails(item.content.taskId)}>
+                                                                                {item.content.taskId}
+                                                                            </div>
+                                                                            
+                                                                    </div>
+                                                                )
+                                                            }}
+                                                        </Draggable>
+                                                    )
+                                                })}
+                                                {provided.placeholder}
+                                            </div>
+                                        );
+                                    }}
+                                </Droppable>
+                            </div>     
+                        </div>    
+                    )
+                })}
+            </DragDropContext>
+        </div>
+    </div>
+    )
 }
 
 export default KanbanBoard;

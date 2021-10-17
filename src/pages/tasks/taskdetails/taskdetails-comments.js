@@ -10,6 +10,8 @@ import Moment from 'react-moment';
 import 'moment-timezone';
 import { useSelector } from "react-redux";
 import ActivityService from "../../../services/activity";
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import {CKEditor} from '@ckeditor/ckeditor5-react';
 
 const API_URL = "http://localhost:5000/api/activity/";
 
@@ -29,6 +31,12 @@ function TaskDetailsComment(props){
         })
     }
 
+    const getCKEditor = (event, editor) => {
+        setComment(editor.getData())
+        console.log(comment);
+    }
+
+    console.log(comment);
     useEffect(() => {
         getactivities(taskId);
     },[props.taskObject])
@@ -45,13 +53,39 @@ function TaskDetailsComment(props){
 
         ActivityService.saveActivity(activityPayLoad).then((response) => {
             if(response.data.message === "Success"){
-                console.log(comment);
-                setActivities([...activities, response.data]);
+                console.log(response);
+                console.log(response.data.data);
+                setActivities([...activities, response.data.data]);
                 setCommentArea(false)
             }
         }).catch((error) => console.log(error.message));;
     }
-    console.log(currentUser);
+    //console.log(currentUser);
+
+    const createMarkup = (usercomment) => {
+        //console.log("comment: " + usercomment);
+        return { __html: usercomment };
+      }
+
+    const getInitials = (username) => {
+        let user = username.split(' ')
+        let firstName = "";
+        let secondName = "";
+        if(user.length > 1){
+            firstName = user[0];
+            secondName = user[1];
+            let firstLetter = firstName.charAt(0);
+            let secondLetter = secondName.charAt(0)
+
+            return firstLetter + secondLetter
+        }
+        else if(user.length === 1){
+            firstName = user[0];
+            let firstLetter = firstName.charAt(0);
+            
+            return firstLetter + " "
+        }
+    }  
     //console.log(activities);
     return (
         <div>
@@ -78,11 +112,9 @@ function TaskDetailsComment(props){
                                 </div>
                                 <div className="flex-container" id="cmtDetails2">
                                     <div id="cmtDetails1" style={{marginLeft: '15px', height:'30px', paddingTop:'7px', fontFamily: 'Arial, Helvetica, sans-serif', paddingLeft:'5px', paddingRight:'5px', borderRadius:'15px', backgroundColor:'#EF6C00', fontWeight: 'bold', textAlign:'center', verticalAlign:'middle'}}>
-                                        RP
+                                        {getInitials(activity.userName)}
                                     </div>
-                                    <div id="cmtDetails2" style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '15px', fontWeight: 'normal', paddingLeft:'15px', letterSpacing: 'normal'}}>
-                                        {activity.userId}
-                                    </div>
+                                    <div dangerouslySetInnerHTML={createMarkup(activity.comment)} className='editor'></div>
                                     <div>
 
                                     </div>
@@ -101,7 +133,15 @@ function TaskDetailsComment(props){
             <div id="divComment" style={{margin: '0 auto', position:'relative', top:'5%', left:'2%', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '13px', fontWeight: 'bold', paddingTop:'15px'}}>
                 {showCommentArea && 
                     <div>
-                        <textarea name="content" id ="txtComment" style={{width:'80%'}} onChange={event => {setComment(event.target.value)}}></textarea>
+                        {/* <textarea name="content" id ="txtComment" style={{width:'80%'}} onChange={event => {setComment(event.target.value)}}></textarea> */}
+                        <CKEditor
+                        editor={ClassicEditor}
+                        onInit = {editor =>{
+
+                        }}
+                    //   config={editorConfig}
+                         onChange={(event, editor) => getCKEditor(event, editor)}
+                    />
                         <div class="flex-container" style={{marginTop:'5px', width:'80%'}}>
                             <div><button type="button" class="btn btn-primary" data-dismiss="modal" onClick ={() => saveComment()}>Save</button></div>
                             <div><button type="button" class="btn btn-danger" data-dismiss="modal" onClick={() => setCommentArea(false)} style={{marginLeft:'5px'}}>Cancel</button></div>
