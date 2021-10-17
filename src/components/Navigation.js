@@ -6,7 +6,7 @@ import Nav from 'react-bootstrap/Nav'
 import './Navigation.css';
 import { useHistory } from 'react-router-dom';
 
-const Navigation = () => {
+const Navigation = (props) => {
 
     const [highlightProject, setHighLightProject] = useState(false);
     const [highlightUser, setHighLightUser] = useState(false);
@@ -16,10 +16,13 @@ const Navigation = () => {
     const { user: currentUser } = useSelector((state) => state.auth);
 
     const redirectToProject = () => {
-        history.push('/projectlist/' + currentUser.id)
+        console.log('test1' + highlightProject);
         setHighLightProject(true);
+        console.log('test2' + highlightProject);
         setHighLightUser(false);
         setHighLightTask(false);
+        history.push('/projectlist/' + currentUser.id)
+        console.log('test3' + highlightProject);
     }
 
     const redirectToUser = () => {
@@ -29,7 +32,7 @@ const Navigation = () => {
     return(
         <>
             <Navbar expand="lg" className="" style={{borderBottom: '3px solid #000000'}}>
-                <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
+                <Navbar.Brand href="#"><img src="../images/logo.sgv"  alt="Atomic" /></Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
                     <Nav
@@ -37,8 +40,8 @@ const Navigation = () => {
                     style={{ maxHeight: '120px' }}
                     navbarScroll
                     >
-                    <Nav.Link onClick = {() => {redirectToProject()}}><span style={{marginRight:'40px', fontWeight: 'bold', fontFamily:'Arial, Verdana'}}>Project</span></Nav.Link>
-                    <Nav.Link onClick = {() => {redirectToUser()}}><span style={{marginRight:'40px', fontWeight: 'bold', fontFamily:'Arial, Verdana'}}>User</span></Nav.Link>
+                    <Nav.Link onClick = {() => {redirectToProject()}}><span style={{borderBottom:(props.isProj ? '3px solid #000000' : '0px solid #000000'),marginRight:'40px', fontWeight: 'bold', fontFamily:'Arial, Verdana'}}>Project</span></Nav.Link>
+                    <Nav.Link onClick = {() => {redirectToUser()}}><span style={{borderBottom:(props.isUser ? '3px solid #000000' : '0px solid #000000'),marginRight:'40px', fontWeight: 'bold', fontFamily:'Arial, Verdana'}}>User</span></Nav.Link>
                     <NavDropdown title="Task" id="navbarScrollingDropdown" style={{fontWeight: 'bold', fontFamily:'Arial, Verdana'}}>
                         <NavDropdown.Item href="#action3">Project</NavDropdown.Item>
                         <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>

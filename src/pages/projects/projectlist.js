@@ -42,7 +42,7 @@ function ProjectList(){
     }
     
     return(<div>
-                <Navigation />
+                <Navigation isProj = {true} isUser = {false} isTask = {false} />
                 <div style={{textAlign:'right', marginRight:'200px'}}>
                    { isAdmin && <button type="button" className="btn btn-primary">CREATE PROJECT</button> } 
                 </div>

@@ -54,4 +54,20 @@ const getAllTaskList = (assignedUserId) =>{
         return response});
 }
 
-export default { getRecentTaskList, getTaskById, saveWorkLog, updateTaskByTaskId, createTask, getAllTaskList };
+const getTaskForKanbanBoard = (projectId, statusId) => {
+    return axios.get(API_URL + "alltasksbyprojectid/" + projectId + "/" + statusId).then((response) => {
+        //console.log(response);
+        return response});
+}
+
+const updateTaskStatus = (task) => {
+    return axios.post(API_URL + "updatetaskbytaskid", task).then((response) => {
+        // if (response.data.accessToken) {
+        //   window.localStorage.setItem("task", JSON.stringify(response.data));
+        // }
+    return response}).catch((error) => {
+        return error
+    });
+}
+
+export default { getRecentTaskList, getTaskById, saveWorkLog, updateTaskByTaskId, createTask, getAllTaskList, getTaskForKanbanBoard, updateTaskStatus };

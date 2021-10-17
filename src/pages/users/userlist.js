@@ -58,7 +58,7 @@ function UserList(props){
 
     return(
         <div>
-            <Navigation />
+            <Navigation isProj = {false} isUser = {true} isTask = {false} />
             <div style={{textAlign:'right', marginRight:'200px'}}>
                    { isAdmin && <button type="button" className="btn btn-primary">CREATE USER</button> } 
                 </div>

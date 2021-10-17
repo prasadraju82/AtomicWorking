@@ -11,7 +11,8 @@ import CreateTask from './pages/tasks/createtask';
 import CreateProject from './pages/projects/createproject';
 import AddUser from './pages/users/adduser';
 import UserList from './pages/users/userlist';
-import AllTask from './pages/tasks/alltasks'
+import AllTask from './pages/tasks/alltasks';
+import KanbanBoard from './components/boards/kanban-board';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <PrivateRoute exact path="/adduser" component={AddUser} />
         <PrivateRoute exact path="/userlist" component={UserList} />
         <PrivateRoute exact path="/alltasks" component={AllTask} />
+        <Route exact path='/kanbanboard' component ={KanbanBoard} />
         <Route component={Error} />
       </Switch>
       </BrowserRouter>
