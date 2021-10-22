@@ -6,6 +6,9 @@ import "../../../css/tasks.css";
 import TaskDetailsSummary from './taskdetails-summary';
 import TaskDetailsComment from './taskdetails-comments';
 import TaskDetailsTimeline from './taskdetails-timeline';
+import TaskWorkLog from './task-worklog';
+import Tabs from 'react-bootstrap/Tabs';
+import Tab from 'react-bootstrap/Tab'
 // import { getTaskById } from "../../../action/tasks";
 // import { useDispatch, useSelector } from "react-redux";
 
@@ -38,18 +41,44 @@ function TaskDetails(){
 
    // console.log("master page state: " + currentTask);
     return(<div>
-            <Navigation />
-            <div className="flex-container" style={{verticalAlign: 'top'}}>
-                <div style={{width:'80%', marginLeft: '100px', marginRight: '50px'}}>
-                    <TaskDetailsSummary taskObject = {taskdetails} />
-                    <TaskDetailsComment taskObject = {taskdetails} />
+            <Navigation isProj = {false} isUser = {false} isTask = {true} />
+            <div class="row">
+                <div class="col-sm-8">
+                    <div style={{marginLeft: '50px', marginTop:25}}>
+                        <TaskDetailsSummary taskObject = {taskdetails} />
+                    </div>
+                    <div style={{marginLeft: '50px'}}>
+                        <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-2">
+                            <Tab eventKey="comment" title="Comment">
+                                <TaskDetailsComment taskObject = {taskdetails} />
+                            </Tab>
+                            <Tab eventKey="worklog" title="Work Log">
+                                <TaskWorkLog taskObject = {taskdetails} />
+                            </Tab>
+                            {/* <Tab eventKey="contact" title="Contact" disabled>
+                                
+                            </Tab> */}
+                        </Tabs>
+                    </div>
                 </div>
-                <div style={{width:'20%'}}>
-                    <div style={{width:'100%', marginLeft: '0px', marginRight: '100px', verticalAlign:'top'}}>
+                <div class="col-sm-4">
+                    <div style={{marginRight: 0, marginTop:25}}>
                         <TaskDetailsTimeline taskObject = {taskdetails} />
                     </div>
                 </div>
             </div>
+            {/* <div className="flex-container" style={{verticalAlign: 'top'}}>
+                <div style={{width:'80%', marginLeft: '100px', marginRight: '50px'}}>
+                    
+                    
+                    
+                </div>
+                <div style={{width:'20%'}}>
+                    <div style={{width:'100%', marginLeft: '0px', marginRight: '100px', verticalAlign:'top'}}>
+                        
+                    </div>
+                </div>
+            </div> */}
         </div>)
 }
 

@@ -32,7 +32,7 @@ function AllTasks(){
     console.log(currentUser);
     return(<div>
             <div>
-                <Navigation />
+                <Navigation isProj = {false} isUser = {false} isTask = {true} />
             </div>
             <div>
                 <div className="flex-container" style={{width:'80%', marginTop: '50px', marginLeft: '100px'}}>

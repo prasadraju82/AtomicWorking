@@ -12,6 +12,9 @@ import { useSelector } from "react-redux";
 import ActivityService from "../../../services/activity";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import {CKEditor} from '@ckeditor/ckeditor5-react';
+import TaskDetailsSummaryEditModal from "./taskdetails-summary-edit-modal";
+import TaskDetailsCommentEditModal from "./taskdetails-comments-edit-modal";
+import TaskDetailsDeleteCommentModal from "./taskdetails-delete-comment-modal";
 
 const API_URL = "http://localhost:5000/api/activity/";
 
@@ -23,12 +26,34 @@ function TaskDetailsComment(props){
     const [activities, setActivities] = useState([]);
     const [showCommentArea, setCommentArea] = useState(false);
     const { user: currentUser } = useSelector((state) => state.auth);
+    const [commentId, setCommentId] = useState();
     let taskId = props.taskObject.taskId;
+
+    const [taskCommentEditModalShow, setTaskCommentEditModalShow] = useState(false);
+    const [taskCommentDeleteModalShow, setTaskCommentDeleteModalShow] = useState(false);
 
     const getactivities = (taskid) => {
         axios.get(API_URL + "getactivity/" + taskid).then(res => {
             setActivities(res.data);
         })
+    }
+
+    const refreshState = () => {
+        axios.get(API_URL + "getactivity/" + taskId).then(res => {
+            setActivities(res.data);
+        })
+    }
+
+    const showCommentEdit = (comment_Id) =>{
+        console.log(comment_Id);
+        setCommentId(comment_Id);
+        setTaskCommentEditModalShow(true);
+    }
+
+    const deleteComment = (comment_Id) =>{
+        console.log(comment_Id);
+        setCommentId(comment_Id);
+        setTaskCommentDeleteModalShow(true);
     }
 
     const getCKEditor = (event, editor) => {
@@ -75,15 +100,15 @@ function TaskDetailsComment(props){
             firstName = user[0];
             secondName = user[1];
             let firstLetter = firstName.charAt(0);
-            let secondLetter = secondName.charAt(0)
+            let secondLetter = secondName.charAt(0);
 
             return firstLetter + secondLetter
         }
         else if(user.length === 1){
             firstName = user[0];
             let firstLetter = firstName.charAt(0);
-            
-            return firstLetter + " "
+            let secondLetter = secondName.charAt(1);
+            return firstLetter + secondLetter;
         }
     }  
     //console.log(activities);
@@ -120,8 +145,8 @@ function TaskDetailsComment(props){
                                     </div>
                                 </div>
                                 <div class="flex-container" id="cmtDetailslnk">
-                                    <div><a id="lnkEdit" className="nav-link" style={{marginLeft:'50px', color: '#546E7A', cursor:'pointer', fontWeight: 'bold', fontSize: '12px'}}>Edit</a></div>
-                                    <div><a id="lnkDelete" className="nav-link" style={{marginLeft:'-15px', color: '#546E7A', cursor:'pointer', fontWeight: 'bold', fontSize: '12px'}}>Delete</a></div>
+                                    <div><a id="lnkEdit" className="nav-link" style={{marginLeft:'50px', color: '#546E7A', cursor:'pointer', fontWeight: 'bold', fontSize: '12px'}} onClick={() => showCommentEdit(activity._id)}>Edit</a></div>
+                                    <div><a id="lnkDelete" className="nav-link" style={{marginLeft:'-15px', color: '#546E7A', cursor:'pointer', fontWeight: 'bold', fontSize: '12px'}} onClick={() => deleteComment(activity._id) }>Delete</a></div>
                                 </div>
                                 
                             </div>
@@ -176,7 +201,8 @@ function TaskDetailsComment(props){
             {/* <div>
                 <div dangerouslySetInnerHTML={convertFromJSONToHTML(description)} > </div >
             </div> */}
-            
+            <TaskDetailsCommentEditModal show = {taskCommentEditModalShow} onHide={() => setTaskCommentEditModalShow(false)} commentid = { commentId } refreshComment = { refreshState } taskid ={taskId} username ={currentUser.name} />
+            <TaskDetailsDeleteCommentModal show = {taskCommentDeleteModalShow} onHide={() => setTaskCommentDeleteModalShow(false)} commentid = { commentId } refreshComment = { refreshState } taskid ={taskId} username ={currentUser.name} />
         </div>
     )
 }

@@ -110,7 +110,7 @@ function EditUserModal(props){
                         </div>
                         <div className="flex-container">
                             <div style={{width:'35%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
-                                Project Name: <span style={{color:'red'}}>*</span>
+                                 Name: <span style={{color:'red'}}>*</span>
                             </div>
                             <div style={{width:'65%', marginLeft: '20px',  marginTop: '25px'}}>
                                 <input id="userName" type="text" value={user.userName} onChange={handleChange} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '400px', backgroundColor: '#ffffff'}} />
@@ -118,7 +118,7 @@ function EditUserModal(props){
                         </div>    
                         <div className="flex-container">
                             <div style={{width:'35%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
-                                Project Type: <span style={{color:'red'}}>*</span>
+                                Role: <span style={{color:'red'}}>*</span>
                             </div>
                             <div style={{width:'65%', marginLeft: '20px',  marginTop: '25px'}}>
                                 <select id="userRole" className="selcls" value={ user.userRole } onChange={handleChange}>
@@ -130,7 +130,7 @@ function EditUserModal(props){
                         </div>
                         <div className="flex-container">
                             <div style={{width:'35%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
-                                Project Type: <span style={{color:'red'}}>*</span>
+                                Gender: <span style={{color:'red'}}>*</span>
                             </div>
                             <div style={{width:'65%', marginLeft: '20px',  marginTop: '25px'}}>
                                 <select id="gender" className="selcls" value={ user.gender } onChange={handleChange}>

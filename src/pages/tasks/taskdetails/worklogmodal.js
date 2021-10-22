@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/button'
 import TasksService from "../../../services/tasks";
+import { useSelector } from "react-redux";
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import {CKEditor} from '@ckeditor/ckeditor5-react';
 
 function WorkLogModal(props){
 
@@ -12,7 +15,10 @@ function WorkLogModal(props){
 
     const handleClose = () => setShow(false);
 
-    let userId = props.user;
+
+    const { user: currentUser } = useSelector((state) => state.auth);
+    let userId = currentUser._id;
+    let userName = currentUser.name
     let taskId = props.taskId;
     const addHours = () => {
 
@@ -20,7 +26,8 @@ function WorkLogModal(props){
             taskId: taskId,
             logcomment: comment,
             loggedhours: hours,
-            user: userId
+            user: userId,
+            userName: userName
         }
 
         TasksService.saveWorkLog(workLogPayLoad).then((response) => {
@@ -32,6 +39,11 @@ function WorkLogModal(props){
             }
         }).catch((error) => {return false})
         
+    }
+
+    const getCKEditor = (event, editor) => {
+        setComment(editor.getData())
+        //console.log(comment);
     }
     return (
         <Modal show={show} onHide={handleClose}
@@ -58,7 +70,18 @@ function WorkLogModal(props){
                     <div style={{width:'100px'}}>Description:</div>
                 </div>
                 <div style={{textAlign:'left', display:'block', margin: '0 auto', position:'relative', top:'5%', left:'2%',fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '13px', fontWeight: 'bold',paddingTop:'2px'}}>
-                    <textarea name="content" id ="comment" onChange={event => {setComment(event.target.value)}}></textarea>
+                    {/* <textarea name="content" id ="comment" onChange={event => {setComment(event.target.value)}}></textarea> */}
+                    <CKEditor
+                            editor={ClassicEditor}
+                            onInit = {editor =>{
+                            
+                            }}
+                            // data={userComment}
+                        //   config={editorConfig}
+                            onChange={(event, editor) => getCKEditor(event, editor)}
+                        >
+                            
+                        </CKEditor>
                 </div>
             </div>
           </Modal.Body>

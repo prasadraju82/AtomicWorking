@@ -74,7 +74,7 @@ function AddUser(props){
 
     return(
         <div>
-            <Navigation />
+            <Navigation isProj = {false} isUser = {true} isTask = {false}  />
             <div className="flex-container">
                 <div style={{width:'35%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
                      Name <span style={{color:'red'}}>*</span>

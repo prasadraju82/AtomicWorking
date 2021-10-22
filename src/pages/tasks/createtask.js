@@ -14,6 +14,7 @@ function CreateTask(props){
     const { user: currentUser } = useSelector((state) => state.auth);
     const [projects, setProjects] = useState([]);
     const [projectId, setProjectId] = useState("0")
+    const [projectName, setProjectName] = useState("0")
     const [taskName, setTaskName] = useState("");
     const [taskType, setTaskType] = useState("0");
     const [taskPriority, setTaskPriority] = useState("1");
@@ -135,6 +136,10 @@ function CreateTask(props){
         setSuggestion(false);
     }
 
+    const setProject = (event) => {
+        console.log(event)
+    }
+
     const createTask = () =>{
 
         const taskPayLoad ={
@@ -158,14 +163,14 @@ function CreateTask(props){
 
     return(
         <div>
-            <Navigation />
+            <Navigation isProj = {false} isUser = {false} isTask = {true} />
             <div className="flex-container">
                 <div>
                     <div style={{width:'100%', marginLeft: '50px',  marginTop: '30px', fontFamily:'Arial'}}>
                         Project Name <span style={{color:'red'}}>*</span>
                     </div>
                     <div style={{width:'20%', marginLeft: '50px',  marginTop: '5px'}}>
-                        <select id="Select1" className="selcls" style={{width:'220px'}} onChange={event => {setProjectId(event.target.value)}}>
+                        <select id="Select1" className="selcls" style={{width:'220px'}} onChange={event => {setProject(event)}}>
                             <option key = '0' value='0'>-Select-</option>
                             {projects.map(project => (
                                 <option key={project._id} value={project._id}>

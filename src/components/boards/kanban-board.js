@@ -165,7 +165,7 @@ function KanbanBoard(){
         //     // {id: uuidv4(), content: 'First Component'},
         //     // {id: uuidv4(), content: 'Second Component'}
         // ]
-        alert('Hi');
+       
         //re-Open
         TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',3).then((response) => {
             console.log(response);
@@ -228,7 +228,7 @@ function KanbanBoard(){
 
         console.log(columnsFromBackend);
         setColumns(columnsFromBackend);
-    },[])
+    },[tasks, inProgressTasks, reOpenTask, onStagingTask, toDeployTask, onLiveTask])
 
     useEffect(() => {
         

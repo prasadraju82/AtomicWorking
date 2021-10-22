@@ -69,7 +69,7 @@ function CreateProject(props){
 
     return(
         <div>
-            <Navigation />
+            <Navigation isProj = {true} isUser = {false} isTask = {false} />
             <div className="flex-container">
                 
                 <div style={{width:'50%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>

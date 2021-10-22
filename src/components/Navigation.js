@@ -1,38 +1,68 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useSelector } from "react-redux";
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Nav from 'react-bootstrap/Nav'
 import './Navigation.css';
 import { useHistory } from 'react-router-dom';
+import Logo from '../images/project_logo_64.png';
 
 const Navigation = (props) => {
 
-    const [highlightProject, setHighLightProject] = useState(false);
-    const [highlightUser, setHighLightUser] = useState(false);
-    const [highlightTask, setHighLightTask] = useState(true);
+    const [userInitials, setUserInitials] = useState();
 
     let history = useHistory();
     const { user: currentUser } = useSelector((state) => state.auth);
 
     const redirectToProject = () => {
-        console.log('test1' + highlightProject);
-        setHighLightProject(true);
-        console.log('test2' + highlightProject);
-        setHighLightUser(false);
-        setHighLightTask(false);
         history.push('/projectlist/' + currentUser.id)
-        console.log('test3' + highlightProject);
     }
 
     const redirectToUser = () => {
         history.push('/userlist')
     }
 
+    const redirectToRecentTask = () => {
+        history.push('/recenttasks')
+    }
+
+    const redirectToAllTask = () => {
+        history.push('/alltasks')
+    }
+
+    const redirectToCreateTask = () => {
+        history.push('/createtask')
+    }
+
+    const getInitials = (username) => {
+        let user = username.split(' ')
+        let firstName = "";
+        let secondName = "";
+        if(user.length > 1){
+            firstName = user[0];
+            secondName = user[1];
+            let firstLetter = firstName.charAt(0);
+            let secondLetter = secondName.charAt(0);
+
+            return firstLetter + secondLetter
+        }
+        else if(user.length === 1){
+            firstName = user[0];
+            let firstLetter = firstName.charAt(0);
+            let secondLetter = secondName.charAt(1);
+            return firstLetter + secondLetter;
+        }
+    }  
+
+    useEffect(() => {
+       let userInitial = getInitials(currentUser.name);
+       setUserInitials(userInitial);
+    },[currentUser.name])
+
     return(
         <>
-            <Navbar expand="lg" className="" style={{borderBottom: '3px solid #000000'}}>
-                <Navbar.Brand href="#"><img src="../images/logo.sgv"  alt="Atomic" /></Navbar.Brand>
+            <Navbar bg="light" sticky="top" expand="lg" className="" style={{borderBottom: '1px solid #dcdcdc', paddingBottom: '0px', paddingTop: '1px', boxShadow: '0 0 10px gray' }}>
+                <Navbar.Brand href="#"><img src={Logo}  alt="Atomic" style={{marginLeft: 50, marginRight: 50}} /></Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
                     <Nav
@@ -40,19 +70,21 @@ const Navigation = (props) => {
                     style={{ maxHeight: '120px' }}
                     navbarScroll
                     >
-                    <Nav.Link onClick = {() => {redirectToProject()}}><span style={{borderBottom:(props.isProj ? '3px solid #000000' : '0px solid #000000'),marginRight:'40px', fontWeight: 'bold', fontFamily:'Arial, Verdana'}}>Project</span></Nav.Link>
-                    <Nav.Link onClick = {() => {redirectToUser()}}><span style={{borderBottom:(props.isUser ? '3px solid #000000' : '0px solid #000000'),marginRight:'40px', fontWeight: 'bold', fontFamily:'Arial, Verdana'}}>User</span></Nav.Link>
-                    <NavDropdown title="Task" id="navbarScrollingDropdown" style={{fontWeight: 'bold', fontFamily:'Arial, Verdana'}}>
-                        <NavDropdown.Item href="#action3">Project</NavDropdown.Item>
-                        <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item href="#action5">Something else here</NavDropdown.Item>
+                    <Nav.Link onClick = {() => {redirectToProject()}} style={{borderBottom:(props.isProj ? '3px solid #000000' : '0px solid #000000'), color:(props.isProj ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,.55)'),marginRight:'40px',marginLeft:'5px', fontWeight: 'bold', fontFamily:'Arial, Verdana'}}><span>Project</span></Nav.Link>
+                    <Nav.Link onClick = {() => {redirectToUser()}} style={{borderBottom:(props.isUser ? '3px solid #000000' : '0px solid #000000'), color:(props.isUser ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,.55)'), marginRight:'40px',marginLeft:'5px', fontWeight: 'bold', fontFamily:'Arial, Verdana'}}><span>User</span></Nav.Link>
+                    <NavDropdown title={<span> Task</span>} id="navbarScrollingDropdown" style={{borderBottom:(props.isTask ? '3px solid #000000' : '0px solid #000000'), color:(props.isTask ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,.55)'),marginRight:'80px',marginLeft:'5px', fontWeight: 'bold', fontFamily:'Arial, Verdana'}}>
+                        <NavDropdown.Item onClick = {() => {redirectToRecentTask()}}>Recent Tasks</NavDropdown.Item>
+                        <NavDropdown.Item onClick = {() => {redirectToAllTask()}}>All Tasks</NavDropdown.Item>
+                        {/* <NavDropdown.Divider />
+                        <NavDropdown.Item href="#action5">Something else here</NavDropdown.Item> */}
                     </NavDropdown>
-                    <Nav.Link href="#" disabled>
-                        Link
-                    </Nav.Link>
+                        <button class="btn btn-dark my-2 my-sm-0" onClick={() => {redirectToCreateTask()}} >Create Task</button>
                     </Nav>
-                    
+                    <Nav className="justify-content-end" style={{ width: "58%" }}>
+                    <div id="cmtDetails1" style={{marginLeft: '15px', height:'40px', width:'40px', paddingTop:'7px', fontFamily: 'Arial, Helvetica, sans-serif', paddingLeft:'5px', paddingRight:'5px', borderRadius:'20px', backgroundColor:'#EF6C00', fontWeight: 'bold', textAlign:'center', verticalAlign:'middle'}}>
+                        {userInitials}
+                    </div>
+                    </Nav>
                 </Navbar.Collapse>
             </Navbar>
         </>

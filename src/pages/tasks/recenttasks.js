@@ -18,6 +18,7 @@ function RecentTasks(){
         if(currentUser !== undefined){
             TasksService.getRecentTaskList(currentUser.id).then(
                 (response) => {
+                    console.log(response.data)
                     setTaskData(response.data)
                 }
             )
@@ -32,7 +33,7 @@ function RecentTasks(){
     console.log(currentUser);
     return(<div>
             <div>
-                <Navigation/>
+                <Navigation isProj = {false} isUser = {false} isTask = {true}/>
             </div>
             <div>
                 <div className="flex-container" style={{width:'80%', marginTop: '50px', marginLeft: '100px'}}>
@@ -71,7 +72,7 @@ function RecentTasks(){
                                                             <div style={{height:'25px'}}><a onClick={() => gotoTaskDetails(task.taskId)} style={{fontSize: 'large', fontWeight: 'bold', textDecoration:'none', color:'blue'}}>{task.taskName}</a></div>
                                                         </div>
                                                         <div className="flex-container">
-                                                            <div style={{marginLeft:'0px',color:'#546E7A', fontWeight:'lighter', width:'12%;'}}>{task.taskId}</div><div style={{marginLeft:'30px',color:'#546E7A', fontWeight:'lighter'}}>{task.projectName}</div>
+                                                            <div style={{marginLeft:'0px',color:'#546E7A', fontWeight:'lighter', width:'12%;'}}>{task.taskId}</div><div style={{marginLeft:'30px',color:'#546E7A', fontWeight:'lighter'}}>{task.projectId.projectName}</div>
                                                         </div>
                                                     </td>
                                                     <td>

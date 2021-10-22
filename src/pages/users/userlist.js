@@ -5,6 +5,7 @@ import UserServices from "../../services/users";
 import { Redirect } from 'react-router-dom';
 import EditUserModal from './edituser';
 import DeleteUserModal from './deleteuser';
+import { useHistory } from 'react-router-dom';
 
 function UserList(props){
     const { user: currentUser } = useSelector((state) => state.auth);
@@ -14,7 +15,7 @@ function UserList(props){
     const [userId, setUserId] = useState("");
     const [userDeleteModalShow, setUserDeleteModalShow] = React.useState(false);
     const role = currentUser.role;
-
+    let history = useHistory();
     useEffect(() => {
         if (!currentUser) {
             return <Redirect to="/login" />;
@@ -56,13 +57,18 @@ function UserList(props){
         setUserId(key);
     }
 
+
+    const redirectToCreateUser = () => {
+        history.push('/adduser')
+    }
+
     return(
         <div>
             <Navigation isProj = {false} isUser = {true} isTask = {false} />
-            <div style={{textAlign:'right', marginRight:'200px'}}>
-                   { isAdmin && <button type="button" className="btn btn-primary">CREATE USER</button> } 
+            <div style={{textAlign:'right', marginRight:'200px', marginTop:'40px'}}>
+                   { isAdmin && <button type="button" className="btn btn-primary" onClick={() => redirectToCreateUser()}>CREATE USER</button> } 
                 </div>
-                <div>
+                <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '20px', fontWeight: 'bold', textAlign: 'center', letterSpacing: 'normal'}}>
                     User List
                 </div>
                 <div>
