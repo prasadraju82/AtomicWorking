@@ -5,6 +5,7 @@ import Navigation from '../../components/Navigation';
 import "../../css/projects.css";
 import axios from "axios";
 import EditProjectModal from './editproject';
+import ProjectServices from "../../services/projects";
 
 const API_URL = "http://localhost:5000/api/projects/";
 
@@ -21,10 +22,12 @@ function ProjectList(){
         if (!currentUser) {
             return <Redirect to="/login" />;
         }
-        axios.get(API_URL + "projectlist/" + userEmail).then(res => {
-            console.log(res);
-            setProjectData(res.data);
-        })
+        // axios.get(API_URL + "projectlist/" + userEmail).then(res => {
+        //     console.log(res);
+        //     setProjectData(res.data);
+        // })
+
+        getAllProject(userEmail);
     },[])
 
     useEffect(() => {
@@ -39,6 +42,13 @@ function ProjectList(){
     const openEdit = (isModal, key) => {
         setProjectEditModalShow(isModal);
         setProjectKey(key);
+    }
+
+    const getAllProject = (email) => {
+        ProjectServices.getProjectList(email).then(res => {
+            console.log(res);
+            setProjectData(res.data);
+        })
     }
     
     return(<div>

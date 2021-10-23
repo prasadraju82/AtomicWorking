@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 // import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/button'
+import { Button } from 'react-bootstrap';
+//import Button from 'react-bootstrap/button'
 import ProjectServices from "../../services/projects";
 import { Redirect } from 'react-router-dom';
 import { useSelector } from "react-redux";
