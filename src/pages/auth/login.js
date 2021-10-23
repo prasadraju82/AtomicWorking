@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import '../../css/login.css';
+ import '../../css/login.css';
 import { useHistory } from 'react-router-dom';
 
 import { checkUser } from "../../action/auth";
 import { savepassword } from "../../action/auth";
 import { login } from "../../action/auth";
 import { useDispatch } from "react-redux";
+import Logo from '../../images/project_logo_64.png';
 
 function Login(){
 
@@ -112,9 +113,9 @@ function Login(){
     return(
         <div>
             <div id="outer">
-                <div id="inner">
+                <div id="innerlogin">
                     <div style={{margin: "0 auto", position: "relative", top: "5%", left:"35%"}}>
-                        {/* <img scr=""/> */}
+                        <img src={Logo}  alt="Atomic" style={{marginLeft: 50, marginRight: 50}} />
                     </div>
                     <div style={{margin: "0 auto", position: "relative", top: "5%", left:"29%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "18px", fontWeight:"bold", paddingTop:"15px"}}>
                         Log in to your account
