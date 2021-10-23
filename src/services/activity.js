@@ -1,6 +1,7 @@
 import axios from "axios";
+import API_URL_CONSTANT from "./apiconstants";
 
-const API_URL = "http://localhost:5000/api/activity/";
+const API_URL = API_URL_CONSTANT + "api/activity/";
 
 const saveActivity = (activity) =>{
     return axios.post(API_URL + "saveactivity", activity).then((response) => {

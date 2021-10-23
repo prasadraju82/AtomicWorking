@@ -1,7 +1,8 @@
 import axios from "axios";
+import API_URL_CONSTANT from "./apiconstants";
 
-const API_URL = "http://localhost:5000/api/tasks/";
-const API_URL_WORKLOG = "http://localhost:5000/api/worklog/";
+const API_URL = API_URL_CONSTANT + "api/tasks/";
+const API_URL_WORKLOG = API_URL_CONSTANT + "api/worklog/";
 
 const getRecentTaskList = (assignedUserId) =>{
     console.log(assignedUserId);

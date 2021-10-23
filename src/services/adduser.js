@@ -1,6 +1,7 @@
 import axios from "axios";
+import API_URL_CONSTANT from "./apiconstants";
 
-const API_URL = "http://localhost:5000/api/users/";
+const API_URL = API_URL_CONSTANT + "api/users/";
 
 const addUser = (user) =>{
     return axios.post(API_URL + "adduser", user).then((response) => {
