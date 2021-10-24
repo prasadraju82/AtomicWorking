@@ -10,6 +10,10 @@ import Logo from '../../images/project_logo_64.png';
 
 function Login(){
 
+    //for loader
+    const Loader = () => <div>Loading...</div>;
+    const [loader, setLoader] = useState(false);
+
     const [show, setShowItem] = useState(true);
     const [value, setValue] = useState("");
     const [password, setPassword] = useState();
@@ -21,6 +25,7 @@ function Login(){
 
     let history = useHistory();
 
+    console.log(loader);
     // const redirectToProject = () => {
     //     history.push('/projectlist/' + value)
     // }
@@ -71,17 +76,20 @@ function Login(){
             emailId: value,
             password: password
         }
-
+        showLoader();
         dispatch(login(user)).then(function(response){
                 if(response.status === 200 && response.data.message === "Success"){
+                    hideLoader();
                     redirectToTask();
                 }
                 else if(response.status === 200 && response.data.message === "Failure"){
+                    hideLoader();
                     setPassword("");
                     alert("Incorrect Password")
 
                 }
             }).catch(function(error){
+                hideLoader();
                 console.log('Error: ' + error)
             })
     }
@@ -109,6 +117,14 @@ function Login(){
             alert("Password didn't match");
         }
     }
+
+    const hideLoader = () => {
+        setLoader(false)
+      }
+    
+    const showLoader = () => {
+        setLoader(true)
+      }
     
     return(
         <div>
@@ -161,6 +177,7 @@ function Login(){
                     </div>
                 </div>
             </div>
+            {loader ? <Loader /> : null}
         </div>
     )
 }

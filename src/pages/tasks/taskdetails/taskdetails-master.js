@@ -45,10 +45,10 @@ function TaskDetails(){
             <div class="row">
                 <div class="col-sm-8">
                     <div style={{marginLeft: '50px', marginTop:25}}>
-                        <TaskDetailsSummary taskObject = {taskdetails} />
+                        <TaskDetailsSummary taskObject = {taskdetails} taskId = {state.taskid} />
                     </div>
                     <div style={{marginLeft: '50px'}}>
-                        <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-2">
+                        <Tabs defaultActiveKey="comment" id="uncontrolled-tab-example" className="mb-2">
                             <Tab eventKey="comment" title="Comment">
                                 <TaskDetailsComment taskObject = {taskdetails} />
                             </Tab>

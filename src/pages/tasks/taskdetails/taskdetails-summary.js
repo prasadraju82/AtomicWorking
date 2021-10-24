@@ -1,21 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../../../css/tasks.css";
 import WorkLogModal from './worklogmodal';
 import { useSelector } from "react-redux";
 import TaskDetailsSummaryEditModal from './taskdetails-summary-edit-modal';
 import TaskUserAssignModal from "./task-user-assign-modal";
+import TasksService from "../../../services/tasks";
 
 function TaskDetailsSummary(props){
 
-    const [workLogModalShow, setWorkLogModalShow] = React.useState(false);
-    const [taskSummaryEditModalShow, setTaskSummaryEditModalShow] = React.useState(false);
+    const [workLogModalShow, setWorkLogModalShow] = useState(false);
+    const [taskSummaryEditModalShow, setTaskSummaryEditModalShow] = useState(false);
     const { user: currentUser } = useSelector((state) => state.auth);
-    const [taskUserAssignModalShow, setUserAssignModalShow] = React.useState(false);
-
+    const [taskUserAssignModalShow, setUserAssignModalShow] = useState(false);
+    const [taskdetails, setTaskDetails] = useState([]);
     const createMarkup = (usercomment) => {
         console.log("comment: " + usercomment);
         return { __html: usercomment };
       }
+
+    useEffect(() =>{
+        TasksService.getTaskById(props.taskId).then(response => {
+            console.log("master page: " + response.data);
+            setTaskDetails(response.data);
+        })
+    },[props.taskId])
+    
+    const refreshState = () => {
+        TasksService.getTaskById(props.taskId).then(response => {
+            console.log("master page: " + response.data);
+            setTaskDetails(response.data);
+        })
+    }
     //console.log(currentUser);
     // const { task: currentTask } = useSelector((state) => state.task);
 
@@ -40,7 +55,7 @@ function TaskDetailsSummary(props){
             <div style={{marginRight: '50px'}}>
                 <div className="flex-container">
                     <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '20px', fontWeight: 'bold', paddingLeft:'15px', paddingTop:'15px', letterSpacing: 'normal'}}>
-                        {props.taskObject.taskId}: {props.taskObject.taskName}
+                        {taskdetails.taskId}: {taskdetails.taskName}
                     </div>
                 </div>  
                 <div className="flex-container">
@@ -48,13 +63,13 @@ function TaskDetailsSummary(props){
                         Type: 
                     </div>
                     <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '15px', fontWeight: 'normal', paddingLeft:'15px', paddingTop:'15px', letterSpacing: 'normal', width: '25%'}}>
-                        {props.taskObject.taskType}
+                        {taskdetails.taskType}
                     </div>
                     <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '15px', fontWeight: 'bold', paddingLeft:'15px', paddingTop:'15px', letterSpacing: 'normal', width: '25%'}}>
                         Status:
                     </div>
                     <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '15px', fontWeight: 'normal', paddingLeft:'15px', paddingTop:'15px', letterSpacing: 'normal', width: '25%'}}>
-                        {props.taskObject.statusName}
+                        {taskdetails.statusName}
                     </div>
                 </div>
                 <div className="flex-container">
@@ -62,20 +77,20 @@ function TaskDetailsSummary(props){
                         Priority: 
                     </div>
                     <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '15px', fontWeight: 'normal', paddingLeft:'15px', paddingTop:'15px', letterSpacing: 'normal', width: '25%'}}>
-                        {props.taskObject.priority}
+                        {taskdetails.priority}
                     </div>
                 </div>
                 <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '15px', fontWeight: 'bold', paddingLeft:'15px', paddingTop:'15px', letterSpacing: 'normal', width: '25%'}}>
                     Description
                 </div>
                 <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '15px', fontWeight: 'normal', paddingLeft:'15px', paddingTop:'0px', letterSpacing: 'normal'}}>
-                <div dangerouslySetInnerHTML= {createMarkup(props.taskObject.taskDesc)} className='editor'></div> 
+                <div dangerouslySetInnerHTML= {createMarkup(taskdetails.taskDesc)} className='editor'></div> 
                 </div>
             </div> 
             <hr/>   
-            <WorkLogModal show = {workLogModalShow} onHide={() => setWorkLogModalShow(false)} user = {currentUser.id} taskId = {props.taskObject.taskId}/>
-            <TaskDetailsSummaryEditModal show = {taskSummaryEditModalShow} onHide={() => setTaskSummaryEditModalShow(false)} tasks = {props.taskObject} />
-            <TaskUserAssignModal show = {taskUserAssignModalShow} onHide={() => setUserAssignModalShow(false)} tasks = {props.taskObject} />
+            <WorkLogModal show = {workLogModalShow} onHide={() => setWorkLogModalShow(false)} user = {currentUser.id} taskId = {taskdetails.taskId}/>
+            <TaskDetailsSummaryEditModal show = {taskSummaryEditModalShow} onHide={() => setTaskSummaryEditModalShow(false)} tasks = {taskdetails} refreshTask = { refreshState }/>
+            <TaskUserAssignModal show = {taskUserAssignModalShow} onHide={() => setUserAssignModalShow(false)} tasks = {taskdetails} />
         </div>
     )
 }

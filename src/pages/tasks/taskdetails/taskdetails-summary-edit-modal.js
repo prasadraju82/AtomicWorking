@@ -10,8 +10,10 @@ import { useSelector } from "react-redux";
 function TaskDetailsSummaryEditModal(props){
 
     const { user: currentUser } = useSelector((state) => state.auth);
-
+    const [statusName, setStatusName] = useState("")
     console.log(currentUser);
+
+    const refreshParent = props.refreshTask;
     const typeOptions = [
         {
           label: "Enhancement",
@@ -129,15 +131,17 @@ function TaskDetailsSummaryEditModal(props){
             priorityId: taskPriority,
             taskDesc: taskDesc,
             updatedById: currentUser.id,
-            updatedByName: currentUser.name
+            updatedByName: currentUser.name,
+            statusName: statusName
         }
 
         console.log(taskPayLoad);
 
         TaskService.updateTaskByTaskId(taskPayLoad).then((response) => {
             if(response.data.message === "Success"){
-                props.onHide()
-                alert("Task Updated Successfully")
+                refreshParent();
+                props.onHide();
+                alert("Task Updated Successfully");
             }
         }).catch((error) => console.log(error.message));
     }
@@ -145,6 +149,32 @@ function TaskDetailsSummaryEditModal(props){
     const getCKEditor = (event, editor) => {
       setTaskDesc(editor.getData())
       //console.log(comment);
+    }
+
+    const setTaskStatusValue = (value) => {
+      setTaskStatus(value)
+      switch(value){
+        case "1":
+          setStatusName("Open");
+          break;
+        case "2":
+          setStatusName("Re-Open");
+          break;
+        case "3":
+          setStatusName("In Progress");
+          break;
+        case "4":
+          setStatusName("On Staging");
+          break;
+        case "5":
+          setStatusName("To Deploy");
+          break;
+        case "6":
+          setStatusName("On Live");
+          break;
+        default:
+          break;
+      }
     }
 
 return (
@@ -182,7 +212,7 @@ return (
                     <div style={{width:'300px'}}>Status:<span style={{color:'red'}}>*</span></div>
                 </div>
                 <div style={{display:'block', margin: '0 auto', position:'relative', top:'5%', left:'2%',fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '13px', fontWeight: 'bold',paddingTop:'2px'}}>
-                    <select id="taskStatus" class="selcls" style={{width:'120px'}} value={taskStatus} onChange={event => {setTaskStatus(event.target.value)}}>
+                    <select id="taskStatus" class="selcls" style={{width:'120px'}} value={taskStatus} onChange={event => {setTaskStatusValue(event.target.value)}}>
                         {statusOptions.map((option) => (
                             <option value={option.value}>{option.label}</option>
                         ))}

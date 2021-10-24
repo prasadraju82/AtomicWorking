@@ -4,10 +4,14 @@ import API_URL_CONSTANT from "./apiconstants";
 const API_URL = API_URL_CONSTANT + "api/auth/";
 
 const register = (user) => {
-  return axios.post(API_URL + "signup", user);
+  return axios.post(API_URL + "signup", user).then((response) => {
+    console.log(response);
+    return response});
 };
 
 const checkUser = (emailId) => {
+  console.log(API_URL);
+  console.log(API_URL_CONSTANT);
     return axios.post(API_URL + "checkuser", emailId).then((response) => {
         console.log(response);
         return response.data});

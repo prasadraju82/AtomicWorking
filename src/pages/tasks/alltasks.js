@@ -40,7 +40,7 @@ function AllTasks(){
                         <input class="form-control mr-sm-2" type="text" placeholder="Search" style={{width:'60%'}} />
                     </div>
                     <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '20px', fontWeight: 'bold', textAlign: 'center', letterSpacing: 'normal'}}>
-                        Recent Tasks
+                        All Tasks
                     </div>
                     <br />
                 </div>                   
@@ -71,11 +71,11 @@ function AllTasks(){
                                                             <div style={{height:'25px'}}><a onClick={() => gotoTaskDetails(task.taskId)} style={{fontSize: 'large', fontWeight: 'bold', textDecoration:'none', color:'blue'}}>{task.taskName}</a></div>
                                                         </div>
                                                         <div className="flex-container">
-                                                            <div style={{marginLeft:'0px',color:'#546E7A', fontWeight:'lighter', width:'12%;'}}>{task.taskId}</div><div style={{marginLeft:'30px',color:'#546E7A', fontWeight:'lighter'}}>{task.projectName}</div>
+                                                            <div style={{marginLeft:'0px',color:'#546E7A', fontWeight:'lighter', width:'12%;'}}>{task.taskId}</div><div style={{marginLeft:'30px',color:'#546E7A', fontWeight:'lighter'}}>{task.projectId.projectName}</div>
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: 'medium', textAlign: 'left', display: 'block', verticalAlign: 'middle', color:'#546E7A'}}>{task.statusId}</div>
+                                                        <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: 'medium', textAlign: 'left', display: 'block', verticalAlign: 'middle', color:'#546E7A'}}>{task.statusName}</div>
                                                     </td>
                                                 </tr>
                                             )
@@ -86,11 +86,6 @@ function AllTasks(){
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div style={{position:'relative', textAlign:'center', verticalAlign:'middle', width:'100%'}}>
-                <div>
-                    <a href="AllTasks.aspx" style={{backgroundColor: '#f8f9fa!important', color:'mediumpurple'}}>Views all tasks</a>  
                 </div>
             </div>
     </div>)

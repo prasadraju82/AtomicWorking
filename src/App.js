@@ -13,6 +13,7 @@ import AddUser from './pages/users/adduser';
 import UserList from './pages/users/userlist';
 import AllTask from './pages/tasks/alltasks';
 import KanbanBoard from './components/boards/kanban-board';
+import ConfirmEmail from './pages/users/confirmemail';
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
         <Route exact path='/' component ={Login} />
         <Route exact path='/signUp' component ={SignUp} />
         {/* <Route exact path='/projectlist/:emailId' component ={ProjectList} />  */}
-        <PrivateRoute exact path="/projectlist/:emailId" component={ProjectList} />
+        <PrivateRoute exact path="/projectlist" component={ProjectList} />
         <PrivateRoute exact path="/recenttasks" component={RecentTasks} />
         <PrivateRoute exact path="/taskdetails/taskdetails-master" component={TaskDetails} />
         <PrivateRoute exact path="/createtask" component={CreateTask} />
@@ -31,6 +32,7 @@ function App() {
         <PrivateRoute exact path="/userlist" component={UserList} />
         <PrivateRoute exact path="/alltasks" component={AllTask} />
         <Route exact path='/kanbanboard' component ={KanbanBoard} />
+        <Route exact path='/confirmemail/:emailId' component ={ConfirmEmail} />
         <Route component={Error} />
       </Switch>
       </BrowserRouter>

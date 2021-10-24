@@ -30,6 +30,10 @@ function RecentTasks(){
     const gotoTaskDetails = (taskId) => {
         history.push('/taskdetails/taskdetails-master', { taskid: taskId });
     }
+
+    const gotoAllTasks = (taskId) => {
+        history.push('/alltasks');
+    }
     console.log(currentUser);
     return(<div>
             <div>
@@ -76,7 +80,7 @@ function RecentTasks(){
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: 'medium', textAlign: 'left', display: 'block', verticalAlign: 'middle', color:'#546E7A'}}>{task.statusId}</div>
+                                                        <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: 'medium', textAlign: 'left', display: 'block', verticalAlign: 'middle', color:'#546E7A'}}>{task.statusName}</div>
                                                     </td>
                                                 </tr>
                                             )
@@ -91,7 +95,7 @@ function RecentTasks(){
             </div>
             <div style={{position:'relative', textAlign:'center', verticalAlign:'middle', width:'100%'}}>
                 <div>
-                    <a href="AllTasks.aspx" style={{backgroundColor: '#f8f9fa!important', color:'mediumpurple'}}>Views all tasks</a>  
+                    <a onClick={() => gotoAllTasks()} style={{backgroundColor: '#f8f9fa!important', color:'mediumpurple'}}>Views all tasks</a>  
                 </div>
             </div>
     </div>)

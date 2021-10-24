@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import Navigation from '../../components/Navigation';
 import "../../css/projects.css";
-import axios from "axios";
 import EditProjectModal from './editproject';
 import ProjectServices from "../../services/projects";
 
-const API_URL = "http://localhost:5000/api/projects/";
+//const API_URL = "http://localhost:5000/api/projects/";
 
 function ProjectList(){
     const { user: currentUser } = useSelector((state) => state.auth);
@@ -50,15 +49,21 @@ function ProjectList(){
             setProjectData(res.data);
         })
     }
+
+    let history = useHistory();
+    const gotoKanbanBoard = (projId) =>{
+        history.push('/kanbanboard', { projid: projId });
+    }
     
     return(<div>
                 <Navigation isProj = {true} isUser = {false} isTask = {false} />
-                <div style={{textAlign:'right', marginRight:'200px'}}>
+                <div style={{textAlign:'right', marginRight:'200px', marginTop:'40px'}}>
                    { isAdmin && <button type="button" className="btn btn-primary">CREATE PROJECT</button> } 
                 </div>
-                <div>
+                <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '20px', fontWeight: 'bold', textAlign: 'center', letterSpacing: 'normal'}}>
                     Project List
                 </div>
+                
                 <div>
                        
                     <div>
@@ -81,9 +86,13 @@ function ProjectList(){
                                                 return(
                                                     <tr>
                                                         <td></td>
-                                                        <td>{proj.projectName}</td>
+                                                        <td>
+                                                            <div>
+                                                                <div style={{height:'25px'}}><a onClick={() => gotoKanbanBoard(proj._id)} style={{fontSize: 'large', fontWeight: 'bold', textDecoration:'none', color:'blue'}}>{proj.projectName}</a></div>
+                                                            </div>
+                                                        </td>
                                                         <td>{proj.projectKey}</td>
-                                                        <td>{proj.creator}</td>
+                                                        <td>{proj.userId.name}</td>
                                                         <td>
                                                             <button type="button" onClick ={() => openEdit(true, proj.projectKey)} className="btn btn-primary">Edit</button>
                                                         </td>

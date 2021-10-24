@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 // import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
-import { Button } from 'react-bootstrap';
-//import Button from 'react-bootstrap/button'
+//import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/button'
 import ProjectServices from "../../services/projects";
 import { Redirect } from 'react-router-dom';
 import { useSelector } from "react-redux";
@@ -27,16 +27,18 @@ function EditProjectModal(props){
 
     useEffect(() => {
         ProjectServices.getProjectByKey(props.projKey).then((response) => {
-            console.log(response)
+            
             const proj = {
                 projectName: response.data.projectName,
                 projectType: response.data.projectType,
                 projectKey: response.data.projectKey,
                 projectDesc: response.data.projectDesc
             }
+            console.log(response)
             console.log(proj);
             setProject(proj);
             setLeader(response.data.userId.name)
+            setLeaderId(response.data.userId._id)
         })
     },[props.projKey])
 
@@ -131,7 +133,7 @@ function EditProjectModal(props){
     }
 
     const getUsers = (username) => {
-
+        setLeader(username);
         console.log(username);
         AuthService.getUsers(username).then(response =>
         {

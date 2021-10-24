@@ -15,7 +15,7 @@ const Navigation = (props) => {
     const { user: currentUser } = useSelector((state) => state.auth);
 
     const redirectToProject = () => {
-        history.push('/projectlist/' + currentUser.id)
+        history.push('/projectlist')
     }
 
     const redirectToUser = () => {

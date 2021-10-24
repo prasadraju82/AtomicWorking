@@ -5,6 +5,7 @@ export const register = (user) => (dispatch) => {
     (response) => {
       dispatch({
         type: "REGISTER_SUCCESS",
+        payload: response
       });
 
       dispatch({

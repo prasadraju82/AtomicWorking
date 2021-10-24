@@ -54,5 +54,15 @@ const deleteUserById = (emailid) => {
     });
 }
 
+const activateUser = (user) => {
+    return axios.post(API_URL + "activateuser", user).then((response) => {
+        // if (response.data.accessToken) {
+        //   window.localStorage.setItem("user", JSON.stringify(response.data));
+        // }
+    return response}).catch((error) => {
+        return error
+    });
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { addUser, getAllUsers, getUserById, upadteUser, deleteUserById };
+export default { addUser, getAllUsers, getUserById, upadteUser, deleteUserById, activateUser };

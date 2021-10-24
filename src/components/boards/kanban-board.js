@@ -7,47 +7,6 @@ import Navigation from '../../components/Navigation';
 import { useSelector } from "react-redux";
 import ProjectsService from "../../services/projects";
 
-const itemsFromBackEnd3 = [
-    {id: uuidv4(), content: 'Fifth Component'},
-    {id: uuidv4(), content: 'Sixth Component'}
-]
-
-const itemsFromBackEnd4 = [
-    {id: uuidv4(), content: 'Seventh Component'},
-    {id: uuidv4(), content: 'Eighth Component'}
-]
-
-const itemsFromBackEnd5 = [
-    {id: uuidv4(), content: 'Ninth Component'},
-    {id: uuidv4(), content: 'Tenth Component'}
-]
-
-const itemsFromBackEnd6 = [
-    {id: uuidv4(), content: 'Eleventh Component'},
-    {id: uuidv4(), content: 'Twelth Component'}
-]
-
-const itemsFromBackEnd7 = [
-    {id: uuidv4(), content: 'Thirteenth Component'},
-    {id: uuidv4(), content: 'Forteenth Component'}
-]
-
-const itemsFromBackEnd8 = [
-    {id: uuidv4(), content: 'Fifteenth Component'},
-    {id: uuidv4(), content: 'Sixteenth Component'}
-]
-
-let itemsFromBackEnd = [
-    // {id: uuidv4(), content: 'First Component'},
-    // {id: uuidv4(), content: 'Second Component'}
-]
-
-let itemsFromBackEnd1 = [
-    // {id: uuidv4(), content: 'Third Component'},
-    // {id: uuidv4(), content: 'Fourth Component'}
-]
-//console.log(itemsFromBackEnd1);
-
  const updateTaskStatus = (taskId, status) => {
     const taskPayLoad ={
         taskId: taskId,
@@ -111,7 +70,7 @@ let itemsFromBackEnd1 = [
     
  }
 
-function KanbanBoard(){
+function KanbanBoard(props){
     const { user: currentUser } = useSelector((state) => state.auth);
     const [projects, setProjects] = useState([]);
 
@@ -130,6 +89,9 @@ function KanbanBoard(){
         history.push('/taskdetails/taskdetails-master', { taskid: taskId });
     }
 
+    const {state} = history.location;
+    console.log("projId: " + state.projid);
+
     useEffect(() => {
         
         // const openItem = [{id:'PTD-12', content:{taskId:'PTD-12',taskName:'Authenticate Login', taskType:'Enhancement', taskPriority:'Normal'}},
@@ -137,7 +99,7 @@ function KanbanBoard(){
         //         {id:'PTD-10', content:{taskId:'PTD-10',taskName:'Responsive Page', taskType:'Enhancement', taskPriority:'Normal'}}]
 
         let openItem = []
-        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',1).then((response) => {
+        TaskService.getTaskForKanbanBoard(state.projid,1).then((response) => {
             console.log(response);
             setTasks(response.data);
         })
@@ -148,7 +110,7 @@ function KanbanBoard(){
         //     itemsFromBackEnd.push(item);
         // })
 
-        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',2).then((response) => {
+        TaskService.getTaskForKanbanBoard(state.projid,2).then((response) => {
             console.log(response);
             setInProgressTasks(response.data);
         })
@@ -167,25 +129,25 @@ function KanbanBoard(){
         // ]
        
         //re-Open
-        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',3).then((response) => {
+        TaskService.getTaskForKanbanBoard(state.projid,3).then((response) => {
             console.log(response);
             setReOpenTasks(response.data);
         })
 
         //Staging
-        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',4).then((response) => {
+        TaskService.getTaskForKanbanBoard(state.projid,4).then((response) => {
             console.log(response);
             setOnStagingTasks(response.data);
         })
 
         //To Deploy
-        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',5).then((response) => {
+        TaskService.getTaskForKanbanBoard(state.projid,5).then((response) => {
             console.log(response);
             setToDeployTask(response.data);
         })
 
         //On Live
-        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',6).then((response) => {
+        TaskService.getTaskForKanbanBoard(state.projid,6).then((response) => {
             console.log(response);
             setOnLiveTasks(response.data);
         })
@@ -230,10 +192,6 @@ function KanbanBoard(){
         setColumns(columnsFromBackend);
     },[tasks, inProgressTasks, reOpenTask, onStagingTask, toDeployTask, onLiveTask])
 
-    useEffect(() => {
-        
-    },[])
-
     useEffect(() =>{
         getAllProjects();
     },[])
@@ -249,56 +207,38 @@ function KanbanBoard(){
         })
     }
 
-    const setProject = (event) => {
-        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',1).then((response) => {
+    const setProject = (projId) => {
+        TaskService.getTaskForKanbanBoard(projId,1).then((response) => {
             console.log(response);
             setTasks(response.data);
         })
         
-        
-
-        // tasks.map((item, index) => {
-        //     itemsFromBackEnd.push(item);
-        // })
-
-        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',2).then((response) => {
+        //In progress
+        TaskService.getTaskForKanbanBoard(projId,2).then((response) => {
             console.log(response);
             setInProgressTasks(response.data);
         })
 
-        const inProgressItem = [{id:'PTD-9', content:{taskId:'PTD-9',taskName:'Add excel in the report', taskType:'Enhancement', taskPriority:'Normal'}},
-                {id:'PTD-8', content:{taskId:'PTD-8',taskName:'Implement MFA', taskType:'Enhancement', taskPriority:'Normal'}},
-                {id:'PTD-7', content:{taskId:'PTD-7',taskName:'Page crashed on save', taskType:'Enhancement', taskPriority:'Normal'}}]
-
-        // inProgressItem.map((item, index) => {
-        //     itemsFromBackEnd1.push(item);
-        // })
-
-        // const itemsFromBackEnd = [
-        //     // {id: uuidv4(), content: 'First Component'},
-        //     // {id: uuidv4(), content: 'Second Component'}
-        // ]
-
         //re-Open
-        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',3).then((response) => {
+        TaskService.getTaskForKanbanBoard(projId,3).then((response) => {
             console.log(response);
             setReOpenTasks(response.data);
         })
 
         //Staging
-        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',4).then((response) => {
+        TaskService.getTaskForKanbanBoard(projId,4).then((response) => {
             console.log(response);
             setOnStagingTasks(response.data);
         })
 
         //To Deploy
-        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',5).then((response) => {
+        TaskService.getTaskForKanbanBoard(projId,5).then((response) => {
             console.log(response);
             setToDeployTask(response.data);
         })
 
         //On Live
-        TaskService.getTaskForKanbanBoard('6165c7ccde35c0ec76cae78c',6).then((response) => {
+        TaskService.getTaskForKanbanBoard(projId,6).then((response) => {
             console.log(response);
             setOnLiveTasks(response.data);
         })
@@ -364,8 +304,8 @@ function KanbanBoard(){
                 {Object.entries(columns).map(([id, column])=>{
                     return(
                         <div style={{ display:'flex', flexDirection:'column', alignItems:'center'}}>
-                            <div style={{margin:2}}>
-                                <h4>{ column.name }</h4>
+                            <div style={{margin:2, alignItems:'center'}}>
+                            <div style={{textAlign: 'center'}}>{ column.name }</div>
                                 <Droppable droppableId={id} key={id}>
                                     {(provided, snapshot) => {
                                         return(
@@ -375,7 +315,7 @@ function KanbanBoard(){
                                                 style={{
                                                     background: snapshot.isDraggingOver ? 'lightblue' : 'lightgray',
                                                     padding: 4,
-                                                    width: 240,
+                                                    width: 220,
                                                     minHeight: 500    
                                                 }}
                                             >

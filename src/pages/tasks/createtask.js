@@ -28,6 +28,8 @@ function CreateTask(props){
     const [userName, setUserName] = useState("");
     const [suggestion, setSuggestion] = useState(true);
 
+    console.log(projectId);
+
     const typeOptions = [
         {
             label: "--Select--",
@@ -90,6 +92,7 @@ function CreateTask(props){
     const getAllProjects = () => {
         ProjectsService.getAllProjects().then(response =>
         {
+            console.log(response.data);
             setProjects(response.data);
         })
     }
@@ -170,7 +173,7 @@ function CreateTask(props){
                         Project Name <span style={{color:'red'}}>*</span>
                     </div>
                     <div style={{width:'20%', marginLeft: '50px',  marginTop: '5px'}}>
-                        <select id="Select1" className="selcls" style={{width:'220px'}} onChange={event => {setProject(event)}}>
+                        <select id="Select1" className="selcls" style={{width:'220px'}} onChange={event => {setProjectId(event.target.value)}}>
                             <option key = '0' value='0'>-Select-</option>
                             {projects.map(project => (
                                 <option key={project._id} value={project._id}>
