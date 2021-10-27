@@ -25,20 +25,10 @@ function AddUser(props){
     useEffect(() => {
         if(user.userName !== "" && (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(user.emailId)) && user.gender !== "0" && user.gender !== '' 
         && user.userRole !== "" && user.userRole !== "0"){
-            console.log('Hi')
-            console.log(user.userName);
-            console.log(user.emailId);
-            console.log(user.gender);
-            console.log(user.userRole);
             setAddButton(false);
         }
         else{
             setAddButton(true);
-            console.log('Hello')
-            console.log(user.userName);
-            console.log(user.emailId);
-            console.log(user.gender);
-            console.log(user.userRole);
         }
     },[user.userName, user.emailId, user.gender, user.userRole])
 

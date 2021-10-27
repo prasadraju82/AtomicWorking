@@ -22,12 +22,15 @@ function TaskUserAssignModal(props){
         }
 
         TaskService.updateUserByTaskId(userPayLoad).then(response => {
+            console.log(response);
+            console.log(response.data);
+            console.log(response.data.message);
             if(response.data.message === "Success"){
                 alert("User Assigned Successfully");
                 props.onHide();
             }
             else{
-                alert("There is an error is update: " + response.err);
+                alert("There is an error is update: " + response.message);
             }
             
         })

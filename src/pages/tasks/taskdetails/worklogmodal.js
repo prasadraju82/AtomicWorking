@@ -81,7 +81,7 @@ function WorkLogModal(props){
                             onChange={(event, editor) => getCKEditor(event, editor)}
                         >
                             
-                        </CKEditor>
+                    </CKEditor>
                 </div>
             </div>
           </Modal.Body>

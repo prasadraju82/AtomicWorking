@@ -70,7 +70,8 @@ function TaskDetailsSummaryEditModal(props){
     const [taskStatus, setTaskStatus] = useState(props.tasks.taskTypeId);
     const [taskPriority, setTaskPriority] = useState(props.tasks.priorityId);
     const [taskDesc, setTaskDesc] = useState(props.tasks.taskDesc);
-
+    const [isUpdateButtonDisabled, setUpdateButton] = useState(true);
+    const [isTaskNameValid, setIsTaskNameValid] = useState(false);
     // const [task, setTask] = useState({
     //     taskName: props.tasks.taskName,
     //     taskType: props.tasks.taskTypeId,
@@ -78,6 +79,15 @@ function TaskDetailsSummaryEditModal(props){
     //     taskPriority: props.tasks.priorityId,
     //     taskDesc: props.tasks.taskDesc
     // });
+
+    useEffect(() => {
+      if(taskName !== ""){
+        setUpdateButton(false);
+      }
+      else{
+        setUpdateButton(true);
+      }
+  },[taskName])
 
     useEffect(() => {
         // const myTaskObject = {
@@ -177,6 +187,15 @@ function TaskDetailsSummaryEditModal(props){
       }
     }
 
+    const showTaskNameMessage = (val) => {
+      if(val !== ""){
+          setIsTaskNameValid(false)
+      }
+      else{
+          setIsTaskNameValid(true)
+      }
+  }
+
 return (
     <Modal
       {...props}
@@ -196,8 +215,14 @@ return (
                     <div id="dvUserName" style={{width:'300px'}}>Summary:<span style={{color:'red'}}>*</span></div>
                 </div>
                 <div style={{display:'block', margin: '0 auto', position:'relative', top:'5%', left:'2%',fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '13px', fontWeight: 'bold',paddingTop:'2px'}}>
-                    <input id="taskName" type ="text" value={taskName}  class="form-control" style={{width:'300px'}} onChange={event => {setTaskName(event.target.value)}} />
+                    <input id="taskName" type ="text" value={taskName}  class="form-control" style={{width:'300px'}} onChange={event => {setTaskName(event.target.value)}} onBlur={event => showTaskNameMessage(event.target.value)} />
                 </div>
+                <div style={{position:'absolute', zIndex:'999999', width:'274px', left:'25px'}}
+                  className={`alert alert-danger ${isTaskNameValid ? 'alert-shown' : 'alert-hidden'}`}
+                  onTransitionEnd={() => setIsTaskNameValid(false)}
+                  >
+                  <strong>Error:</strong> Please Enter Task Summary
+              </div> 
                 <div  style={{textAlign:'left', display:'block', margin: '0 auto', position:'relative', top:'5%', left:'2%', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '13px', fontWeight: 'bold', paddingTop:'15px'}}>
                     <div style={{width:'300px'}}>Type:<span style={{color:'red'}}>*</span></div>
                 </div>
@@ -250,7 +275,7 @@ return (
         </div>
       </Modal.Body>
       <Modal.Footer>
-            <Button onClick={() => updateTaskSummary()}>Save</Button><Button onClick={props.onHide}>Close</Button>
+            <Button onClick={() => updateTaskSummary()} disabled={isUpdateButtonDisabled}>Save</Button><Button className="btn btn-danger" onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
   );

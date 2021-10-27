@@ -6,8 +6,10 @@ import { useSelector } from "react-redux";
 import { Redirect } from 'react-router-dom';
 import ProjectsService from "../../services/projects";
 import AuthService from "../../services/auth.services";
-import { Ul, Li, SuggestContainer, SuggestContainerTask } from './style';
+import { Ul, Li, SuggestContainerTask } from './style';
 import TaskService from "../../services/tasks";
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import {CKEditor} from '@ckeditor/ckeditor5-react';
 
 function CreateTask(props){
 
@@ -28,7 +30,10 @@ function CreateTask(props){
     const [userName, setUserName] = useState("");
     const [suggestion, setSuggestion] = useState(true);
 
-    console.log(projectId);
+    const[isAddButtonDisabled, setAddButton] = useState(true);
+    const[isTaskNameValid, setIsTaskNameValid] = useState(false);
+    const[isAssigneeValid, setIsAssigneeValid] = useState(false);
+    const[isEstimatedTimeValid, setEstimatedTimeValid] = useState(false);
 
     const typeOptions = [
         {
@@ -82,8 +87,14 @@ function CreateTask(props){
     // let linkTag = searchWrapper.querySelector("a");
 
     useEffect(() => {
-
-    },[])
+        if(taskName !== "" && taskType !== "0" && taskType !== '' 
+        && projectId !== "" && projectId !== "0" && userName !== "" && estimatedTime !== "" ){
+            setAddButton(false);
+        }
+        else{
+            setAddButton(true);
+        }
+    },[taskName, taskType, projectId, userName, estimatedTime])
 
     useEffect(() =>{
         getAllProjects();
@@ -143,10 +154,6 @@ function CreateTask(props){
         setSuggestion(false);
     }
 
-    const setProject = (event) => {
-        console.log(event)
-    }
-
     const createTask = () =>{
 
         const taskPayLoad ={
@@ -166,6 +173,38 @@ function CreateTask(props){
                alert("Task Saved Successfully");
             }
         }).catch((error) => {console.log(error)})
+    }
+
+    const showTaskNameMessage = (val) => {
+        if(val !== ""){
+            setIsTaskNameValid(false)
+        }
+        else{
+            setIsTaskNameValid(true)
+        }
+    }
+
+    const showAssigneeMessage = (val) => {
+        if(val !== ""){
+            setIsAssigneeValid(false)
+        }
+        else{
+            setIsAssigneeValid(true)
+        }
+    }
+
+    const showEstimatedTimeMessage = (val) => {
+        if(val !== ""){
+            setEstimatedTimeValid(false)
+        }
+        else{
+            setEstimatedTimeValid(true)
+        }
+    }
+
+    const getCKEditor = (event, editor) => {
+        setTaskDesc(editor.getData())
+        //console.log(comment);
     }
 
     return(
@@ -199,88 +238,98 @@ function CreateTask(props){
                         </select>
                     </div>
                 </div>
-                    <div>
-                        <div style={{width:'100%', marginLeft: '50px',  marginTop: '30px', fontFamily:'Arial'}}>
-                            Priority
-                        </div>
-                        <div style={{width:'20%', marginLeft: '50px',  marginTop: '5px'}}>
-                            <select id="Select3" className="selcls" onChange={event => {setTaskPriority(event.target.value)}}>
-                                {priorityOptions.map((option) => (
-                                    <option value={option.value}>{option.label}</option>
-                                ))}
-                            </select>
-                        </div>
+                <div>
+                    <div style={{width:'100%', marginLeft: '50px',  marginTop: '30px', fontFamily:'Arial'}}>
+                        Priority
+                    </div>
+                    <div style={{width:'20%', marginLeft: '50px',  marginTop: '5px'}}>
+                        <select id="Select3" className="selcls" onChange={event => {setTaskPriority(event.target.value)}}>
+                            {priorityOptions.map((option) => (
+                                <option value={option.value}>{option.label}</option>
+                            ))}
+                        </select>
                     </div>
                 </div>
-                <hr />
-                <div style={{width:'20%', marginLeft: '50px',  marginTop: '15px', fontFamily:'Arial'}}>
-                    Summary <span style={{color:'red'}}>*</span>
-                </div>
-                <div style={{width:'80%', marginLeft: '50px',  marginTop: '5px'}}>
-                    <input type="text" onChange={event => {setTaskName(event.target.value)}} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '940px', backgroundColor: '#ffffff'}} />
-                </div>
-                <div style={{width:'20%', marginLeft: '50px',  marginTop: '15px', fontFamily:'Arial'}}>
-                    Description 
-                </div>
-                <div style={{width:'91%', marginLeft: '50px',  marginTop: '5px', fontFamily:'Arial'}}>
-                    <textarea onChange={event => {setTaskDesc(event.target.value)}} row="4" name="content" id ="editor"></textarea>
-                </div>
-                <div className="flex-container">
-                    <div>
-                        <div style={{width:'100%', marginLeft: '50px',  marginTop: '15px', fontFamily:'Arial'}}>
-                            Assignee <span style={{color:'red'}}>*</span>
-                        </div>
-                        <div style={{width:'80%', marginLeft: '50px',  marginTop: '5px'}}>
-                            {/* <input type="text" onChange={event => {getUsers(event.target.value)}} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '450px', backgroundColor: '#ffffff'}}  /> */}
-                            {/* <div className="autocom-box">
-                                <ul>
-                                    {
-                                        users.length > 0 && users.map((value, index) => {
-                                          return  `<li>${value.name}</li>`
-                                        })
-                                    }
-                                </ul>
-                            </div> */}
-                            {/* <div className="wrapper">
-                                <div className="search-input"> */}
-                                    
-                                    <input id="txtName" value={userName} type="text" onChange={event => {getUsers(event.target.value)}} placeholder="Type to search.." />
-                                    {/* <div class="autocom-box"> */}
-                                   { suggestion && <SuggestContainerTask>
-                                            <Ul>
-                                                {/* {loading && <Li>Loading...</Li>} */}
-                                                {users && users.length > 0 &&
-                                                    // !loading &&
-                                                    users.map((value, index) => (
-                                                        <Li
-                                                            key={`${value._id}-${index}`}
-                                                             onClick={() => selectElement(value.name, value._id)}
-                                                        >
-                                                            {value.name}
-                                                        </Li>
-                                                    ))}
-                                            </Ul>
-                                        </SuggestContainerTask> }
-                                    {/* </div> */}
-                                    
-                                {/* </div>
-                            </div> */}
+            </div>
+            <hr />
+            <div style={{width:'20%', marginLeft: '50px',  marginTop: '15px', fontFamily:'Arial'}}>
+                Summary <span style={{color:'red'}}>*</span>
+            </div>
+            <div style={{width:'80%', marginLeft: '50px',  marginTop: '5px'}}>
+                <input type="text" onChange={event => {setTaskName(event.target.value)}} onBlur={(event) => { showTaskNameMessage(event.target.value) }} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '90%', backgroundColor: '#ffffff'}} />
+            </div>
+            <div style={{position:'absolute', zIndex:'999999', width:'274px', left:'50px'}}
+                className={`alert alert-danger ${isTaskNameValid ? 'alert-shown' : 'alert-hidden'}`}
+                onTransitionEnd={() => setIsTaskNameValid(false)}
+                >
+                <strong>Error:</strong> Please Enter Task Summary
+            </div> 
+            <div style={{width:'20%', marginLeft: '50px',  marginTop: '15px', fontFamily:'Arial'}}>
+                Description 
+            </div>
+            <div style={{width:'91%', marginLeft: '50px',  marginTop: '5px', fontFamily:'Arial'}}>
+                {/* <textarea onChange={event => {setTaskDesc(event.target.value)}} row="4" name="content" id ="editor"></textarea> */}
+                <CKEditor
+                        editor={ClassicEditor}
+                        onInit = {editor =>{
+                        
+                        }}
+                        // data={userComment}
+                    //   config={editorConfig}
+                        onChange={(event, editor) => getCKEditor(event, editor)}
+                    >
                             
-                        </div>
+                </CKEditor>
+            </div>
+            <div className="flex-container">
+                <div>
+                    <div style={{width:'100%', marginLeft: '50px',  marginTop: '15px', fontFamily:'Arial'}}>
+                        Assignee <span style={{color:'red'}}>*</span>
                     </div>
-                    <div>
-                        <div style={{width:'100%', marginLeft: '50px', marginTop: '15px', marginBottom: '5px'}}>
-                            Estimated Time <span style={{color:'red'}}>*</span>
-                        </div>
-                        <div style={{width:'100%', marginLeft: '50px', marginTop: '0px'}}>
-                            <input type="text" onChange={event => {setEstimatedTime(event.target.value)}} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '150px', backgroundColor: '#ffffff'}}  /><span>  (eg. 2h 40m)</span>
-                        </div>
+                    <div style={{width:'80%', marginLeft: '50px',  marginTop: '5px'}}>
+                         
+                        <input id="txtName" value={userName} type="text" onChange={event => {getUsers(event.target.value)}} onBlur ={event => showAssigneeMessage(event.target.value)} placeholder="Type to search.." />
+                        
+                        { suggestion && <SuggestContainerTask>
+                                <Ul>
+                                    {users && users.length > 0 &&
+                                        users.map((value, index) => (
+                                            <Li
+                                                key={`${value._id}-${index}`}
+                                                    onClick={() => selectElement(value.name, value._id)}
+                                            >
+                                                {value.name}
+                                            </Li>
+                                        ))}
+                                </Ul>
+                        </SuggestContainerTask> }
                     </div>
                 </div>
-                <div style={{width:'940px', marginLeft: '50px',  marginTop: '5px', justifyContent: 'right', textAlign:'right'}}>
-                    {/* <button style="background-color:blue; height: 30px;  width: 80px; border-radius:5px; font-weight: bold; color:white; font-size:16px;" onclick="return go()">Save</button> */}
-                    <div><button className="btn btn-primary" id="btnAssignee" onClick={() => createTask()}>Save</button></div>
+                <div>
+                    <div style={{width:'100%', marginLeft: '50px', marginTop: '15px', marginBottom: '5px'}}>
+                        Estimated Time <span style={{color:'red'}}>*</span>
+                    </div>
+                    <div style={{width:'100%', marginLeft: '50px', marginTop: '0px'}}>
+                        <input type="text" onChange={event => {setEstimatedTime(event.target.value)}} onBlur={(event) => { showEstimatedTimeMessage(event.target.value) }} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '150px', backgroundColor: '#ffffff'}}  /><span>  (eg. 2h 40m)</span>
+                    </div>
                 </div>
+            </div>
+            <div style={{position:'absolute', width:'274px', left:'50px'}}
+                className={`alert alert-danger ${isAssigneeValid ? 'alert-shown' : 'alert-hidden'}`}
+                onTransitionEnd={() => setIsAssigneeValid(false)}
+                >
+                <strong>Error:</strong> Please Select an Assignee
+            </div> 
+            <div style={{position:'absolute', zIndex:'999999', width:'274px', left:'300px'}}
+                className={`alert alert-danger ${isEstimatedTimeValid ? 'alert-shown' : 'alert-hidden'}`}
+                onTransitionEnd={() => setEstimatedTimeValid(false)}
+                >
+                <strong>Error:</strong> Please Select an Assignee
+            </div>
+            <div style={{width:'940px', marginLeft: '50px',  marginTop: '5px', justifyContent: 'right', textAlign:'right'}}>
+                {/* <button style="background-color:blue; height: 30px;  width: 80px; border-radius:5px; font-weight: bold; color:white; font-size:16px;" onclick="return go()">Save</button> */}
+                <div><button className="btn btn-primary" id="btnAssignee" disabled={isAddButtonDisabled} onClick={() => createTask()}>Save</button></div>
+            </div>
         </div>
     )
 }
