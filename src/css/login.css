@@ -21,3 +21,18 @@ a{
     color: royalblue;
     cursor: pointer;
 }
+
+.custome-position{
+    top: 100px;
+    left: 66px;
+}
+
+.alert-shown {
+    opacity: 1;
+    transition: all 500ms linear;
+}
+  
+.alert-hidden {
+    opacity: 0;
+    transition: all 500ms linear 2s;
+}

@@ -15,6 +15,17 @@ function EditUserModal(props){
         userRole: "",
         gender: ""
     });
+    const[isUpdateButtonDisabled, setUpdateButton] = useState(true);
+    const[isNameValid, setIsNameValid] = useState(false);
+    
+    useEffect(() => {
+        if(user.userName !== ""){
+            setUpdateButton(false);
+        }
+        else{
+            setUpdateButton(true);
+        }
+    },[user.userName])
 
     useEffect(() => {
         console.log('child ' + props.userId);
@@ -85,6 +96,15 @@ function EditUserModal(props){
         }).catch((error) => {console.log(error)})
     }
 
+    const showNameMessage = (val) => {
+        if(val !== ""){
+            setIsNameValid(false)
+        }
+        else{
+            setIsNameValid(true)
+        }
+    }
+
     return(
         <Modal
             {...props}
@@ -113,9 +133,15 @@ function EditUserModal(props){
                                  Name: <span style={{color:'red'}}>*</span>
                             </div>
                             <div style={{width:'65%', marginLeft: '20px',  marginTop: '25px'}}>
-                                <input id="userName" type="text" value={user.userName} onChange={handleChange} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '400px', backgroundColor: '#ffffff'}} />
+                                <input id="userName" type="text" value={user.userName} onChange={handleChange} onBlur={(event) => {showNameMessage(event.target.value)}} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '400px', backgroundColor: '#ffffff'}} />
                             </div>
                         </div>    
+                        <div style={{position:'absolute', zIndex:'999999', width:'274px', left:'344px'}}
+                            className={`alert alert-danger ${isNameValid ? 'alert-shown' : 'alert-hidden'}`}
+                            onTransitionEnd={() => setIsNameValid(false)}
+                            >
+                            <strong>Error:</strong> Please Enter a Name
+                        </div>
                         <div className="flex-container">
                             <div style={{width:'35%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
                                 Role: <span style={{color:'red'}}>*</span>
@@ -145,7 +171,7 @@ function EditUserModal(props){
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                    <Button onClick={() => updateUser()}>Save</Button><Button onClick={props.onHide}>Close</Button>
+                    <Button onClick={() => updateUser()} disabled={isUpdateButtonDisabled}>Save</Button><Button className="btn btn-danger" onClick={props.onHide}>Close</Button>
             </Modal.Footer>
         </Modal>
     )

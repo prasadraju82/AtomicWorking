@@ -31,6 +31,7 @@ export const Li = styled.ul`
 export const SuggestContainer = styled.div`
 	position: absolute;
 	width: 242px;
+	z-index:999999;
 	overflow: scroll;
 	&::-webkit-scrollbar {
 		display: none;

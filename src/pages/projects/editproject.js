@@ -24,6 +24,18 @@ function EditProjectModal(props){
     const [users, setUsers] = useState([]);
     const [suggestion, setSuggestion] = useState(true);
     const [leaderId, setLeaderId] = useState("");
+    const[isUpdateButtonDisabled, setUpdateButton] = useState(true);
+    const[isNameValid, setIsNameValid] = useState(false);
+    const[isLeaderValid, setLeaderValid] = useState(false);
+
+    useEffect(() => {
+        if(project.projectName !== "" && leader !== ""){
+            setUpdateButton(false);
+        }
+        else{
+            setUpdateButton(true);
+        }
+    },[project.projectName, leader])
 
     useEffect(() => {
         ProjectServices.getProjectByKey(props.projKey).then((response) => {
@@ -58,10 +70,6 @@ function EditProjectModal(props){
     // const [projectDesc, setProjectDesc] = useState("");
 
     const typeOptions = [
-        {
-            label: "--Select--",
-            value: "0",
-        },
         {
           label: "Development",
           value: "1",
@@ -144,6 +152,23 @@ function EditProjectModal(props){
         })
     }
 
+    const showNameMessage = (val) => {
+        if(val !== ""){
+            setIsNameValid(false)
+        }
+        else{
+            setIsNameValid(true)
+        }
+    }
+
+    const showLeaderMessage = (val) => {
+        if(val !== ""){
+            setLeaderValid(false)
+        }
+        else{
+            setLeaderValid(true)
+        }
+    }
 //     const getActualUser = (e) =>{
 //         let userInput = e.target.value;
 // //    console.log(userInput);
@@ -174,14 +199,22 @@ function EditProjectModal(props){
                                <span style={{fontFamily:'Arial'}}> {props.projKey} </span>
                             </div>
                         </div>
+                        
                         <div className="flex-container">
                             <div style={{width:'35%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
                                 Project Name <span style={{color:'red'}}>*</span>
                             </div>
                             <div style={{width:'65%', marginLeft: '20px',  marginTop: '25px'}}>
-                                <input id="projectName" type="text" value={project.projectName} onChange={handleChange} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '400px', backgroundColor: '#ffffff'}} />
+                                <input id="projectName" type="text" value={project.projectName} onChange={handleChange} onBlur={(event) => {showNameMessage(event.target.value)}}
+                                 style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '400px', backgroundColor: '#ffffff'}} />
                             </div>
-                        </div>    
+                        </div>   
+                        <div style={{position:'absolute', zIndex:'999999', width:'290px', left:'290px'}}
+                            className={`alert alert-danger ${isNameValid ? 'alert-shown' : 'alert-hidden'}`}
+                            onTransitionEnd={() => setIsNameValid(false)}
+                            >
+                            <strong>Error:</strong> Please Enter a Project Name
+                        </div>  
                         <div className="flex-container">
                             <div style={{width:'35%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
                                 Project Type <span style={{color:'red'}}>*</span>
@@ -200,7 +233,7 @@ function EditProjectModal(props){
                                 Leader <span style={{color:'red'}}>*</span>
                             </div>
                             <div style={{width:'65%', marginLeft: '20px',  marginTop: '25px'}}>
-                                <input id="leader" type="text" value={leader}  onChange={event => {getUsers(event.target.value)}} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '400px', backgroundColor: '#ffffff'}} />
+                                <input id="leader" type="text" value={leader}  onChange={event => {getUsers(event.target.value)}} onBlur={(event) => {showLeaderMessage(event.target.value)}} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '400px', backgroundColor: '#ffffff'}} />
                                 { suggestion && <SuggestContainer>
                                     <Ul>
                                         {/* {loading && <Li>Loading...</Li>} */}
@@ -218,6 +251,12 @@ function EditProjectModal(props){
                                 </SuggestContainer> }
                             </div>
                         </div> 
+                        <div style={{position:'absolute', width:'290px', left:'290px'}}
+                            className={`alert alert-danger ${isLeaderValid ? 'alert-shown' : 'alert-hidden'}`}
+                            onTransitionEnd={() => showLeaderMessage(false)}
+                            >
+                            <strong>Error:</strong> Please Enter a Leader Name
+                        </div> 
                         <div className="flex-container">
                             <div style={{width:'35%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
                                 Description
@@ -230,7 +269,7 @@ function EditProjectModal(props){
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                    <Button onClick={() => updateProject()}>Save</Button><Button onClick={props.onHide}>Close</Button>
+                    <Button onClick={() => updateProject()} disabled={isUpdateButtonDisabled}>Save</Button><Button className="btn btn-danger" onClick={props.onHide}>Close</Button>
             </Modal.Footer>
         </Modal>
     )

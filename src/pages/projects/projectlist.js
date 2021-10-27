@@ -54,11 +54,15 @@ function ProjectList(){
     const gotoKanbanBoard = (projId) =>{
         history.push('/kanbanboard', { projid: projId });
     }
+
+    const gotoCreateProject = () =>{
+        history.push('/createproject');
+    }
     
     return(<div>
                 <Navigation isProj = {true} isUser = {false} isTask = {false} />
                 <div style={{textAlign:'right', marginRight:'200px', marginTop:'40px'}}>
-                   { isAdmin && <button type="button" className="btn btn-primary">CREATE PROJECT</button> } 
+                   { isAdmin && <button type="button" className="btn btn-primary" onClick={() => {gotoCreateProject()}} >CREATE PROJECT</button> } 
                 </div>
                 <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '20px', fontWeight: 'bold', textAlign: 'center', letterSpacing: 'normal'}}>
                     Project List
