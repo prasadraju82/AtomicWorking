@@ -39,3 +39,15 @@ export const SuggestContainer = styled.div`
 	-ms-overflow-style: none; /* IE and Edge */
 	scrollbar-width: none; /* Firefox */
 `;
+
+export const SuggestContainerTask = styled.div`
+	position: absolute;
+	width: 250px;
+	z-index:999999;
+	overflow: scroll;
+	&::-webkit-scrollbar {
+		display: none;
+	}
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+`;

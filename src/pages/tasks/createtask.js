@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { Redirect } from 'react-router-dom';
 import ProjectsService from "../../services/projects";
 import AuthService from "../../services/auth.services";
-import { Ul, Li, SuggestContainer } from './style';
+import { Ul, Li, SuggestContainer, SuggestContainerTask } from './style';
 import TaskService from "../../services/tasks";
 
 function CreateTask(props){
@@ -80,6 +80,10 @@ function CreateTask(props){
     // const inputBox = searchWrapper.querySelector("input");
     // const suggBox = searchWrapper.querySelector(".autocom-box");
     // let linkTag = searchWrapper.querySelector("a");
+
+    useEffect(() => {
+
+    },[])
 
     useEffect(() =>{
         getAllProjects();
@@ -242,7 +246,7 @@ function CreateTask(props){
                                     
                                     <input id="txtName" value={userName} type="text" onChange={event => {getUsers(event.target.value)}} placeholder="Type to search.." />
                                     {/* <div class="autocom-box"> */}
-                                   { suggestion && <SuggestContainer>
+                                   { suggestion && <SuggestContainerTask>
                                             <Ul>
                                                 {/* {loading && <Li>Loading...</Li>} */}
                                                 {users && users.length > 0 &&
@@ -256,7 +260,7 @@ function CreateTask(props){
                                                         </Li>
                                                     ))}
                                             </Ul>
-                                        </SuggestContainer> }
+                                        </SuggestContainerTask> }
                                     {/* </div> */}
                                     
                                 {/* </div>
