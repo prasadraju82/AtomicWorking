@@ -85,8 +85,12 @@ function AddUser(props){
         console.log(userPayLoads);
         console.log(currentUser);
         UserServices.addUser(userPayLoads).then((response) => {
+            console.log(response);
             if(response.data.message === "Success"){
                alert("User Added Successfully");
+            }
+            else if(response.data.message === "Email Id is already in use!"){
+                alert("Email Id is already in use!");
             }
         }).catch((error) => {console.log(error)})
     }
@@ -135,12 +139,12 @@ function AddUser(props){
                 <div style={{width:'65%', marginLeft: '20px',  marginTop: '25px'}}>
                     <input id="emailId" type="text" onChange={handleChange} onBlur={(event) => {showEmailMessage(event.target.value)}} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '28%', backgroundColor: '#ffffff'}} />
                 </div>
-                <div style={{position:'absolute', zIndex:'999999', width:'274px', left:'544px'}}
+                {/* <div style={{position:'absolute', zIndex:'999999', width:'274px', left:'544px'}}
                     className={`alert alert-danger ${isEmailValid ? 'alert-shown' : 'alert-hidden'}`}
                     onTransitionEnd={() => setIsEmailValid(false)}
                     >
                     <strong>Error:</strong> Please Enter a valid EMail Id
-                </div>
+                </div> */}
                 
             </div>   
             <div className="flex-container">

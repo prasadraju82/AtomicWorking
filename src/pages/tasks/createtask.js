@@ -10,6 +10,7 @@ import { Ul, Li, SuggestContainerTask } from './style';
 import TaskService from "../../services/tasks";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import {CKEditor} from '@ckeditor/ckeditor5-react';
+import { Container } from 'react-bootstrap';
 
 function CreateTask(props){
 
@@ -204,132 +205,199 @@ function CreateTask(props){
 
     const getCKEditor = (event, editor) => {
         setTaskDesc(editor.getData())
-        //console.log(comment);
     }
 
     return(
         <div>
+            
             <Navigation isProj = {false} isUser = {false} isTask = {true} />
-            <div className="flex-container">
-                <div>
-                    <div style={{width:'100%', marginLeft: '50px',  marginTop: '30px', fontFamily:'Arial'}}>
-                        Project Name <span style={{color:'red'}}>*</span>
-                    </div>
-                    <div style={{width:'20%', marginLeft: '50px',  marginTop: '5px'}}>
-                        <select id="Select1" className="selcls" style={{width:'220px'}} onChange={event => {setProjectId(event.target.value)}}>
-                            <option key = '0' value='0'>-Select-</option>
-                            {projects.map(project => (
-                                <option key={project._id} value={project._id}>
-                                    {project.projectName}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <div style={{width:'100%', marginLeft: '50px',  marginTop: '30px', fontFamily:'Arial'}}>
-                        Task Type <span style={{color:'red'}}>*</span>
-                    </div>
-                    <div style={{width:'20%', marginLeft: '50px',  marginTop: '5px'}}>
-                        <select id="Select2" className="selcls" onChange={event => {setTaskType(event.target.value)}}>
-                        {typeOptions.map((option) => (
-                            <option value={option.value}>{option.label}</option>
-                        ))}
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <div style={{width:'100%', marginLeft: '50px',  marginTop: '30px', fontFamily:'Arial'}}>
-                        Priority
-                    </div>
-                    <div style={{width:'20%', marginLeft: '50px',  marginTop: '5px'}}>
-                        <select id="Select3" className="selcls" onChange={event => {setTaskPriority(event.target.value)}}>
-                            {priorityOptions.map((option) => (
-                                <option value={option.value}>{option.label}</option>
-                            ))}
-                        </select>
+            
+            <Container fluid>
+
+            
+            <div className="row">
+                <div className="col-sm-12">
+                    <div style={{margin: "0 auto", position:"relative", top:"6%", textAlign: "center", fontFamily:"Arial, Helvetica, sans-serif", fontSize: "1.25vw", fontWeight: "bold", paddingTop:"15px"}}>
+                        Create Task
                     </div>
                 </div>
             </div>
-            <hr />
-            <div style={{width:'20%', marginLeft: '50px',  marginTop: '15px', fontFamily:'Arial'}}>
-                Summary <span style={{color:'red'}}>*</span>
+            <div className="row">
+                <div className="col-sm-2">
+
+                </div>
+                <div className="col-sm-8">
+                    <div className="row">
+                        <div className="col-sm-4">
+                            <div style={{width:'100%', marginTop: '30px', fontFamily:'Arial'}}>
+                                Project Name <span style={{color:'red'}}>*</span>
+                            </div>
+                            <div style={{width:'20%', marginTop: '5px'}}>
+                                <select id="Select1" className="selcls" onChange={event => {setProjectId(event.target.value)}}>
+                                    <option key = '0' value='0'>-Select-</option>
+                                    {projects.map(project => (
+                                        <option key={project._id} value={project._id}>
+                                            {project.projectName}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                        <div className="col-sm-4">
+                            <div style={{width:'100%', marginTop: '30px', fontFamily:'Arial'}}>
+                                Task Type <span style={{color:'red'}}>*</span>
+                            </div>
+                            <div style={{width:'20%', marginTop: '5px'}}>
+                                <select id="Select2" className="selcls" onChange={event => {setTaskType(event.target.value)}}>
+                                {typeOptions.map((option) => (
+                                    <option value={option.value}>{option.label}</option>
+                                ))}
+                                </select>
+                            </div>                
+                        </div>
+                        <div className="col-sm-4">
+                            <div style={{width:'100%', marginTop: '30px', fontFamily:'Arial'}}>
+                                Priority
+                            </div>
+                            <div style={{width:'20%', marginTop: '5px'}}>
+                                <select id="Select3" className="selcls" onChange={event => {setTaskPriority(event.target.value)}}>
+                                    {priorityOptions.map((option) => (
+                                        <option value={option.value}>{option.label}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div className="col-sm-2">
+
+                </div>
             </div>
-            <div style={{width:'80%', marginLeft: '50px',  marginTop: '5px'}}>
-                <input type="text" onChange={event => {setTaskName(event.target.value)}} onBlur={(event) => { showTaskNameMessage(event.target.value) }} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '90%', backgroundColor: '#ffffff'}} />
-            </div>
-            <div style={{position:'absolute', zIndex:'999999', width:'274px', left:'50px'}}
-                className={`alert alert-danger ${isTaskNameValid ? 'alert-shown' : 'alert-hidden'}`}
-                onTransitionEnd={() => setIsTaskNameValid(false)}
-                >
-                <strong>Error:</strong> Please Enter Task Summary
-            </div> 
-            <div style={{width:'20%', marginLeft: '50px',  marginTop: '15px', fontFamily:'Arial'}}>
-                Description 
-            </div>
-            <div style={{width:'91%', marginLeft: '50px',  marginTop: '5px', fontFamily:'Arial'}}>
-                {/* <textarea onChange={event => {setTaskDesc(event.target.value)}} row="4" name="content" id ="editor"></textarea> */}
-                <CKEditor
-                        editor={ClassicEditor}
-                        onInit = {editor =>{
-                        
-                        }}
-                        // data={userComment}
-                    //   config={editorConfig}
-                        onChange={(event, editor) => getCKEditor(event, editor)}
+            <div className="row">
+                <div className="col-sm-2">
+
+                </div>
+                <div className="col-sm-8">
+                    <div style={{width:'20%', marginTop: '35px', fontFamily:'Arial'}}>
+                        Summary <span style={{color:'red'}}>*</span>
+                    </div>
+                    <div style={{ marginTop: '5px'}}>
+                        <input type="text" onChange={event => {setTaskName(event.target.value)}} onBlur={(event) => { showTaskNameMessage(event.target.value) }} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '100%', backgroundColor: '#ffffff'}} />
+                    </div>
+                    <div style={{position:'absolute', zIndex:'999999', width:'274px' }}
+                        className={`alert alert-danger ${isTaskNameValid ? 'alert-shown' : 'alert-hidden'}`}
+                        onTransitionEnd={() => setIsTaskNameValid(false)}
                     >
-                            
-                </CKEditor>
-            </div>
-            <div className="flex-container">
-                <div>
-                    <div style={{width:'100%', marginLeft: '50px',  marginTop: '15px', fontFamily:'Arial'}}>
-                        Assignee <span style={{color:'red'}}>*</span>
-                    </div>
-                    <div style={{width:'80%', marginLeft: '50px',  marginTop: '5px'}}>
-                         
-                        <input id="txtName" value={userName} type="text" onChange={event => {getUsers(event.target.value)}} onBlur ={event => showAssigneeMessage(event.target.value)} placeholder="Type to search.." />
-                        
-                        { suggestion && <SuggestContainerTask>
-                                <Ul>
-                                    {users && users.length > 0 &&
-                                        users.map((value, index) => (
-                                            <Li
-                                                key={`${value._id}-${index}`}
-                                                    onClick={() => selectElement(value.name, value._id)}
-                                            >
-                                                {value.name}
-                                            </Li>
-                                        ))}
-                                </Ul>
-                        </SuggestContainerTask> }
-                    </div>
+                        <strong>Error:</strong> Please Enter Task Summary
+                    </div> 
                 </div>
-                <div>
-                    <div style={{width:'100%', marginLeft: '50px', marginTop: '15px', marginBottom: '5px'}}>
-                        Estimated Time <span style={{color:'red'}}>*</span>
+                <div className="col-sm-2">
+
+                </div>                       
+            </div>
+            <div className="row">
+                <div className="col-sm-2">
+
+                </div>
+                <div className="col-sm-8">
+                    <div style={{width:'20%', marginTop: '35px', fontFamily:'Arial'}}>
+                        Description 
                     </div>
-                    <div style={{width:'100%', marginLeft: '50px', marginTop: '0px'}}>
-                        <input type="text" onChange={event => {setEstimatedTime(event.target.value)}} onBlur={(event) => { showEstimatedTimeMessage(event.target.value) }} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '150px', backgroundColor: '#ffffff'}}  /><span>  (eg. 2h 40m)</span>
-                    </div>
+                    <div style={{ marginTop: '5px', fontFamily:'Arial'}}>
+                        <CKEditor
+                                editor={ClassicEditor}
+                                onInit = {editor =>{
+                                
+                                }}
+                                // data={userComment}
+                            //   config={editorConfig}
+                                onChange={(event, editor) => getCKEditor(event, editor)}
+                            >
+                                    
+                        </CKEditor>
+                    </div>                   
+                </div>
+                <div className="col-sm-2">
+
                 </div>
             </div>
-            <div style={{position:'absolute', width:'274px', left:'50px'}}
-                className={`alert alert-danger ${isAssigneeValid ? 'alert-shown' : 'alert-hidden'}`}
-                onTransitionEnd={() => setIsAssigneeValid(false)}
-                >
-                <strong>Error:</strong> Please Select an Assignee
-            </div> 
-            <div style={{position:'absolute', zIndex:'999999', width:'274px', left:'300px'}}
-                className={`alert alert-danger ${isEstimatedTimeValid ? 'alert-shown' : 'alert-hidden'}`}
-                onTransitionEnd={() => setEstimatedTimeValid(false)}
-                >
-                <strong>Error:</strong> Please Select an Assignee
+            <div className="row">
+                <div className="col-sm-2">
+
+                </div>
+                <div className="col-sm-8">
+                    <div className="row">
+                        <div className="col-sm-6">
+                            <div>
+                                <div style={{width:'100%', marginTop: '35px', fontFamily:'Arial'}}>
+                                    Assignee <span style={{color:'red'}}>*</span>
+                                </div>
+                                <div style={{width:'80%', marginTop: '5px'}}>
+                                    
+                                    <input id="txtName" value={userName} type="text" onChange={event => {getUsers(event.target.value)}} onBlur ={event => showAssigneeMessage(event.target.value)} placeholder="Type to search.." />
+                                    
+                                    { suggestion && <SuggestContainerTask>
+                                            <Ul>
+                                                {users && users.length > 0 &&
+                                                    users.map((value, index) => (
+                                                        <Li
+                                                            key={`${value._id}-${index}`}
+                                                                onClick={() => selectElement(value.name, value._id)}
+                                                        >
+                                                            {value.name}
+                                                        </Li>
+                                                    ))}
+                                            </Ul>
+                                    </SuggestContainerTask> }
+                                </div>
+                            </div>
+                            <div style={{position:'absolute', width:'274px'}}
+                                className={`alert alert-danger ${isAssigneeValid ? 'alert-shown' : 'alert-hidden'}`}
+                                onTransitionEnd={() => setIsAssigneeValid(false)}
+                                >
+                                <strong>Error:</strong> Please Select an Assignee
+                            </div> 
+                        </div>
+                        <div className="col-sm-6">
+                            <div>
+                                <div style={{width:'100%', marginTop: '35px', marginBottom: '5px'}}>
+                                    Estimated Time <span style={{color:'red'}}>*</span>
+                                </div>
+                                <div style={{width:'100%', marginTop: '0px'}}>
+                                    <input type="text" onChange={event => {setEstimatedTime(event.target.value)}} onBlur={(event) => { showEstimatedTimeMessage(event.target.value) }} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '150px', backgroundColor: '#ffffff'}}  /><span>  (eg. 2h 40m)</span>
+                                </div>
+                                <div style={{position:'absolute', zIndex:'999999', width:'290px'}}
+                                    className={`alert alert-danger ${isEstimatedTimeValid ? 'alert-shown' : 'alert-hidden'}`}
+                                    onTransitionEnd={() => setEstimatedTimeValid(false)}
+                                    >
+                                    <strong>Error:</strong> Please Enter Estimated Time
+                                </div>
+                            </div>                           
+                        </div>
+                    </div>
+                </div>
+                <div className="col-sm-2">
+
+                </div>
             </div>
-            <div style={{width:'940px', marginLeft: '50px',  marginTop: '5px', justifyContent: 'right', textAlign:'right'}}>
-                {/* <button style="background-color:blue; height: 30px;  width: 80px; border-radius:5px; font-weight: bold; color:white; font-size:16px;" onclick="return go()">Save</button> */}
-                <div><button className="btn btn-primary" id="btnAssignee" disabled={isAddButtonDisabled} onClick={() => createTask()}>Save</button></div>
+            <div className="row">
+                <div className="col-sm-2">
+
+                </div>
+                <div className="col-sm-8">
+                    <div style={{marginTop: '5px', justifyContent: 'right', textAlign:'right'}}>
+                        <div>
+                            <button className="btn btn-primary" id="btnAssignee" disabled={isAddButtonDisabled} onClick={() => createTask()}>Save</button>
+                        </div>
+                    </div>                                    
+                </div>
+                <div className="col-sm-2">
+
+                </div>
             </div>
+            </Container>
         </div>
     )
 }

@@ -73,7 +73,7 @@ import ProjectsService from "../../services/projects";
 function KanbanBoard(props){
     const { user: currentUser } = useSelector((state) => state.auth);
     const [projects, setProjects] = useState([]);
-
+    const [projectId, setProjectId] = useState([]);
     const[columns, setColumns] = useState({})
 
     const[tasks, setTasks] = useState([]);
@@ -97,7 +97,7 @@ function KanbanBoard(props){
         // const openItem = [{id:'PTD-12', content:{taskId:'PTD-12',taskName:'Authenticate Login', taskType:'Enhancement', taskPriority:'Normal'}},
         //         {id:'PTD-11', content:{taskId:'PTD-11',taskName:'Add JWT Token', taskType:'Enhancement', taskPriority:'Normal'}},
         //         {id:'PTD-10', content:{taskId:'PTD-10',taskName:'Responsive Page', taskType:'Enhancement', taskPriority:'Normal'}}]
-
+        setProjectId(state.projid)
         let openItem = []
         TaskService.getTaskForKanbanBoard(state.projid,1).then((response) => {
             console.log(response);
@@ -151,7 +151,7 @@ function KanbanBoard(props){
             console.log(response);
             setOnLiveTasks(response.data);
         })
-    },[])
+    },[state.projid])
 
     useEffect(() => {
         const columnsFromBackend = 
@@ -253,12 +253,12 @@ function KanbanBoard(props){
             [uuidv4()]:{
                 name: 'In Progress',
                 statusId: 2,
-                items: inProgressTasks
+                items: reOpenTask
             },
             [uuidv4()]:{
                 name: 'Re-Open',
                 statusId: 3,
-                items: reOpenTask
+                items: inProgressTasks
             },
             [uuidv4()]:{
                 name: 'On Staging',
@@ -279,17 +279,19 @@ function KanbanBoard(props){
 
         console.log(columnsFromBackend);
         setColumns(columnsFromBackend);
+
+        setProjectId(projId)
     }
 
     return(
     <div>
         <Navigation />
         <div>
-            <div style={{width:'100%', marginLeft: '50px',  marginTop: '30px', fontFamily:'Arial'}}>
-                Project Name <span style={{color:'red'}}>*</span>
+            <div style={{width:'100%', marginLeft: '35px',  marginTop: '30px', fontFamily:'Arial'}}>
+                Project Name 
             </div>
-            <div style={{width:'20%', marginLeft: '50px',  marginTop: '5px'}}>
-                <select id="Select1" className="selcls" style={{width:'220px'}} onChange={event => {setProject(event.target.value)}}>
+            <div style={{width:'20%', marginLeft: '35px',  marginTop: '5px',  marginBottom: '25px'}}>
+                <select id="Select1" className="selcls" style={{width:'220px'}} value={projectId} onChange={event => {setProject(event.target.value)}}>
                     {/* <option key = '0' value='0'>-Select-</option> */}
                     {projects.map(project => (
                         <option key={project._id} value={project._id}>
@@ -305,7 +307,7 @@ function KanbanBoard(props){
                     return(
                         <div style={{ display:'flex', flexDirection:'column', alignItems:'center'}}>
                             <div style={{margin:2, alignItems:'center'}}>
-                            <div style={{textAlign: 'center'}}>{ column.name }</div>
+                            <div style={{textAlign: 'center', fontWeight:'bold', backgroundColor: '#eeeeee', marginBottom: '4px'}}>{ column.name }</div>
                                 <Droppable droppableId={id} key={id}>
                                     {(provided, snapshot) => {
                                         return(
@@ -315,7 +317,7 @@ function KanbanBoard(props){
                                                 style={{
                                                     background: snapshot.isDraggingOver ? 'lightblue' : 'lightgray',
                                                     padding: 4,
-                                                    width: 220,
+                                                    width: 210,
                                                     minHeight: 500    
                                                 }}
                                             >
@@ -342,7 +344,7 @@ function KanbanBoard(props){
                                                                                 {item.content.taskName}
                                                                             </div>
                                                                             <div>
-                                                                                <span style={{fontSize:'12px', fontVariant:'small-caps'}}>{item.content.taskType}</span> <span style={{fontSize:'12px', fontVariant:'small-caps', color:'#dcdcdc'}}>Normal</span>
+                                                                                <span style={{fontSize:'12px', fontVariant:'small-caps'}}>{item.content.taskType}</span> <span style={{fontSize:'12px', fontVariant:'small-caps', color:'#dcdcdc', marginLeft:'60px'}}>{item.content.taskPriority}</span>
                                                                             </div>
                                                                             <div onClick={() => gotoTaskDetails(item.content.taskId)}>
                                                                                 {item.content.taskId}

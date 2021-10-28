@@ -28,3 +28,13 @@
       justify-content: flex-end;
       padding: .5em;
     }
+
+    #inner{
+      width: 35%;
+      height: 85%;
+      top: 7%;
+      margin: 0 auto;
+      position: relative;
+      background:#ffffff;
+      box-shadow: 0 0 10px gray;
+     }

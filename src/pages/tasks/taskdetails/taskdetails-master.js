@@ -9,6 +9,7 @@ import TaskDetailsTimeline from './taskdetails-timeline';
 import TaskWorkLog from './task-worklog';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab'
+import { Container } from "react-bootstrap";
 // import { getTaskById } from "../../../action/tasks";
 // import { useDispatch, useSelector } from "react-redux";
 
@@ -42,8 +43,9 @@ function TaskDetails(){
    // console.log("master page state: " + currentTask);
     return(<div>
             <Navigation isProj = {false} isUser = {false} isTask = {true} />
+            <Container fluid>
             <div class="row">
-                <div class="col-sm-8">
+                <div className="col-sm-8">
                     <div style={{marginLeft: '50px', marginTop:25}}>
                         <TaskDetailsSummary taskObject = {taskdetails} taskId = {state.taskid} />
                     </div>
@@ -61,24 +63,13 @@ function TaskDetails(){
                         </Tabs>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div className="col-sm-4">
                     <div style={{marginRight: 0, marginTop:25}}>
                         <TaskDetailsTimeline taskObject = {taskdetails} />
                     </div>
                 </div>
             </div>
-            {/* <div className="flex-container" style={{verticalAlign: 'top'}}>
-                <div style={{width:'80%', marginLeft: '100px', marginRight: '50px'}}>
-                    
-                    
-                    
-                </div>
-                <div style={{width:'20%'}}>
-                    <div style={{width:'100%', marginLeft: '0px', marginRight: '100px', verticalAlign:'top'}}>
-                        
-                    </div>
-                </div>
-            </div> */}
+            </Container>
         </div>)
 }
 

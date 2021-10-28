@@ -40,7 +40,7 @@ function TaskDetailsTimeline(props){
         </div>
         <div className="flex-container">
             <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '15px', color:'#263238', fontWeight: 'bold', paddingLeft:'15px', paddingTop:'15px', letterSpacing: 'normal', width: '50%' }}>
-                Start Date:
+                Updated Date:
             </div>
             <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '15px', color:'#263238', fontWeight: 'normal', paddingLeft:'15px', paddingTop:'15px', letterSpacing: 'normal' }}>
                 <Moment format="DD-MMM-YYYY">

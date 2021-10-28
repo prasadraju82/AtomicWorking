@@ -42,7 +42,7 @@ function RecentTasks(){
             <div>
                 <div className="flex-container" style={{width:'80%', marginTop: '50px', marginLeft: '100px'}}>
                     <div style={{width:'500px', textAlign:'right', paddingLeft:'5px'}}>
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search" style={{width:'60%'}} />
+                        {/* <input className="form-control mr-sm-2" type="text" placeholder="Search" style={{width:'60%'}} /> */}
                     </div>
                     <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '20px', fontWeight: 'bold', textAlign: 'center', letterSpacing: 'normal'}}>
                         Recent Tasks
@@ -67,7 +67,7 @@ function RecentTasks(){
                                     {
                                         taskData.map((task,index) => {
                                             return(
-                                                <tr>
+                                                <tr key={index}>
                                                     <td style={{width:'5%'}}>
                                                         <div style={{marginRight:'0px'}}><img src={taskImage} width="35" height="35" alt="task"></img></div>
                                                     </td>
@@ -76,7 +76,7 @@ function RecentTasks(){
                                                             <div style={{height:'25px'}}><a onClick={() => gotoTaskDetails(task.taskId)} style={{fontSize: 'large', fontWeight: 'bold', textDecoration:'none', color:'blue'}}>{task.taskName}</a></div>
                                                         </div>
                                                         <div className="flex-container">
-                                                            <div style={{marginLeft:'0px',color:'#546E7A', fontWeight:'lighter', width:'12%;'}}>{task.taskId}</div><div style={{marginLeft:'30px',color:'#546E7A', fontWeight:'lighter'}}>{task.projectId.projectName}</div>
+                                                            <div style={{marginLeft:'0px',color:'#546E7A', fontWeight:'lighter', width:'12%'}}>{task.taskId}</div><div style={{marginLeft:'30px',color:'#546E7A', fontWeight:'lighter'}}>{task.projectId.projectName}</div>
                                                         </div>
                                                     </td>
                                                     <td>

@@ -127,3 +127,11 @@ export const checkUser = (emailId) => (dispatch) => {
       }
     );
   }
+
+  export const logout = () => (dispatch) => {
+    AuthService.logout();
+  
+    dispatch({
+      type: "LOGOUT",
+    });
+  };

@@ -59,4 +59,8 @@ const getUsers = (username) => {
     });
 }
 
-export default { register, checkUser, savePassword, login, getUsers };
+const logout = () => {
+  localStorage.removeItem("user");
+};
+
+export default { register, checkUser, savePassword, login, getUsers, logout };

@@ -143,15 +143,15 @@ function SignUp(){
                             <div style={{margin:"0 auto", position:"relative", top:"3%", left:"35%"}}>
                                 <img src={Logo}  alt="Atomic" style={{marginLeft: 50, marginRight: 50}} />
                             </div>
-                            <div style={{margin: "0 auto", position:"relative", top:"3%", left:"29%", fontFamily:"Arial, Helvetica, sans-serif", fontSize: "18px", fontWeight: "bold", paddingTop:"15px"}}>
+                            <div style={{margin: "0 auto", position:"relative", top:"3%", left:"29%", fontFamily:"Arial, Helvetica, sans-serif", fontSize: "1.25vw", fontWeight: "bold", paddingTop:"15px"}}>
                                 Create an account
                             </div>
-                            <div id="lblUserName" style={{textAlign:"left", display:"block", margin: "0 auto", position:"relative", top:"3%", left:"20%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "13px", fontWeight: "bold",paddingTop:"15px"}}>
-                            <div id="dvUserName" style={{width:"300px"}}>Name:<span style={{color:"red"}}>*</span></div>
+                            <div id="lblUserName" style={{textAlign:"left", display:"block", margin: "0 auto", position:"relative", top:"3%", left:"20%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "1vw", fontWeight: "bold",paddingTop:"15px"}}>
+                                <div id="dvUserName" style={{width:"300px"}}>Name:<span style={{color:"red"}}>*</span></div>
                             </div>
                             <div id="Div5" style={{display:"block", margin: "0 auto", position:"relative", top:"3%", left:"19%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "13px", fontWeight: "bold",paddingTop:"2px"}}>
                             <input id="name" type ="text" value={user.name}  class="form-control" 
-                                            style={{width:"300px"}} placeholder="Enter Name" onChange={handleChange} onBlur = {(event) => {showNameMessage(event.target.value)}} />
+                                            style={{width:"60%"}} placeholder="Enter Name" onChange={handleChange} onBlur = {(event) => {showNameMessage(event.target.value)}} />
                             </div>
                             <div style={{position:'absolute', zIndex:'999999', width:'300px', left:'102px'}}
                                 className={`alert alert-danger ${isNameValid ? 'alert-shown' : 'alert-hidden'}`}
@@ -164,7 +164,7 @@ function SignUp(){
                             </div>
                             <div style={{display:"block", margin: "0 auto", position:"relative", top:"3%", left:"19%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "13px", fontWeight: "bold",paddingTop:"2px"}}>
                             <input id="emailId" type ="text" value={user.emailId} class="form-control" 
-                                            style={{width:"300px"}} placeholder="Enter Email Id" onChange={handleChange} onBlur = {(event) => {showEmailMessage(event.target.value)}} />
+                                            style={{width:"60%"}} placeholder="Enter Email Id" onChange={handleChange} onBlur = {(event) => {showEmailMessage(event.target.value)}} />
                             </div>
                             <div style={{position:'absolute', zIndex:'999999', width:'300px', left:'102px'}}
                                 className={`alert alert-danger ${isEmailValid ? 'alert-shown' : 'alert-hidden'}`}
@@ -184,11 +184,11 @@ function SignUp(){
                             </div>
                             <div  id="dvSetPassword" style={{display:'block', margin: "0 auto", position: "relative", top: "3%", left:"19%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "18px", fontWeight:"bold", paddingTop:"15px"}}>
                                 <input id = "password" type="password" value={user.password} className="form-control"
-                                    style={{ width:"300px"}} placeholder="Enter Password" onChange={handleChange} />
+                                    style={{ width:"60%"}} placeholder="Enter Password" onChange={handleChange} />
                             </div>
                             <div  id="dvConfirmPassword" style={{display:'block', margin: "0 auto", position: "relative", top: "3%", left:"19%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "18px", fontWeight:"bold", paddingTop:"15px"}}>
                                 <input id = "confirmPassword" type="password" value={user.confirmPassword} className="form-control"
-                                    style={{ width:"300px"}} placeholder="Confirm Password" onChange={handleChange} onBlur={(event) => {showCnfPwdMessage(event.target.value)}} />
+                                    style={{ width:"60%"}} placeholder="Confirm Password" onChange={handleChange} onBlur={(event) => {showCnfPwdMessage(event.target.value)}} />
                             </div>
                             <div style={{position:'absolute', zIndex:'999999', width:'300px', left:'102px'}}
                                 className={`alert alert-danger ${isPasswordMatched ? 'alert-shown' : 'alert-hidden'}`}
@@ -196,11 +196,11 @@ function SignUp(){
                                 >
                                 <strong>Error:</strong> Password doesn't match
                             </div>
-                            <div style={{textAlign:"left", margin: "0 auto", position:"relative", top:"3%", left:"20%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "13px", fontWeight: "bold",paddingTop:"15px"}}>
-                            <button type="button" class="btn btn-primary" style={{fontWeight:"bold", width:"300px"}} disabled={isSignUpButtonDisabled}
+                            <div style={{textAlign:"left", margin: "0 auto", position:"relative", top:"3%", left:"20%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "1.5px", fontWeight: "bold",paddingTop:"15px"}}>
+                            <button type="button" class="btn btn-primary" style={{fontWeight:"bold", width:"60%", fontSize: "1.5vw"}} disabled={isSignUpButtonDisabled}
                                 onClick={() => addUser()}>SIGN UP</button>
                             </div>
-                            <div style={{textAlign:"left", margin: "0 auto", position:"relative", top:"3%", left:"20%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "13px", fontWeight: "bold",paddingTop:"15px"}}>
+                            <div style={{textAlign:"left", margin: "0 auto", position:"relative", top:"3%", left:"20%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "1vw", fontWeight: "bold",paddingTop:"15px"}}>
                                 Already have an account? <a style={{color: 'royalblue'}} onClick={() => redirectToLoginIn()}>Sign In</a>
                             </div>
                         </div>

@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Nav from 'react-bootstrap/Nav'
 import './Navigation.css';
 import { useHistory } from 'react-router-dom';
 import Logo from '../images/project_logo_64.png';
+import { logout } from "../action/auth";
 
 const Navigation = (props) => {
 
     const [userInitials, setUserInitials] = useState();
+    const dispatch = useDispatch();
 
     let history = useHistory();
     const { user: currentUser } = useSelector((state) => state.auth);
@@ -57,7 +59,11 @@ const Navigation = (props) => {
     useEffect(() => {
        let userInitial = getInitials(currentUser.name);
        setUserInitials(userInitial);
-    },[currentUser.name])
+    },[])
+
+    const logOut = () => {
+        dispatch(logout());
+      };
 
     return(
         <>
@@ -78,7 +84,10 @@ const Navigation = (props) => {
                         {/* <NavDropdown.Divider />
                         <NavDropdown.Item href="#action5">Something else here</NavDropdown.Item> */}
                     </NavDropdown>
-                        <button class="btn btn-dark my-2 my-sm-0" onClick={() => {redirectToCreateTask()}} >Create Task</button>
+                        <button className="btn btn-dark my-2 my-sm-0" onClick={() => {redirectToCreateTask()}} >Create Task</button>
+                    </Nav>
+                    <Nav className="justify-content-end" style={{ width: "38%" }}>
+                        <a onClick={logOut}>Logout</a>
                     </Nav>
                     <Nav className="justify-content-end" style={{ width: "58%" }}>
                     <div id="cmtDetails1" style={{marginLeft: '15px', height:'40px', width:'40px', paddingTop:'7px', fontFamily: 'Arial, Helvetica, sans-serif', paddingLeft:'5px', paddingRight:'5px', borderRadius:'20px', backgroundColor:'#EF6C00', fontWeight: 'bold', textAlign:'center', verticalAlign:'middle'}}>

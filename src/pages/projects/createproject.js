@@ -36,8 +36,8 @@ function CreateProject(props){
 
     let history = useHistory();
 
-    const redirectToLoginIn = () => {
-        history.push('/')
+    const redirectToProjectList = () => {
+        history.push('/projectlist')
     }
 
     if (!currentUser) {
@@ -88,7 +88,7 @@ function CreateProject(props){
         ProjectServices.createproject(projectPayLoads).then((response) => {
             if(response.data.message === "Success"){
                alert("Project Saved Successfully");
-               redirectToLoginIn();
+               redirectToProjectList();
             }
             else if(response.data.message === "Duplicate Project Key"){
                 toast("Project Key already exists!")
@@ -115,29 +115,29 @@ function CreateProject(props){
     }
 
     return(
-        <div>
+        <div className="inner">
             <Navigation isProj = {true} isUser = {false} isTask = {false} />
-            <div className="flex-container">
-                
-                <div style={{width:'50%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
-                    Project Name <span style={{color:'red'}}>*</span>
+            <div>
+                <div style={{margin: "0 auto", position:"relative", top:"3%", left:"39%", fontFamily:"Arial, Helvetica, sans-serif", fontSize: "1.25vw", fontWeight: "bold", paddingTop:"15px"}}>
+                    Create project
                 </div>
-                <div style={{width:'50%', marginLeft: '20px',  marginTop: '25px'}}>
+                <div id="lblUserName" style={{textAlign:"left", display:"block", margin: "0 auto", position:"relative", top:"3%", left:"33%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "1vw", fontWeight: "bold",paddingTop:"15px"}}>
+                    <div id="dvUserName" style={{width:"300px"}}>Project Name:<span style={{color:"red"}}>*</span></div>
+                </div>
+                <div id="Div5" style={{display:"block", margin: "0 auto", position:"relative", top:"3%", left:"33%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "13px", fontWeight: "bold",paddingTop:"2px"}}>
                     <input id="projectName" type="text" onChange={handleChange} onBlur={(event) => showNameMessage(event.target.value)} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '400px', backgroundColor: '#ffffff'}} />
                 </div>
-            </div>    
-            <div style={{position:'absolute', zIndex:'999999', width:'274px', left:'544px'}}
-                className={`alert alert-danger ${isNameValid ? 'alert-shown' : 'alert-hidden'}`}
-                onTransitionEnd={() => setIsNameValid(false)}
-                >
-                <strong>Error:</strong> Please Enter a Project Name
-            </div> 
-            <div className="flex-container">
-                <div style={{width:'50%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
-                    Project Type <span style={{color:'red'}}>*</span>
+                <div style={{position:'absolute', zIndex:'999999', width:'350px', left:'33%', padding:'3px'}}
+                    className={`alert alert-danger ${isNameValid ? 'alert-shown' : 'alert-hidden'}`}
+                    onTransitionEnd={() => setIsNameValid(false)}
+                    >
+                    <strong>Error:</strong> Please Enter a Project Name
+                </div> 
+                <div style={{textAlign:"left", margin: "0 auto", position:"relative", top:"3%", left:"33%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "1vw", fontWeight: "bold",paddingTop:"15px"}}>
+                        Project Type <span style={{color:'red'}}>*</span>
                 </div>
-                <div style={{width:'50%', marginLeft: '20px',  marginTop: '25px'}}>
-                    <select id="projectType" className="selcls" style={{width:'150px'}} onChange={handleChange}>
+                <div style={{display:"block", margin: "0 auto", position:"relative", top:"3%", left:"33%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "13px", fontWeight: "bold",paddingTop:"2px"}}>
+                    <select id="projectType" className="selcls" style={{width:'150px', zIndex:'999999'}} onChange={handleChange}>
                         
                         {typeOptions.map((option) => (
                             <option value={option.value}>{option.label}</option>
@@ -145,30 +145,26 @@ function CreateProject(props){
                     </select>
                 </div>
             </div>
-            <div className="flex-container">
-                <div style={{width:'50%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
-                    Key <span style={{color:'red'}}>*</span>
-                </div>
-                <div style={{width:'50%', marginLeft: '20px',  marginTop: '25px'}}>
-                    <input id="projectKey" type="text" onChange={handleChange} onBlur={(event) => {showKeyMessage(event.target.value)} } style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '80px', backgroundColor: '#ffffff'}} />
-                </div>
+            
+            <div style={{textAlign:"left", margin: "0 auto", position:"relative", top:"3%", left:"33%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "1vw", fontWeight: "bold",paddingTop:"15px"}}>
+                Key <span style={{color:'red'}}>*</span>
             </div>
-            <div style={{position:'absolute', zIndex:'999999', width:'274px', left:'544px'}}
+            <div id="Div5" style={{display:"block", margin: "0 auto", position:"relative", top:"3%", left:"33%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "13px", fontWeight: "bold",paddingTop:"2px"}}>
+                    <input id="projectKey" type="text" onChange={handleChange} onBlur={(event) => {showKeyMessage(event.target.value)} } style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '80px', backgroundColor: '#ffffff'}} />
+            </div>
+            <div style={{position:'absolute', zIndex:'999999', width:'274px', left:"33%"}}
                 className={`alert alert-danger ${isKeyValid ? 'alert-shown' : 'alert-hidden'}`}
                 onTransitionEnd={() => setIsKeyValid(false)}
                 >
                 <strong>Error:</strong> Please Enter a Key 
             </div> 
-            <div className="flex-container">
-                <div style={{width:'50%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
-                    Description
-                </div>
-                <div style={{width:'50%', marginLeft: '20px',  marginTop: '25px'}}>
-                    <textarea id="projectDesc" onChange={handleChange} row="4" name="content" style={{width:'400px'}}></textarea>
-                </div>
+            <div style={{textAlign:"left", margin: "0 auto", position:"relative", top:"3%", left:"33%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "1vw", fontWeight: "bold",paddingTop:"15px"}}>
+                Description
             </div>
-            <div style={{width:'940px', marginLeft: '50px',  marginTop: '15px', justifyContent: 'right', textAlign:'right'}}>
-                {/* <button style="background-color:blue; height: 30px;  width: 80px; border-radius:5px; font-weight: bold; color:white; font-size:16px;" onclick="return go()">Save</button> */}
+            <div style={{textAlign:"left", margin: "0 auto", position:"relative", top:"3%", left:"33%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "13px", fontWeight: "bold",paddingTop:"5px"}}>
+                <textarea id="projectDesc" onChange={handleChange} row="4" name="content" style={{width:'400px'}}></textarea>
+            </div>
+            <div style={{textAlign:"left", margin: "0 auto", position:"relative", top:"3%", left:"33%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "13px", fontWeight: "bold",paddingTop:"15px"}}>
                 <div><button className="btn btn-primary" id="btnAssignee" disabled={isAddButtonDisabled} onClick={() => createProject()}>Save</button></div>
             </div>
             <ToastContainer position="top-center"

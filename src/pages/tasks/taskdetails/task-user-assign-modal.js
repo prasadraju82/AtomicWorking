@@ -13,7 +13,9 @@ function TaskUserAssignModal(props){
     const [users, setUsers] = useState([]);
     const [suggestion, setSuggestion] = useState(true);
     const [userId, setUserId] = useState("");
-    
+    const[isAddButtonDisabled, setAddButton] = useState(true);
+    const[isUserValid, setIsUserValid] = useState(false);
+
     const assignUser = () => {
         const userPayLoad = {
             taskId: props.tasks.taskId,
@@ -35,6 +37,15 @@ function TaskUserAssignModal(props){
             
         })
     }
+
+    useEffect(() => {
+        if(leader !== ""){
+            setAddButton(false);
+        }
+        else{
+            setAddButton(true);
+        }
+    },[leader])
 
     useEffect(() =>{
         TaskService.getUserByTaskId(props.tasks.taskId).then(response => {
@@ -64,6 +75,15 @@ function TaskUserAssignModal(props){
         setSuggestion(false);
     }
 
+    const showUserMessage = (val) => {
+        if(val !== ""){
+            setIsUserValid(false)
+        }
+        else{
+            setIsUserValid(true)
+        }
+    }
+
     return(
         <div>
             <Modal
@@ -89,7 +109,7 @@ function TaskUserAssignModal(props){
                         </div>
                         
                         <div>
-                            <input id="leader" type="text" value={leader}  onChange={event => {getUsers(event.target.value)}} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '400px', backgroundColor: '#ffffff'}} />
+                            <input id="leader" type="text" value={leader}  onChange={event => {getUsers(event.target.value)}} onBlur={event => showUserMessage(event.target.value)} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '400px', backgroundColor: '#ffffff'}} />
                                 { suggestion && <SuggestContainer>
                                     <Ul>
                                         {/* {loading && <Li>Loading...</Li>} */}
@@ -106,10 +126,16 @@ function TaskUserAssignModal(props){
                                     </Ul>
                                 </SuggestContainer> }
                         </div>
+                        <div style={{position:'absolute', width:'350px', left:'15px'}}
+                            className={`alert alert-danger ${isUserValid ? 'alert-shown' : 'alert-hidden'}`}
+                            onTransitionEnd={() => setIsUserValid(false)}
+                            >
+                            <strong>Error:</strong> Please select an Assignee
+                        </div>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                        <Button onClick={() => assignUser()}>Assign</Button><Button className="btn btn-danger" onClick={props.onHide}>Cancel</Button>
+                        <Button onClick={() => assignUser()} disabled={isAddButtonDisabled} >Assign</Button><Button className="btn btn-danger" onClick={props.onHide}>Cancel</Button>
                 </Modal.Footer>
             </Modal>
         </div>
