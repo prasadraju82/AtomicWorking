@@ -18,7 +18,7 @@ function UserList(props){
     let history = useHistory();
     useEffect(() => {
         if (!currentUser) {
-            return <Redirect to="/login" />;
+            return <Redirect to="/" />;
         }
 
         UserServices.getAllUsers().then(response => {

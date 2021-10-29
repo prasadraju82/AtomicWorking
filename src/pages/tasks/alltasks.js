@@ -12,7 +12,7 @@ function AllTasks(){
    
     useEffect(() => {
         if (!currentUser) {
-            return <Redirect to="/login" />;
+            return <Redirect to="/" />;
         }
 
         if(currentUser !== undefined){

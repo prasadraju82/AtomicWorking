@@ -94,42 +94,20 @@ function KanbanBoard(props){
 
     useEffect(() => {
         
-        // const openItem = [{id:'PTD-12', content:{taskId:'PTD-12',taskName:'Authenticate Login', taskType:'Enhancement', taskPriority:'Normal'}},
-        //         {id:'PTD-11', content:{taskId:'PTD-11',taskName:'Add JWT Token', taskType:'Enhancement', taskPriority:'Normal'}},
-        //         {id:'PTD-10', content:{taskId:'PTD-10',taskName:'Responsive Page', taskType:'Enhancement', taskPriority:'Normal'}}]
         setProjectId(state.projid)
-        let openItem = []
         TaskService.getTaskForKanbanBoard(state.projid,1).then((response) => {
             console.log(response);
             setTasks(response.data);
         })
         
-        
-
-        // tasks.map((item, index) => {
-        //     itemsFromBackEnd.push(item);
-        // })
-
-        TaskService.getTaskForKanbanBoard(state.projid,2).then((response) => {
+        TaskService.getTaskForKanbanBoard(state.projid,3).then((response) => {
             console.log(response);
             setInProgressTasks(response.data);
         })
 
-        const inProgressItem = [{id:'PTD-9', content:{taskId:'PTD-9',taskName:'Add excel in the report', taskType:'Enhancement', taskPriority:'Normal'}},
-                {id:'PTD-8', content:{taskId:'PTD-8',taskName:'Implement MFA', taskType:'Enhancement', taskPriority:'Normal'}},
-                {id:'PTD-7', content:{taskId:'PTD-7',taskName:'Page crashed on save', taskType:'Enhancement', taskPriority:'Normal'}}]
-
-        // inProgressItem.map((item, index) => {
-        //     itemsFromBackEnd1.push(item);
-        // })
-
-        // const itemsFromBackEnd = [
-        //     // {id: uuidv4(), content: 'First Component'},
-        //     // {id: uuidv4(), content: 'Second Component'}
-        // ]
        
         //re-Open
-        TaskService.getTaskForKanbanBoard(state.projid,3).then((response) => {
+        TaskService.getTaskForKanbanBoard(state.projid,2).then((response) => {
             console.log(response);
             setReOpenTasks(response.data);
         })
@@ -162,14 +140,14 @@ function KanbanBoard(props){
                 items: tasks
             },
             [uuidv4()]:{
-                name: 'In Progress',
+                name: 'Re-Open',
                 statusId: 2,
-                items: inProgressTasks
+                items: reOpenTask
             },
             [uuidv4()]:{
-                name: 'Re-Open',
+                name: 'In Progress',
                 statusId: 3,
-                items: reOpenTask
+                items: inProgressTasks
             },
             [uuidv4()]:{
                 name: 'On Staging',
@@ -197,7 +175,7 @@ function KanbanBoard(props){
     },[])
 
     if (!currentUser) {
-        return <Redirect to="/login" />;
+        return <Redirect to="/" />;
     }
 
     const getAllProjects = () => {
@@ -214,13 +192,13 @@ function KanbanBoard(props){
         })
         
         //In progress
-        TaskService.getTaskForKanbanBoard(projId,2).then((response) => {
+        TaskService.getTaskForKanbanBoard(projId,3).then((response) => {
             console.log(response);
             setInProgressTasks(response.data);
         })
 
         //re-Open
-        TaskService.getTaskForKanbanBoard(projId,3).then((response) => {
+        TaskService.getTaskForKanbanBoard(projId,2).then((response) => {
             console.log(response);
             setReOpenTasks(response.data);
         })
@@ -251,12 +229,12 @@ function KanbanBoard(props){
                 items: tasks
             },
             [uuidv4()]:{
-                name: 'In Progress',
+                name: 'Re-Open',
                 statusId: 2,
                 items: reOpenTask
             },
             [uuidv4()]:{
-                name: 'Re-Open',
+                name: 'In Progress',
                 statusId: 3,
                 items: inProgressTasks
             },

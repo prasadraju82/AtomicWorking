@@ -41,7 +41,7 @@ function CreateProject(props){
     }
 
     if (!currentUser) {
-        return <Redirect to="/login" />;
+        return <Redirect to="/" />;
     }
 
     

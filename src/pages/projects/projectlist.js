@@ -19,7 +19,7 @@ function ProjectList(){
     console.log(role);
     useEffect(() => {
         if (!currentUser) {
-            return <Redirect to="/login" />;
+            return <Redirect to="/" />;
         }
         // axios.get(API_URL + "projectlist/" + userEmail).then(res => {
         //     console.log(res);

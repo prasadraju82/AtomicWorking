@@ -55,7 +55,7 @@ function EditProjectModal(props){
     },[props.projKey])
 
     if (!currentUser) {
-        return <Redirect to="/login" />;
+        return <Redirect to="/" />;
     }
 
     const handleChange = event =>{

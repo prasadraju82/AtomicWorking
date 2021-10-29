@@ -7,6 +7,7 @@ import './Navigation.css';
 import { useHistory } from 'react-router-dom';
 import Logo from '../images/project_logo_64.png';
 import { logout } from "../action/auth";
+import { Redirect } from 'react-router-dom';
 
 const Navigation = (props) => {
 
@@ -56,13 +57,21 @@ const Navigation = (props) => {
         }
     }  
 
+    console.log(currentUser);
+
     useEffect(() => {
+        if (!currentUser) {
+            return <Redirect to="/login" />;
+        }
+
        let userInitial = getInitials(currentUser.name);
        setUserInitials(userInitial);
-    },[])
+    },[currentUser])
 
     const logOut = () => {
-        dispatch(logout());
+        localStorage.removeItem("user");
+        history.push('/')
+        
       };
 
     return(

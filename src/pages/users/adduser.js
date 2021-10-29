@@ -3,6 +3,9 @@ import { useSelector } from "react-redux";
 import Navigation from '../../components/Navigation';
 import UserServices from "../../services/users";
 import { Redirect } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AddUser(props){
     
@@ -33,7 +36,7 @@ function AddUser(props){
     },[user.userName, user.emailId, user.gender, user.userRole])
 
     if (!currentUser) {
-        return <Redirect to="/login" />;
+        return <Redirect to="/" />;
     }
 
     const handleChange = (event) =>{
@@ -87,10 +90,10 @@ function AddUser(props){
         UserServices.addUser(userPayLoads).then((response) => {
             console.log(response);
             if(response.data.message === "Success"){
-               alert("User Added Successfully");
+               toast("User Added Successfully");
             }
             else if(response.data.message === "Email Id is already in use!"){
-                alert("Email Id is already in use!");
+                toast("Email Id is already in use!");
             }
         }).catch((error) => {console.log(error)})
     }
@@ -116,67 +119,122 @@ function AddUser(props){
     return(
         <div>
             <Navigation isProj = {false} isUser = {true} isTask = {false}  />
-            <div className="flex-container">
-                <div style={{width:'35%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
-                     Name <span style={{color:'red'}}>*</span>
+
+            <Container fluid>
+                <div className="row">
+                    <div className="col-sm-12">
+                        <div style={{margin: "0 auto", position:"relative", top:"6%", textAlign: "center", fontFamily:"Arial, Helvetica, sans-serif", fontSize: "1.25vw", fontWeight: "bold", paddingTop:"15px"}}>
+                            Add User
+                        </div>
+                    </div>
                 </div>
-                <div style={{width:'65%', marginLeft: '20px',  marginTop: '25px'}}>
-                    <input id="userName" type="text" onChange={handleChange} onBlur = {(event) => {showNameMessage(event.target.value)}}  style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '28%', backgroundColor: '#ffffff'}} />
+                <div className="row">
+                    <div className="col-sm-4">
+
+                    </div>
+                    <div className="col-sm-4">
+                        <div style={{marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', fontSize: "1vw", fontWeight: "bold"}}>
+                            Name <span style={{color:'red'}}>*</span>
+                        </div>
+                        <div style={{marginTop: '5px'}}>
+                            <input id="userName" type="text" onChange={handleChange} onBlur = {(event) => {showNameMessage(event.target.value)}}  style={{border: 'thin solid #CCCCCC', borderRadius:'5px', width: '100%', backgroundColor: '#ffffff'}} />
+                        </div>
+                        <div style={{position:'absolute', zIndex:'999999', width:'274px'}}
+                            className={`alert alert-danger ${isNameValid ? 'alert-shown' : 'alert-hidden'}`}
+                            onTransitionEnd={() => setIsNameValid(false)}
+                            >
+                            <strong>Error:</strong> Please Enter a Name
+                        </div> 
+                    </div>
+                    <div className="col-sm-4">
+
+                    </div>
                 </div>
-                
-            </div> 
-            <div style={{position:'absolute', zIndex:'999999', width:'274px', left:'544px'}}
-                className={`alert alert-danger ${isNameValid ? 'alert-shown' : 'alert-hidden'}`}
-                onTransitionEnd={() => setIsNameValid(false)}
-                >
-                <strong>Error:</strong> Please Enter a Name
-            </div> 
-            <div className="flex-container">
-                
-                <div style={{width:'35%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
-                     Email Id <span style={{color:'red'}}>*</span>
+                <div className="row">
+                    <div className="col-sm-4">
+
+                    </div>
+                    <div className="col-sm-4">
+                        <div style={{marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', fontSize: "1vw", fontWeight: "bold"}}>
+                            Email Id <span style={{color:'red'}}>*</span>
+                        </div>
+                        <div style={{marginLeft: '0px',  marginTop: '5px'}}>
+                            <input id="emailId" type="text" onChange={handleChange} onBlur={(event) => {showEmailMessage(event.target.value)}} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', width: '100%', backgroundColor: '#ffffff'}} />
+                        </div>
+                        <div style={{position:'absolute', zIndex:'999999', width:'290px'}}
+                            className={`alert alert-danger ${isEmailValid ? 'alert-shown' : 'alert-hidden'}`}
+                            onTransitionEnd={() => setIsEmailValid(false)}
+                            >
+                            <strong>Error:</strong> Please Enter a valid Email Id
+                        </div> 
+                    </div>
+                    <div className="col-sm-4">
+
+                    </div>
                 </div>
-                <div style={{width:'65%', marginLeft: '20px',  marginTop: '25px'}}>
-                    <input id="emailId" type="text" onChange={handleChange} onBlur={(event) => {showEmailMessage(event.target.value)}} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '28%', backgroundColor: '#ffffff'}} />
+                <div className="row">
+                    <div className="col-sm-4">
+
+                    </div>
+                    <div className="col-sm-4">
+                        <div style={{marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', fontSize: "1vw", fontWeight: "bold"}}>
+                            Role <span style={{color:'red'}}>*</span>
+                        </div>
+                        <div style={{marginLeft: '0px',  marginTop: '5px'}}>
+                            <select id="userRole" className="selcls" onChange={handleChange}>
+                                {roleOptions.map((option) => (
+                                    <option value={option.value}>{option.label}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-sm-4">
+
+                    </div>
                 </div>
-                {/* <div style={{position:'absolute', zIndex:'999999', width:'274px', left:'544px'}}
-                    className={`alert alert-danger ${isEmailValid ? 'alert-shown' : 'alert-hidden'}`}
-                    onTransitionEnd={() => setIsEmailValid(false)}
-                    >
-                    <strong>Error:</strong> Please Enter a valid EMail Id
-                </div> */}
-                
-            </div>   
-            <div className="flex-container">
-                <div style={{width:'35%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
-                    Role <span style={{color:'red'}}>*</span>
+                <div className="row">
+                    <div className="col-sm-4">
+
+                    </div>
+                    <div className="col-sm-4">
+                        <div style={{marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', fontSize: "1vw", fontWeight: "bold"}}>
+                            Gender <span style={{color:'red'}}>*</span>
+                        </div>
+                        <div style={{marginLeft: '0px',  marginTop: '5px'}}>
+                            <select id="gender" className="selcls" onChange={handleChange}>
+                                {genderOptions.map((option) => (
+                                    <option value={option.value}>{option.label}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-sm-4">
+
+                    </div>
                 </div>
-                <div style={{width:'65%', marginLeft: '20px',  marginTop: '25px'}}>
-                    <select id="userRole" className="selcls" onChange={handleChange}>
-                        {roleOptions.map((option) => (
-                            <option value={option.value}>{option.label}</option>
-                        ))}
-                    </select>
+                <div className="row">
+                    <div className="col-sm-4">
+
+                    </div>
+                    <div className="col-sm-4">
+                    <div style={{ marginTop: '5px', justifyContent: 'right', textAlign:'right', alignContent: 'right', alignItems:'right'}}>
+                        <button className="btn btn-primary" id="btnAssignee" onClick={() => addUser()} disabled={isAddButtonDisabled}>Save</button>
+                    </div>
+                    </div>
+                    <div className="col-sm-4">
+
+                    </div>
                 </div>
-            </div>
-            <div className="flex-container">
-                <div style={{width:'35%', marginLeft: '0px',  marginTop: '30px', fontFamily:'Arial', textAlign:'right'}}>
-                    Gender <span style={{color:'red'}}>*</span>
-                </div>
-                <div style={{width:'65%', marginLeft: '20px',  marginTop: '25px'}}>
-                    <select id="gender" className="selcls" onChange={handleChange}>
-                        {genderOptions.map((option) => (
-                            <option value={option.value}>{option.label}</option>
-                        ))}
-                    </select>
-                </div>
-            </div>
-            <div className="flex-container">
-                {/* <button style="background-color:blue; height: 30px;  width: 80px; border-radius:5px; font-weight: bold; color:white; font-size:16px;" onclick="return go()">Save</button> */}
-                <div style={{marginLeft: '50px',  marginTop: '5px', justifyContent: 'right', textAlign:'right', alignContent: 'right', alignItems:'right'}}>
-                    <button className="btn btn-primary" id="btnAssignee" onClick={() => addUser()} disabled={isAddButtonDisabled}>Save</button>
-                </div>
-            </div>
+            </Container>
+            <ToastContainer position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover />
         </div>
     )
 }
