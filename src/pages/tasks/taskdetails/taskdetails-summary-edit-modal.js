@@ -6,6 +6,8 @@ import TaskService from "../../../services/tasks";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import {CKEditor} from '@ckeditor/ckeditor5-react';
 import { useSelector } from "react-redux";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function TaskDetailsSummaryEditModal(props){
 
@@ -148,13 +150,13 @@ function TaskDetailsSummaryEditModal(props){
             estimatedTime: estimatedTime
         }
 
-        console.log(taskPayLoad);
+       // console.log(taskPayLoad);
 
         TaskService.updateTaskByTaskId(taskPayLoad).then((response) => {
             if(response.data.message === "Success"){
                 refreshParent();
                 props.onHide();
-                alert("Task Updated Successfully");
+                toast("Task Updated Successfully");
             }
         }).catch((error) => console.log(error.message));
     }
@@ -200,6 +202,7 @@ function TaskDetailsSummaryEditModal(props){
   }
 
 return (
+  <div>
     <Modal
       {...props}
       size="md"
@@ -286,6 +289,16 @@ return (
             <Button onClick={() => updateTaskSummary()} disabled={isUpdateButtonDisabled}>Save</Button><Button className="btn btn-danger" onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
+    <ToastContainer position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover />
+    </div>
   );
 }
 

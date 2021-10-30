@@ -14,7 +14,8 @@ const initialState = {};
 
 function tasks(state = initialState, action){
     const { type, payload } = action;
-
+    console.log(payload);
+    console.log(type);
     switch (type) {
         case "FETCH_TASK":
             return{

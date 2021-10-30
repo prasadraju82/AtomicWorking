@@ -88,7 +88,7 @@ function SignUp(){
                 {
                     toast(response.data.message);
                 }
-                else{
+                else if(response.data.message === "Successful"){
                     setConfirmation(true);   
                 }
                 
@@ -199,11 +199,17 @@ function SignUp(){
                 
                 {
                     showConfirmation && (
-                        <div id="confText" style={{ paddingLeft:"20px", paddingRight:"20px", margin: "0 auto", position:"relative", top:"5%", backgroundColor:"#ffffff", width:"80%", left:"1%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "13px", fontWeight: "bold", paddingTop:"15px"}}>
+                        <div>
+                            <div style={{margin:"0 auto", position:"relative", top:"1%", left:"44%"}}>
+                                <img src={Logo}  alt="Atomic" style={{marginLeft: 50, marginRight: 50}} />
+                            </div>
+                            <div id="confText" style={{ paddingLeft:"20px", paddingRight:"20px", margin: "0 auto", position:"relative", top:"5%", backgroundColor:"#ffffff", width:"80%", left:"1%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "13px", fontWeight: "bold", paddingTop:"15px"}}>
                             A confirmation e-mail has been sent to your mail box <span id="txtEmail" style={{fontSize:"15px"}}></span>. Please confirm it and reset your password from the link.
-                        <hr />
-                            <br />
+                                <hr />
+                                <br />
+                            </div>
                         </div>
+                        
                     )
                 }
                 

@@ -31,6 +31,8 @@ function Login(){
     const[isEmailExistMessage, setIsEmailExistMessage] = useState(false);
     const[isPasswordMatch, setIsPasswordMatchMessage] = useState(true);
     const [isShowingAlert, setShowingAlert] = useState(false);
+    const[isPasswordInCorrect, setPasswordIncorrect] = useState(false);
+    const[isPasswordMatched, setPasswordMatched] = useState(false);
 
     let history = useHistory();
 
@@ -91,7 +93,7 @@ function Login(){
                 else if(response.status === 200 && response.data.message === "Failure"){
                     hideLoader();
                     setPassword("");
-                    toast("Incorrect Password");
+                    setPasswordIncorrect(true)
 
                 }
             }).catch(function(error){
@@ -120,7 +122,8 @@ function Login(){
             })
         }
         else{
-            toast("Password didn't match");
+           // toast("Password didn't match");
+           setShowingAlert(false)
         }
     }
 
@@ -273,7 +276,15 @@ function Login(){
                     <div  id="dvButton" style={{display:(show ? 'block' : 'none'), margin: "0 auto", position: "relative", top: "5%", left:"19%", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "13px", fontWeight:"bold", paddingTop:"15px"}}>
                         Don't have an account? <a style={{color: 'royalblue'}} onClick={() => redirectToSignUp()}>Sign Up</a>
                     </div>
+                    <div style={{position:'absolute', zIndex:'999999', width:'300px', left:'90px', top:'100px'}}
+                        className={`alert alert-danger ${isPasswordInCorrect ? 'alert-shown' : 'alert-hidden'}`}
+                        onTransitionEnd={() => setPasswordIncorrect(false)}
+                        >
+                        <strong>Error:</strong> Incorrect Password Entered
+                    </div>
+                    
                 </div>
+                
             </div>
             
             {loader ? <Loader /> : null}

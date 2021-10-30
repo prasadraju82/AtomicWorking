@@ -5,6 +5,8 @@ import TasksService from "../../../services/tasks";
 import { useSelector } from "react-redux";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import {CKEditor} from '@ckeditor/ckeditor5-react';
+import { addWorkLog } from "../../../action/worklog";
+import { useDispatch } from "react-redux";
 
 function WorkLogModal(props){
 
@@ -14,11 +16,13 @@ function WorkLogModal(props){
     const [show, setShow] = useState(true);
     const[isAddButtonDisabled, setAddButton] = useState(true);
     const[isWorkLogValid, setIsWorkLogValid] = useState(false);
+    const { userworklogs: myworklog } = useSelector((state) => state.worklog);
+    const dispatch = useDispatch();
 
     const handleClose = () => setShow(false);
 
     useEffect(() => {
-        if(hours !== ""){
+        if(hours !== "" && (/^(?=.*[hmd]$)\d+(?:d\s*)?\d*(?:h\s*)?\d*(?:m\s*)?$/.test(hours))){
             setAddButton(false);
         }
         else{
@@ -39,15 +43,23 @@ function WorkLogModal(props){
             user: userId,
             userName: userName
         }
-
-        TasksService.saveWorkLog(workLogPayLoad).then((response) => {
-            console.log(response);
+        
+        dispatch(addWorkLog(workLogPayLoad)).then((response) => {
             if(response.data.message === "Success"){
-                console.log("----")
+              
                 handleClose();
                 props.onHide()
             }
-        }).catch((error) => {return false})
+        }).catch((error) => {console.log(error)})
+
+        // TasksService.saveWorkLog(workLogPayLoad).then((response) => {
+        //     console.log(response);
+        //     if(response.data.message === "Success"){
+        //         console.log("----")
+        //         handleClose();
+        //         props.onHide()
+        //     }
+        // }).catch((error) => {return false})
         
     }
 

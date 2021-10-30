@@ -36,8 +36,8 @@ function AllTasks(){
             </div>
             <div>
                 <div className="flex-container" style={{width:'80%', marginTop: '50px', marginLeft: '100px'}}>
-                    <div style={{width:'500px', textAlign:'right', paddingLeft:'5px'}}>
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search" style={{width:'60%'}} />
+                    <div style={{width:'45%', textAlign:'right', paddingLeft:'5px'}}>
+                        {/* <input class="form-control mr-sm-2" type="text" placeholder="Search" style={{width:'60%'}} /> */}
                     </div>
                     <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '20px', fontWeight: 'bold', textAlign: 'center', letterSpacing: 'normal'}}>
                         All Tasks

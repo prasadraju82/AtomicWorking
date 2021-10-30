@@ -106,7 +106,7 @@ export const checkUser = (emailId) => (dispatch) => {
   
         dispatch({
           type: "SET_MESSAGE",
-          payload: { response: response }
+          payload: { response: response.data.message }
         });
         return Promise.resolve(response);
       },

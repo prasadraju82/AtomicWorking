@@ -82,7 +82,7 @@ function TaskDetailsCommentEditModal(props){
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                        <Button onClick={() => updateComment()}>Save</Button><Button onClick={props.onHide}>Close</Button>
+                        <Button onClick={() => updateComment()}>Save</Button><Button className="btn btn-danger" onClick={props.onHide}>Close</Button>
                 </Modal.Footer>
             </Modal>
             <ToastContainer position="top-center"

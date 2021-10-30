@@ -1,7 +1,9 @@
 import React from 'react';
 import UserServices from "../../services/users";
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/button'
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/button';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function DeleteUserModal(props){
 
@@ -12,12 +14,14 @@ function DeleteUserModal(props){
         UserServices.deleteUserById(props.userId).then((response) => {
             if(response.data.message === "Success"){
                 refreshParent();
-               alert("User Deleted Successfully");
+               toast("User Deleted Successfully");
                props.onHide();
             }
         }).catch((error) => {console.log(error)})
     } 
-    return(<Modal
+    return(
+            <div>
+            <Modal
                 {...props}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
@@ -36,7 +40,17 @@ function DeleteUserModal(props){
                 <Modal.Footer>
                         <Button onClick={() => deleteUser()}>Delete</Button><Button className="btn btn-danger" onClick={props.onHide}>Cancel</Button>
                 </Modal.Footer>
-            </Modal>)
+            </Modal>
+            <ToastContainer position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover />
+            </div>)
 }
 
 export default DeleteUserModal;

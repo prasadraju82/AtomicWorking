@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 import UserServices from "../../services/users";
 import { Redirect } from 'react-router-dom';
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/button'
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/button';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function EditUserModal(props){
     
@@ -91,7 +93,7 @@ function EditUserModal(props){
             if(response.data.message === "Success"){
                 props.onHide();
                 refreshParent();
-               alert("User Updated Successfully");
+               toast("User Updated Successfully");
             }
         }).catch((error) => {console.log(error)})
     }
@@ -106,6 +108,7 @@ function EditUserModal(props){
     }
 
     return(
+        <div>
         <Modal
             {...props}
             size="lg"
@@ -174,6 +177,16 @@ function EditUserModal(props){
                     <Button onClick={() => updateUser()} disabled={isUpdateButtonDisabled}>Save</Button><Button className="btn btn-danger" onClick={props.onHide}>Close</Button>
             </Modal.Footer>
         </Modal>
+        <ToastContainer position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover />
+        </div>
     )
 }
 

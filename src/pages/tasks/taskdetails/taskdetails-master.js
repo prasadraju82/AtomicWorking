@@ -20,7 +20,7 @@ function TaskDetails(){
     const [taskdetails, setTaskDetails] = useState([]);
     //const { task: currentTask } = useSelector((state) => state.task);
     //const dispatch = useDispatch();
-    
+    //const { usertask: currentTask } = useSelector((state) => state.tasks);
     // dispatch(getTaskById({taskId: state.taskid}).then(
     //     function(response){
     //         setTaskDetails(response);

@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/button'
 import ActivityService from "../../../services/activity";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function TaskDetailsDeleteCommentModal(props){
     const refreshParent = props.refreshComment;
@@ -10,7 +12,7 @@ function TaskDetailsDeleteCommentModal(props){
         ActivityService.deleteActivityById(props.commentid).then((response) => {
             if(response.data.message === "Success"){
                refreshParent();
-               alert("Comment Deleted Successfully");
+               toast("Comment Deleted Successfully");
                props.onHide();
             }
         }).catch((error) => {console.log(error)})
@@ -37,6 +39,15 @@ function TaskDetailsDeleteCommentModal(props){
                         <Button onClick={() => deleteComment()}>Delete</Button><Button className="btn btn-danger" onClick={props.onHide}>Cancel</Button>
                 </Modal.Footer>
             </Modal>
+            <ToastContainer position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover />
         </div>
     )
 }

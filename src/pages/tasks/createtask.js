@@ -143,13 +143,13 @@ function CreateTask(props){
             
             if(response.data.message === "Success"){
                toast("Task Created Successfully");
-                // setProjectId("0");
-                // setTaskName("");
+                setProjectId("0");
+                setTaskName("");
             //    setTaskPriority("1");
-            //    setTaskDesc("");
-            //    setEstimatedTime("");
-            //    setUserId("");
-            //    setUserName("")
+               setTaskDesc("");
+                setEstimatedTime("");
+               setUserId("");
+                setUserName("")
             }
         }).catch((error) => {console.log(error)})
     }
@@ -289,7 +289,7 @@ function CreateTask(props){
                                 onInit = {editor =>{
                                 
                                 }}
-                                // data={userComment}
+                                 data={taskDesc}
                             //   config={editorConfig}
                                 onChange={(event, editor) => getCKEditor(event, editor)}
                             >
@@ -344,7 +344,7 @@ function CreateTask(props){
                                     Estimated Time <span style={{color:'red'}}>*</span>
                                 </div>
                                 <div style={{width:'100%', marginTop: '0px'}}>
-                                    <input type="text" onChange={event => {setEstimatedTime(event.target.value)}} onBlur={(event) => { showEstimatedTimeMessage(event.target.value) }} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '150px', backgroundColor: '#ffffff'}}  /><span>  (eg. 2h 40m)</span>
+                                    <input value={estimatedTime} type="text" onChange={event => {setEstimatedTime(event.target.value)}} onBlur={(event) => { showEstimatedTimeMessage(event.target.value) }} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '150px', backgroundColor: '#ffffff'}}  /><span>  (eg. 2h 40m)</span>
                                 </div>
                                 <div style={{position:'absolute', zIndex:'999999', width:'290px'}}
                                     className={`alert alert-danger ${isEstimatedTimeValid ? 'alert-shown' : 'alert-hidden'}`}

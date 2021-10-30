@@ -78,7 +78,7 @@ function TaskDetailsComment(props){
 
         ActivityService.saveActivity(activityPayLoad).then((response) => {
             if(response.data.message === "Success"){
-                props.onHide();
+               // props.onHide();
                 refreshState();
                 setActivities([...activities, response.data.data]);
                 setCommentArea(false)
@@ -124,7 +124,7 @@ function TaskDetailsComment(props){
                             <div>
                                 <div className="flex-container" id="cmtDetails">
                                     <div id="cmtDetails1" style={{marginLeft: '15px', height:'30px', paddingTop:'7px', fontSize: '13px', fontFamily: 'Arial, Helvetica, sans-serif', paddingLeft:'5px', paddingRight:'5px', fontWeight: 'normal', textAlign:'center', verticalAlign:'middle', color:'#cccccc'}}>
-                                        Commented: 
+                                        Commented: {activity.userName}
                                     </div>
                                     <div id="cmtDetails2" style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '12px', fontWeight: 'normal', paddingLeft:'15px', letterSpacing: 'normal', color: '#dcdcdc'}}>
                                         <Moment format="DD-MMM-YYYY">
