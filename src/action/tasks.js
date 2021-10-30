@@ -3,7 +3,7 @@ import TaskService from "../services/tasks";
 export const getTaskById =(taskId) => (dispatch) => {
     return TaskService.getTaskById(taskId).then(
     (response) => {
-        console.log("action: " + response.data);
+
         dispatch({type: "FETCH_TASK",
             payload: {task: response.data} 
         });

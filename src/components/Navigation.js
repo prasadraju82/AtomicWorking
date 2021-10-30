@@ -12,6 +12,7 @@ import { Redirect } from 'react-router-dom';
 const Navigation = (props) => {
 
     const [userInitials, setUserInitials] = useState();
+    const [logoutPanel, setLogoutPanel] = useState(false);
     const dispatch = useDispatch();
 
     let history = useHistory();
@@ -57,8 +58,6 @@ const Navigation = (props) => {
         }
     }  
 
-    console.log(currentUser);
-
     useEffect(() => {
         if (!currentUser) {
             return <Redirect to="/login" />;
@@ -95,13 +94,23 @@ const Navigation = (props) => {
                     </NavDropdown>
                         <button className="btn btn-dark my-2 my-sm-0" onClick={() => {redirectToCreateTask()}} >Create Task</button>
                     </Nav>
-                    <Nav className="justify-content-end" style={{ width: "38%" }}>
+                    {/* <Nav className="justify-content-end" style={{ width: "38%" }}>
                         <a onClick={logOut}>Logout</a>
-                    </Nav>
+                    </Nav> */}
                     <Nav className="justify-content-end" style={{ width: "58%" }}>
-                    <div id="cmtDetails1" style={{marginLeft: '15px', height:'40px', width:'40px', paddingTop:'7px', fontFamily: 'Arial, Helvetica, sans-serif', paddingLeft:'5px', paddingRight:'5px', borderRadius:'20px', backgroundColor:'#EF6C00', fontWeight: 'bold', textAlign:'center', verticalAlign:'middle'}}>
-                        {userInitials}
-                    </div>
+                        <div>
+                            <div onMouseEnter={() => {setLogoutPanel(true)}} onMouseLeave={() => {setLogoutPanel(false)}} style={{marginLeft: '15px', height:'40px', width:'40px', paddingTop:'7px', fontFamily: 'Arial, Helvetica, sans-serif', paddingLeft:'5px', paddingRight:'5px', borderRadius:'20px', backgroundColor:'#EF6C00', fontWeight: 'bold', textAlign:'center', verticalAlign:'middle'}}>
+                                {userInitials}
+                            </div>
+                            {
+                                logoutPanel && (<div style={{position:'absolute', backgroundColor:'#dcdcdc', padding:6}}
+                                    onMouseEnter={() => {setLogoutPanel(true)}} onMouseLeave={() => {setLogoutPanel(false)}}>
+                                        <a onClick={logOut}>Logout</a>
+                                </div>)
+                            }
+                            
+                        </div>
+                        
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

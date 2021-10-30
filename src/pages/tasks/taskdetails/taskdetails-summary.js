@@ -31,6 +31,8 @@ function TaskDetailsSummary(props){
             setTaskDetails(response.data);
         })
     }
+
+    console.log(taskdetails);
     //console.log(currentUser);
     // const { task: currentTask } = useSelector((state) => state.task);
 
@@ -78,6 +80,12 @@ function TaskDetailsSummary(props){
                     </div>
                     <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '15px', fontWeight: 'normal', paddingLeft:'15px', paddingTop:'15px', letterSpacing: 'normal', width: '25%'}}>
                         {taskdetails.priority}
+                    </div>
+                    <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '15px', fontWeight: 'bold', paddingLeft:'15px', paddingTop:'15px', letterSpacing: 'normal', width: '25%'}}>
+                        Estimated Time:
+                    </div>
+                    <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '15px', fontWeight: 'normal', paddingLeft:'15px', paddingTop:'15px', letterSpacing: 'normal', width: '25%'}}>
+                        {taskdetails.estimatedTime}
                     </div>
                 </div>
                 <div style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '15px', fontWeight: 'bold', paddingLeft:'15px', paddingTop:'15px', letterSpacing: 'normal', width: '25%'}}>

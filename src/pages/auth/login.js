@@ -29,17 +29,11 @@ function Login(){
     const[isContinueBtnDisabled, setContinueBtnDisabled] = useState(true);
     const[displayErrorMessage, setDisplayErrorMessage] = useState(false);
     const[isEmailExistMessage, setIsEmailExistMessage] = useState(false);
-    const[isSignInBtnDisabled, setSignInBtnDisabled] = useState(true);
     const[isPasswordMatch, setIsPasswordMatchMessage] = useState(true);
-    const[passwordMissMatchMessage, setPasswordMissMatchMessage] = useState("");
     const [isShowingAlert, setShowingAlert] = useState(false);
 
     let history = useHistory();
 
-    console.log(loader);
-    // const redirectToProject = () => {
-    //     history.push('/projectlist/' + value)
-    // }
 
     const redirectToTask = () => {
         history.push('/recenttasks/')
@@ -56,9 +50,9 @@ function Login(){
         //debugger;
         dispatch(checkUser({emailId:value}))
         .then((response) => {
-            console.log("HELLO" + response)
+           
             showHideEmailTextbox(response.isEmailExist, response.isFirstTimeUser)
-            console.log(response)
+          
         }).catch(function (error) {
             console.log('Error: ' + error)
         })
@@ -66,7 +60,7 @@ function Login(){
     };
 
     const showHideEmailTextbox = (isEmailExist, isFirstTimeUser) => {
-        console.log(isEmailExist);
+       
         if(isEmailExist){
             setIsEmailExistMessage(false);
             setdisplayTextBox("none");
@@ -111,17 +105,14 @@ function Login(){
             emailId: value,
             password: userPassword
         }
-        console.log(user);
-        console.log("u " + userPassword);
-        console.log("c " + confirmPassword);
+       
         if(userPassword === confirmPassword){
             dispatch(savepassword(user)).then(function(response){
                 if(response.status === 200){
-                    //console.log(response);
-
+                   
                     setShowItem(false); //To display the password textbox, user label and signin button
                     setFirstTimeUser(false); //To display the set password textbox,confirm password textbox, user label and save button
-                    //alert(response.status + "--" + response.data.message);
+                    
                     toast("Password saved successfully!");
                 }
             }).catch(function(error){
@@ -157,7 +148,7 @@ function Login(){
     }
 
     const setErrorMessage = (val) => {
-        console.log("onPaste" + val)
+       
         if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val)) {
             setContinueBtnDisabled(false)
             setDisplayErrorMessage(false)
@@ -172,8 +163,7 @@ function Login(){
 
     const setcnfPwd = (val) => {
         setConfirmPassword(val)
-        console.log("user " + userPassword);
-        console.log("cnfpwd " + confirmPassword);
+       
         if(userPassword === val){
             setIsPasswordMatchMessage(false)
         }
@@ -184,8 +174,7 @@ function Login(){
 
     const setuserPwd = (val) => {
         setUserPassword(val)
-        console.log("user " + userPassword);
-        console.log("cnfpwd " + confirmPassword);
+       
         if(confirmPassword === val){
             setIsPasswordMatchMessage(false)
         }

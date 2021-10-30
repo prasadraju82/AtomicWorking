@@ -29,7 +29,7 @@ function AllTasks(){
     const gotoTaskDetails = (taskId) => {
         history.push('/taskdetails/taskdetails-master', { taskid: taskId });
     }
-    console.log(currentUser);
+    
     return(<div>
             <div>
                 <Navigation isProj = {false} isUser = {false} isTask = {true} />

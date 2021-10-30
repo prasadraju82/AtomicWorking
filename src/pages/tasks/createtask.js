@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import { useHistory } from 'react-router-dom';
 import "../../css/tasks.css";
 import Navigation from '../../components/Navigation';
 import { useSelector } from "react-redux";
@@ -17,15 +16,12 @@ function CreateTask(props){
     const { user: currentUser } = useSelector((state) => state.auth);
     const [projects, setProjects] = useState([]);
     const [projectId, setProjectId] = useState("0")
-    const [projectName, setProjectName] = useState("0")
     const [taskName, setTaskName] = useState("");
     const [taskType, setTaskType] = useState("0");
     const [taskPriority, setTaskPriority] = useState("1");
     const [taskDesc, setTaskDesc] = useState("");
-    //const [assignee, setAssignee] = useState("");
     const [estimatedTime, setEstimatedTime] = useState("");
 
-    //const [inputValue, setInputValue] = useState({name: ""});
     const [users, setUsers] = useState([]);
     const [userId, setUserId] = useState("");
     const [userName, setUserName] = useState("");
@@ -82,14 +78,10 @@ function CreateTask(props){
         }
     ];
 
-    // const searchWrapper = document.querySelector(".search-input");
-    // const inputBox = searchWrapper.querySelector("input");
-    // const suggBox = searchWrapper.querySelector(".autocom-box");
-    // let linkTag = searchWrapper.querySelector("a");
-
     useEffect(() => {
         if(taskName !== "" && taskType !== "0" && taskType !== '' 
-        && projectId !== "" && projectId !== "0" && userName !== "" && estimatedTime !== "" ){
+        && projectId !== "" && projectId !== "0" && userName !== "" && estimatedTime !== ""
+        && (/^(?=.*[hmd]$)\d+(?:d\s*)?\d*(?:h\s*)?\d*(?:m\s*)?$/.test(estimatedTime)) ){
             setAddButton(false);
         }
         else{
@@ -108,7 +100,6 @@ function CreateTask(props){
     const getAllProjects = () => {
         ProjectsService.getAllProjects().then(response =>
         {
-            console.log(response.data);
             setProjects(response.data);
         })
     }
@@ -126,30 +117,8 @@ function CreateTask(props){
         })
         
     }
-
-    // const debounce = (fn, waitTime) =>{
-    //     let timeoutID;
-    //     return function(args){
-    //         clearTimeout(timeoutID);
-    //         const context = this;
-    //         timeoutID = setTimeout(() => {
-    //             fn.call(context, args)
-    //         }, waitTime);
-    //     };
-    // }
-    
-    // const debounced = debounce(getSearch, 2000);
-    
-    // function getSearch(inp){
-    //     debugger;
-    //     let resultArray = [];
-    //     let userInput = inp
-       
-    // }
-    
-    
+        
     const selectElement = (usersname, userid) => {
-       // document.getElementById("txtName").value = usersname;
         setUserName(usersname);
         setUserId(userid);
         setSuggestion(false);

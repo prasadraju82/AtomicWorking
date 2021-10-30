@@ -6,6 +6,8 @@ import { Redirect, useHistory } from 'react-router-dom';
 import Navigation from '../../components/Navigation';
 import { useSelector } from "react-redux";
 import ProjectsService from "../../services/projects";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
  const updateTaskStatus = (taskId, status) => {
     const taskPayLoad ={
@@ -13,18 +15,18 @@ import ProjectsService from "../../services/projects";
         statusId: status
     }
 
-    TaskService.updateTaskByTaskId(taskPayLoad).then((response) => {
+    TaskService.updateTaskFromKanbanBoard(taskPayLoad).then((response) => {
         if(response.data.message === "Success"){
            alert("Task Status Updated Successfully");
         }
-    }).catch((error) => {console.log(error)})
+    }).catch((error) => {toast(error)})
  }
 
  const onDragEnd = (result, columns, setColumns) => {
      if(!result.destination) return;
 
     const { source, destination} = result;
-    //console.log(columnsFromBackend);
+    
     if(source.droppableId !== destination.droppableId){
         const sourceColumn = columns[source.droppableId];
         const destColumn = columns[destination.droppableId];
@@ -32,9 +34,9 @@ import ProjectsService from "../../services/projects";
         const destItems = [...destColumn.items];
         const [removed] = sourceItems.splice(source.index, 1);
 
-        console.log(removed);
+      
 
-        console.log('destination .index' + destination.index);
+   
         destItems.splice(destination.index, 0, removed)
         
         setColumns({
@@ -50,8 +52,7 @@ import ProjectsService from "../../services/projects";
         })
 
         updateTaskStatus(removed.content.taskId, destColumn.statusId);
-        //console.log(...columns);
-        console.log(destColumn);
+
     }
     else{
         const column = columns[source.droppableId];
@@ -90,43 +91,44 @@ function KanbanBoard(props){
     }
 
     const {state} = history.location;
-    console.log("projId: " + state.projid);
+    
 
     useEffect(() => {
         
         setProjectId(state.projid)
         TaskService.getTaskForKanbanBoard(state.projid,1).then((response) => {
-            console.log(response);
+      
             setTasks(response.data);
         })
         
+        //In progress
         TaskService.getTaskForKanbanBoard(state.projid,3).then((response) => {
-            console.log(response);
+   
             setInProgressTasks(response.data);
         })
 
        
         //re-Open
         TaskService.getTaskForKanbanBoard(state.projid,2).then((response) => {
-            console.log(response);
+     
             setReOpenTasks(response.data);
         })
 
         //Staging
         TaskService.getTaskForKanbanBoard(state.projid,4).then((response) => {
-            console.log(response);
+
             setOnStagingTasks(response.data);
         })
 
         //To Deploy
         TaskService.getTaskForKanbanBoard(state.projid,5).then((response) => {
-            console.log(response);
+
             setToDeployTask(response.data);
         })
 
         //On Live
         TaskService.getTaskForKanbanBoard(state.projid,6).then((response) => {
-            console.log(response);
+
             setOnLiveTasks(response.data);
         })
     },[state.projid])
@@ -166,7 +168,7 @@ function KanbanBoard(props){
             },
         }
 
-        console.log(columnsFromBackend);
+       
         setColumns(columnsFromBackend);
     },[tasks, inProgressTasks, reOpenTask, onStagingTask, toDeployTask, onLiveTask])
 
@@ -187,7 +189,7 @@ function KanbanBoard(props){
 
     const setProject = (projId) => {
         TaskService.getTaskForKanbanBoard(projId,1).then((response) => {
-            console.log(response);
+
             setTasks(response.data);
         })
         
@@ -345,6 +347,15 @@ function KanbanBoard(props){
                 })}
             </DragDropContext>
         </div>
+        <ToastContainer position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover />
     </div>
     )
 }

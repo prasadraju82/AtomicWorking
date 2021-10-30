@@ -72,6 +72,7 @@ function TaskDetailsSummaryEditModal(props){
     const [taskDesc, setTaskDesc] = useState(props.tasks.taskDesc);
     const [isUpdateButtonDisabled, setUpdateButton] = useState(true);
     const [isTaskNameValid, setIsTaskNameValid] = useState(false);
+    const [estimatedTime, setEstimatedTime] = useState(false);
     // const [task, setTask] = useState({
     //     taskName: props.tasks.taskName,
     //     taskType: props.tasks.taskTypeId,
@@ -81,13 +82,13 @@ function TaskDetailsSummaryEditModal(props){
     // });
 
     useEffect(() => {
-      if(taskName !== ""){
+      if(taskName !== "" && (/^(?=.*[hmd]$)\d+(?:d\s*)?\d*(?:h\s*)?\d*(?:m\s*)?$/.test(estimatedTime))){
         setUpdateButton(false);
       }
       else{
         setUpdateButton(true);
       }
-  },[taskName])
+  },[taskName, estimatedTime])
 
     useEffect(() => {
         // const myTaskObject = {
@@ -102,7 +103,8 @@ function TaskDetailsSummaryEditModal(props){
         setTaskType(props.tasks.taskTypeId);
         setTaskStatus(props.tasks.statusId);
         setTaskPriority(props.tasks.priorityId);
-        setTaskDesc(props.tasks.taskDesc)
+        setTaskDesc(props.tasks.taskDesc);
+        setEstimatedTime(props.tasks.estimatedTime);
         //setTask(myTaskObject)
     },[props.tasks])
 
@@ -142,7 +144,8 @@ function TaskDetailsSummaryEditModal(props){
             taskDesc: taskDesc,
             updatedById: currentUser.id,
             updatedByName: currentUser.name,
-            statusName: statusName
+            statusName: statusName,
+            estimatedTime: estimatedTime
         }
 
         console.log(taskPayLoad);
@@ -253,7 +256,12 @@ return (
                         ))}
                     </select>
                 </div>
-
+                <div style={{textAlign:'left', display:'block', margin: '0 auto', position:'relative', top:'5%', left:'2%', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '13px', fontWeight: 'bold', paddingTop:'15px'}}>
+                    <div style={{width:'300px'}}>Estimated Time <span style={{color:'red'}}>*</span></div>
+                </div>
+                <div style={{display:'block', margin: '0 auto', position:'relative', top:'5%', left:'2%',fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '13px', fontWeight: 'bold',paddingTop:'2px'}}>
+                    <input id="estimatedTime" type ="text" value={estimatedTime}  class="form-control" style={{width:'300px'}} onChange={event => {setEstimatedTime(event.target.value)}} onBlur={event => showTaskNameMessage(event.target.value)} />
+                </div>
                 <div style={{textAlign:'left', display:'block', margin: '0 auto', position:'relative', top:'1%', left:'2%', fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '13px', fontWeight: 'bold', paddingTop:'15px'}}>
                     <div style={{width:'300px'}}>Description:</div>
                 </div>

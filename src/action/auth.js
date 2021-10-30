@@ -43,7 +43,7 @@ export const checkUser = (emailId) => (dispatch) => {
           type: "SET_MESSAGE",
           payload: { response: response }
         });
-        console.log(response)
+       
         return Promise.resolve(response);
       },
       (error) => {
@@ -75,7 +75,7 @@ export const checkUser = (emailId) => (dispatch) => {
           type: "SET_MESSAGE",
           payload: { response: response }
         });
-        console.log(response)
+ 
         return Promise.resolve(response);
       },
       (error) => {
@@ -98,7 +98,7 @@ export const checkUser = (emailId) => (dispatch) => {
   export const login = (user) => (dispatch) => {
     return AuthService.login(user).then(
       (response) => {
-        console.log("action: " + response.data);
+
         dispatch({
           type: "LOGIN_SUCCESS",
           payload:{ user: response.data }
@@ -108,7 +108,6 @@ export const checkUser = (emailId) => (dispatch) => {
           type: "SET_MESSAGE",
           payload: { response: response }
         });
-        //console.log(response)
         return Promise.resolve(response);
       },
       (error) => {

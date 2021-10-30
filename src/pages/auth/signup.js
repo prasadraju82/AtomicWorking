@@ -48,18 +48,10 @@ function SignUp(){
     const redirectToLoginIn = () => {
         history.push('/')
     }
-     // useEffect(() => {console.log("input state is", test)}, [test])
+     
     const handleChange = event =>{
-        //console.log(event.target.value);
-        //console.log(event.target);
+        
         const {id, value} = event.target;
-
-        //console.log(id);
-        //console.log(value);
-        // setState(prevState => ({
-        //     ...prevState, 
-        //     [id] : value
-        // }))
         
         setUser({...user, [id] : value})
     };
@@ -68,14 +60,13 @@ function SignUp(){
         
         if(user.name !== "" && (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(user.emailId)) && user.gender !== "N" && user.gender !== '' 
         && user.password !== "" && user.confirmPassword !== "" && user.password === user.confirmPassword){
-            console.log("Hi")
-            console.log(user.gender);
+            
             setSignUpButton(false);
         }
         else{
-            console.log("hello")
+            
             setSignUpButton(true);
-            console.log(user.gender);
+         
         }
     },[user.name, user.emailId, user.password, user.confirmPassword, user.gender])
 
@@ -92,8 +83,7 @@ function SignUp(){
             }
             console.log(userPayLoad);
             AuthService.register(userPayLoad).then(function(response) {
-                console.log(response)
-                console.log({message})
+                
                 if(response.data.message === "Email Id is already in use!")
                 {
                     toast(response.data.message);

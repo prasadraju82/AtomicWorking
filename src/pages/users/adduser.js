@@ -21,8 +21,6 @@ function AddUser(props){
     const[isAddButtonDisabled, setAddButton] = useState(true);
     const[isNameValid, setIsNameValid] = useState(false);
     const[isEmailValid, setIsEmailValid] = useState(false);
-    const[isGenderSelected, setGender] = useState(false);
-    const[isUserRoleSelected, setUserRoleSelected] = useState(false);
     
 
     useEffect(() => {
@@ -80,15 +78,14 @@ function AddUser(props){
     const addUser = () =>{
         const userPayLoads = {
             userName: user.userName,
-            userEmail: user.emailId,
+            emailId: user.emailId,
             gender: user.gender,
             userRole: user.userRole,
             createdUser: currentUser.id
         }
-        console.log(userPayLoads);
-        console.log(currentUser);
+        
         UserServices.addUser(userPayLoads).then((response) => {
-            console.log(response);
+           
             if(response.data.message === "Success"){
                toast("User Added Successfully");
             }

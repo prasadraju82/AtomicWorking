@@ -21,9 +21,7 @@ const getTaskById = (taskId) =>{
 
 const saveWorkLog = (worklog) => {
     return axios.post(API_URL_WORKLOG + "saveworklog", worklog, {headers: authHeader()}).then((response) => {
-        // if (response.data.accessToken) {
-        //   window.localStorage.setItem("user", JSON.stringify(response.data));
-        // }
+        
     return response}).catch((error) => {
         return error
     });
@@ -31,9 +29,7 @@ const saveWorkLog = (worklog) => {
 
 const createTask = (task) => {
     return axios.post(API_URL + "createtask", task, {headers: authHeader()}).then((response) => {
-        // if (response.data.accessToken) {
-        //   window.localStorage.setItem("user", JSON.stringify(response.data));
-        // }
+        
     return response}).catch((error) => {
         return error
     });
@@ -41,9 +37,7 @@ const createTask = (task) => {
 
 const updateTaskByTaskId = (task) => {
     return axios.post(API_URL + "updatetaskbytaskid", task, {headers: authHeader()}).then((response) => {
-        // if (response.data.accessToken) {
-        //   window.localStorage.setItem("task", JSON.stringify(response.data));
-        // }
+       
     return response}).catch((error) => {
         return error
     });
@@ -52,21 +46,19 @@ const updateTaskByTaskId = (task) => {
 const getAllTaskList = (assignedUserId) =>{
     console.log(assignedUserId);
     return axios.get(API_URL + "alltaskslist/" + assignedUserId, {headers: authHeader()}).then((response) => {
-        //console.log(response);
+        
         return response});
 }
 
 const getTaskForKanbanBoard = (projectId, statusId) => {
     return axios.get(API_URL + "alltasksbyprojectid/" + projectId + "/" + statusId, {headers: authHeader()}).then((response) => {
-        //console.log(response);
+    
         return response});
 }
 
 const updateTaskStatus = (task) => {
     return axios.post(API_URL + "updatetaskbytaskid", task, {headers: authHeader()}).then((response) => {
-        // if (response.data.accessToken) {
-        //   window.localStorage.setItem("task", JSON.stringify(response.data));
-        // }
+       
     return response}).catch((error) => {
         return error
     });
@@ -95,9 +87,7 @@ const updateWorkLog = async (worklog) => {
 
 const deleteWorkLogById = (worklogId) =>{
     return axios.get(API_URL_WORKLOG + "deleteworklogbyid/" + worklogId, {headers: authHeader()}).then((response) => {
-        // if (response.data.accessToken) {
-        //   window.localStorage.setItem("task", JSON.stringify(response.data));
-        // }
+       
     return response}).catch((error) => {
         return error
     });
@@ -113,13 +103,19 @@ const updateUserByTaskId = (user) => {
 
 const getUserByTaskId = (taskId) =>{
     return axios.get(API_URL + "getuserbytaskid/" + taskId, {headers: authHeader()}).then((response) => {
-        // if (response.data.accessToken) {
-        //   window.localStorage.setItem("task", JSON.stringify(response.data));
-        // }
+       
+    return response}).catch((error) => {
+        return error
+    });
+}
+
+const updateTaskFromKanbanBoard = (task) => {
+    return axios.post(API_URL + "updatetaskfromkanbanboard", task, {headers: authHeader()}).then((response) => {
+        
     return response}).catch((error) => {
         return error
     });
 }
 
 export default { getRecentTaskList, getTaskById, saveWorkLog, updateTaskByTaskId, createTask, getAllTaskList, getTaskForKanbanBoard, 
-    updateTaskStatus, getWorkLogsByTaskId, getWorkLogById, updateWorkLog, deleteWorkLogById, updateUserByTaskId, getUserByTaskId };
+    updateTaskStatus, getWorkLogsByTaskId, getWorkLogById, updateWorkLog, deleteWorkLogById, updateUserByTaskId, getUserByTaskId, updateTaskFromKanbanBoard };
