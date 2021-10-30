@@ -76,7 +76,7 @@ function CreateProject(props){
         }
     ];
 
-    const createProject = () =>{
+    const  createProject = async () =>{
         const projectPayLoads = {
             projectName: project.projectName,
             projectType: project.projectType,
@@ -85,15 +85,17 @@ function CreateProject(props){
             userId: currentUser.id
         }
         
-        ProjectServices.createproject(projectPayLoads).then((response) => {
+   let response =  await ProjectServices.createproject(projectPayLoads);
+   
+   //.then((response) => {
             if(response.data.message === "Success"){
-               alert("Project Saved Successfully");
-               redirectToProjectList();
+                toast("Project Saved Successfully");
+                redirectToProjectList();
             }
             else if(response.data.message === "Duplicate Project Key"){
                 toast("Project Key already exists!")
             }
-        }).catch((error) => {return false})
+       // }).catch((error) => {return false})
     }
 
     const showNameMessage = (val) => {

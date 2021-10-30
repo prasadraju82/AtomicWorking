@@ -8,6 +8,8 @@ import ActivityService from "../../../services/activity";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import {CKEditor} from '@ckeditor/ckeditor5-react';
 import TaskService from "../../../services/tasks";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function TaskWorkLogEditModal(props){
 
@@ -46,7 +48,7 @@ function TaskWorkLogEditModal(props){
             if(response.data.message === "Success"){
                 props.onHide();
                 refreshParent();
-               alert("Work Log Updated Successfully");
+                toast("Work Log Updated Successfully");
             }
         })
     }
@@ -91,6 +93,15 @@ function TaskWorkLogEditModal(props){
                     <Button onClick={() => updateWorkLog()}>Save</Button><Button onClick={props.onHide}>Close</Button>
             </Modal.Footer>
         </Modal>
+        <ToastContainer position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover />
         </div>
     )
 }

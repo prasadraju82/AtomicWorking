@@ -19,29 +19,29 @@ import TaskDetailsDeleteCommentModal from "./taskdetails-delete-comment-modal";
 const API_URL = "http://localhost:5000/api/activity/";
 
 function TaskDetailsComment(props){
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState(EditorState.createEmpty())
-    const [allTask, setAllTask] = useState([]);
+
     const [comment, setComment] = useState([])
     const [activities, setActivities] = useState([]);
     const [showCommentArea, setCommentArea] = useState(false);
     const { user: currentUser } = useSelector((state) => state.auth);
     const [commentId, setCommentId] = useState();
     let taskId = props.taskObject.taskId;
+    console.log(taskId);
+    console.log(props.taskObject.taskId);
 
     const [taskCommentEditModalShow, setTaskCommentEditModalShow] = useState(false);
     const [taskCommentDeleteModalShow, setTaskCommentDeleteModalShow] = useState(false);
 
     const getactivities = (taskid) => {
-        axios.get(API_URL + "getactivity/" + taskid).then(res => {
+        ActivityService.getActivityByTaskId(taskid).then(res => {
             setActivities(res.data);
-        })
+        }).catch((error) => console.log(error.message));
     }
 
     const refreshState = () => {
-        axios.get(API_URL + "getactivity/" + taskId).then(res => {
+        ActivityService.getActivityByTaskId(taskId).then(res => {
             setActivities(res.data);
-        })
+        }).catch((error) => console.log(error.message));
     }
 
     const showCommentEdit = (comment_Id) =>{
@@ -61,10 +61,10 @@ function TaskDetailsComment(props){
         console.log(comment);
     }
 
-    console.log(comment);
+    
     useEffect(() => {
         getactivities(taskId);
-    },[props.taskObject])
+    },[taskId])
 
     
     const saveComment = () =>{
@@ -78,12 +78,12 @@ function TaskDetailsComment(props){
 
         ActivityService.saveActivity(activityPayLoad).then((response) => {
             if(response.data.message === "Success"){
-                console.log(response);
-                console.log(response.data.data);
+                props.onHide();
+                refreshState();
                 setActivities([...activities, response.data.data]);
                 setCommentArea(false)
             }
-        }).catch((error) => console.log(error.message));;
+        }).catch((error) => console.log(error.message));
     }
     //console.log(currentUser);
 

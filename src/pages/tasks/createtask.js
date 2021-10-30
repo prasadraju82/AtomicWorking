@@ -10,6 +10,8 @@ import TaskService from "../../services/tasks";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import {CKEditor} from '@ckeditor/ckeditor5-react';
 import { Container } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function CreateTask(props){
 
@@ -140,7 +142,14 @@ function CreateTask(props){
         TaskService.createTask(taskPayLoad).then((response) => {
             
             if(response.data.message === "Success"){
-               alert("Task Saved Successfully");
+               toast("Task Created Successfully");
+                // setProjectId("0");
+                // setTaskName("");
+            //    setTaskPriority("1");
+            //    setTaskDesc("");
+            //    setEstimatedTime("");
+            //    setUserId("");
+            //    setUserName("")
             }
         }).catch((error) => {console.log(error)})
     }
@@ -202,7 +211,7 @@ function CreateTask(props){
                                 Project Name <span style={{color:'red'}}>*</span>
                             </div>
                             <div style={{width:'20%', marginTop: '5px'}}>
-                                <select id="Select1" className="selcls" onChange={event => {setProjectId(event.target.value)}}>
+                                <select id="Select1" value={projectId} className="selcls" onChange={event => {setProjectId(event.target.value)}}>
                                     <option key = '0' value='0'>-Select-</option>
                                     {projects.map(project => (
                                         <option key={project._id} value={project._id}>
@@ -253,7 +262,7 @@ function CreateTask(props){
                         Summary <span style={{color:'red'}}>*</span>
                     </div>
                     <div style={{ marginTop: '5px'}}>
-                        <input type="text" onChange={event => {setTaskName(event.target.value)}} onBlur={(event) => { showTaskNameMessage(event.target.value) }} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '100%', backgroundColor: '#ffffff'}} />
+                        <input type="text" value={taskName} onChange={event => {setTaskName(event.target.value)}} onBlur={(event) => { showTaskNameMessage(event.target.value) }} style={{border: 'thin solid #CCCCCC', borderRadius:'5px', height:'25px', width: '100%', backgroundColor: '#ffffff'}} />
                     </div>
                     <div style={{position:'absolute', zIndex:'999999', width:'274px' }}
                         className={`alert alert-danger ${isTaskNameValid ? 'alert-shown' : 'alert-hidden'}`}
@@ -367,6 +376,15 @@ function CreateTask(props){
                 </div>
             </div>
             </Container>
+            <ToastContainer position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover />
         </div>
     )
 }

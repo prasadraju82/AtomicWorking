@@ -8,6 +8,8 @@ import { Redirect } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import AuthService from "../../services/auth.services";
 import { Ul, Li, SuggestContainer } from '../tasks/style';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function EditProjectModal(props){
 
@@ -27,6 +29,8 @@ function EditProjectModal(props){
     const[isUpdateButtonDisabled, setUpdateButton] = useState(true);
     const[isNameValid, setIsNameValid] = useState(false);
     const[isLeaderValid, setLeaderValid] = useState(false);
+
+    const refreshParent = props.refreshTask;
 
     useEffect(() => {
         if(project.projectName !== "" && leader !== ""){
@@ -69,6 +73,8 @@ function EditProjectModal(props){
     // const [key, setKey] = useState("");
     // const [projectDesc, setProjectDesc] = useState("");
 
+    
+
     const typeOptions = [
         {
           label: "Development",
@@ -92,11 +98,13 @@ function EditProjectModal(props){
             projectDesc: project.projectDesc,
             userId: leaderId
         }
-        console.log(projectPayLoads);
-        console.log(currentUser);
+
         ProjectServices.updateProject(projectPayLoads).then((response) => {
             if(response.data.message === "Success"){
-               alert("Project Updated Successfully");
+                toast("Project Updated Successfully");
+                refreshParent();
+                props.onHide();
+               
             }
         }).catch((error) => {console.log(error)})
     }
@@ -145,8 +153,7 @@ function EditProjectModal(props){
         console.log(username);
         AuthService.getUsers(username).then(response =>
         {
-            console.log(username)
-            console.log(response)
+           
             setUsers(response.data);
             setSuggestion(true);
         })
@@ -177,6 +184,9 @@ function EditProjectModal(props){
 //     }
 
     return(
+        <div>
+
+        
         <Modal
             {...props}
             size="lg"
@@ -272,6 +282,16 @@ function EditProjectModal(props){
                     <Button onClick={() => updateProject()} disabled={isUpdateButtonDisabled}>Save</Button><Button className="btn btn-danger" onClick={props.onHide}>Close</Button>
             </Modal.Footer>
         </Modal>
+        <ToastContainer position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover />
+        </div>
     )
 
 }

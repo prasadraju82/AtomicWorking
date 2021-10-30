@@ -6,6 +6,8 @@ import TaskService from "../../../services/tasks";
 import { Ul, Li, SuggestContainer } from '../style';
 import { useSelector } from "react-redux";
 import AuthService from "../../../services/auth.services";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function TaskUserAssignModal(props){
 
@@ -28,11 +30,11 @@ function TaskUserAssignModal(props){
             console.log(response.data);
             console.log(response.data.message);
             if(response.data.message === "Success"){
-                alert("User Assigned Successfully");
+                toast("User Assigned Successfully");
                 props.onHide();
             }
             else{
-                alert("There is an error is update: " + response.message);
+                toast("There is an error is update: " + response.message);
             }
             
         })
@@ -138,6 +140,15 @@ function TaskUserAssignModal(props){
                         <Button onClick={() => assignUser()} disabled={isAddButtonDisabled} >Assign</Button><Button className="btn btn-danger" onClick={props.onHide}>Cancel</Button>
                 </Modal.Footer>
             </Modal>
+            <ToastContainer position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover />
         </div>
     )
 }

@@ -29,6 +29,10 @@ function ProjectList(){
         getAllProject(userEmail);
     },[])
 
+    const refreshState = () => {
+        getAllProject(userEmail);
+    }
+
     useEffect(() => {
         if(currentUser.role === 1){
             setIsAdmin(true);
@@ -113,7 +117,7 @@ function ProjectList(){
                     </div>
                     
                 </div>
-                <EditProjectModal  show = {projectEditModalShow} onHide={() => setProjectEditModalShow(false)} projKey = {projectKey}/>
+                <EditProjectModal  show = {projectEditModalShow} onHide={() => setProjectEditModalShow(false)} projKey = {projectKey} refreshTask = { refreshState }/>
         </div>)
 }
 

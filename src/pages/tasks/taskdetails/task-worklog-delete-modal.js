@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/button'
 import TaskService from "../../../services/tasks";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function TaskWorkLogDeletetModal(props){
     const refreshParent = props.refreshComment;
@@ -10,7 +12,7 @@ function TaskWorkLogDeletetModal(props){
         TaskService.deleteWorkLogById(props.commentid).then((response) => {
             if(response.data.message === "Success"){
                refreshParent();
-               alert("Worklog Deleted Successfully");
+               toast("Worklog Deleted Successfully");
                props.onHide();
             }
         }).catch((error) => {console.log(error)})
@@ -37,6 +39,15 @@ function TaskWorkLogDeletetModal(props){
                         <Button onClick={() => deleteComment()}>Delete</Button><Button className="btn btn-danger" onClick={props.onHide}>Cancel</Button>
                 </Modal.Footer>
             </Modal>
+            <ToastContainer position="top-center"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover />
         </div>
     )
 }

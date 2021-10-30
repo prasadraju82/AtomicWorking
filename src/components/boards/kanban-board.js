@@ -17,9 +17,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
     TaskService.updateTaskFromKanbanBoard(taskPayLoad).then((response) => {
         if(response.data.message === "Success"){
-           alert("Task Status Updated Successfully");
+           toast("Task Status Updated Successfully");
         }
-    }).catch((error) => {toast(error)})
+    }).catch((error) => {console.log(error)})
  }
 
  const onDragEnd = (result, columns, setColumns) => {

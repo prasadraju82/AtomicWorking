@@ -26,9 +26,7 @@ const getCommentById = (commentId) => {
 
 const updateActivityById = (useractivity) =>{
     return axios.post(API_URL + "updateactivitybyid", useractivity, {headers: authHeader()}).then((response) => {
-        // if (response.data.accessToken) {
-        //   window.localStorage.setItem("task", JSON.stringify(response.data));
-        // }
+        
     return response}).catch((error) => {
         return error
     });
@@ -36,12 +34,17 @@ const updateActivityById = (useractivity) =>{
 
 const deleteActivityById = (activityId) =>{
     return axios.get(API_URL + "deleteactivitybyid/" + activityId, {headers: authHeader()}).then((response) => {
-        // if (response.data.accessToken) {
-        //   window.localStorage.setItem("task", JSON.stringify(response.data));
-        // }
+        
     return response}).catch((error) => {
         return error
     });
 }
 
-export default { saveActivity, getCommentById, updateActivityById, deleteActivityById };
+const getActivityByTaskId = (taskid) => {
+    return axios.get(API_URL + "getactivity/" + taskid, {headers: authHeader()}).then(response => {
+        return response}).catch((error) => {
+            return error
+    })
+}
+
+export default { saveActivity, getCommentById, updateActivityById, deleteActivityById, getActivityByTaskId };
