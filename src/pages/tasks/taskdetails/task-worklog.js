@@ -3,28 +3,31 @@ import TasksService from "../../../services/tasks";
 import Moment from 'react-moment';
 import 'moment-timezone';
 import TaskWorkLogEditModal from "./task-worklog-edit-modal";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import TaskWorkLogDeletetModal from "./task-worklog-delete-modal";
+import {getWorkLogByTaskId } from "../../../action/worklog";
 
 function TaskWorkLog(props){
     const [worklogs, setWorkLogs] = useState([]);
     const [workLogModalShow, setWorkLogModalShow] = useState(false);
     const [workLogId, setWorkLogId] = useState("");
     let taskId = props.taskObject.taskId;
+    const dispatch = useDispatch();
     const { user: currentUser } = useSelector((state) => state.auth);
     const [workLogDeleteModalShow, setWorkLogDeleteModalShow] = useState(false);
-
+    const { userworklogs: worklogss } = useSelector((state) => state.worklog);
     const getWorkLogs = (taskid) => {
         TasksService.getWorkLogsByTaskId(taskid).then(res => {
             console.log('task id:' + taskid)
             console.log(res.data);
-            setWorkLogs(res.data);
+            //setWorkLogs(res.data);
         })
     }
 
+    console.log(worklogss);
     useEffect(() => {
-        getWorkLogs(taskId);
-    },[taskId])
+        dispatch(getWorkLogByTaskId(taskId));
+    },[dispatch, taskId])
 
     const getInitials = (username) => {
         let user = username.split(' ')
@@ -58,7 +61,7 @@ function TaskWorkLog(props){
     }
 
     const refreshState = () => {
-        getWorkLogs(taskId);
+        dispatch(getWorkLogByTaskId(taskId));
     }
 
     const deleteWorklog = (comment_Id) =>{
@@ -71,7 +74,7 @@ function TaskWorkLog(props){
         <div>
             <div>
                 {
-                    worklogs.map((worklog, index) => {
+                    worklogss.map((worklog, index) => {
                         return(
                             <div>
                                 <div className="flex-container" id="cmtDetails">

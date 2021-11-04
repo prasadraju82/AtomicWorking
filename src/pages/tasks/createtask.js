@@ -135,9 +135,12 @@ function CreateTask(props){
             taskTypeId: taskType,
             projectId: projectId,
             assignedUserId: userId,
-            creatorUserId: currentUser._id,
+            creatorUserId: currentUser.id,
             priorityId: taskPriority
         }
+        console.log(currentUser);
+        console.log(taskPayLoad.creatorUserId);
+        console.log(currentUser.id);
 
         TaskService.createTask(taskPayLoad).then((response) => {
             

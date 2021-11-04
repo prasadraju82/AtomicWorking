@@ -65,7 +65,7 @@ function TaskDetailsSummaryEditModal(props){
           value: "6",
         }
     ];
-    console.log(props.tasks);
+    //console.log(props.tasks);
 
     const [taskName, setTaskName] = useState(props.tasks.taskName);
     const [taskType, setTaskType] = useState(props.tasks.taskTypeId);
@@ -116,7 +116,7 @@ function TaskDetailsSummaryEditModal(props){
     //     //setTask({...task, [id] : value})
     // };
 
-    console.log(props.tasks);
+    //console.log(props.tasks);
     const priorityOptions = [
         {
           label: "Normal",

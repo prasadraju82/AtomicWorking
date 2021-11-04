@@ -103,9 +103,10 @@ const Navigation = (props) => {
                                 {userInitials}
                             </div>
                             {
-                                logoutPanel && (<div style={{position:'absolute', backgroundColor:'#dcdcdc', padding:6}}
+                                logoutPanel && (<div style={{position:'absolute', backgroundColor:'#ffffff', padding:6, boxShadow: '0 0 10px gray', width:'150px', left:'90%'}}
                                     onMouseEnter={() => {setLogoutPanel(true)}} onMouseLeave={() => {setLogoutPanel(false)}}>
-                                        <a onClick={logOut}>Logout</a>
+                                        <div>{currentUser.name}</div>
+                                        <a style={{fontWeight:'bold'}} onClick={logOut}>Logout</a>
                                 </div>)
                             }
                             

@@ -22,7 +22,7 @@ function TaskWorkLogEditModal(props){
     }
 
     useEffect(() => {
-        console.log(props)
+        
         TaskService.getWorkLogById(props.commentid).then((response) => {
             console.log(response);
             if(response.data !== undefined && response.data){
@@ -34,7 +34,7 @@ function TaskWorkLogEditModal(props){
             }
         })
 
-        console.log(userComment);
+        
     },[props.commentid])
 
     const updateWorkLog = () =>{

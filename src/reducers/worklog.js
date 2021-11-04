@@ -1,10 +1,10 @@
-const initialState = [{
-
-}];
+const initialState = {
+    userworklogs : []
+};
 
 function worklog(state = initialState, action){
     const { type, payload } = action;
-
+    console.log(state);
     switch (type) {
         case "FETCH_WORKLOG":
             return{
@@ -14,7 +14,7 @@ function worklog(state = initialState, action){
         case "ADD_WORKLOG":
             return{
                 ...state,
-                userworklogs: payload.worklogs
+                userworklogs: [...state.userworklogs, payload.worklogs.data]
             };
         default:
             return state 
