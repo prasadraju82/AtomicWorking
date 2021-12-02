@@ -8,7 +8,7 @@ This is a React.js project bootstrapped with [Create React App](https://github.c
 1. Node.js v14.15.5 or later
 2. Windows (Haven't tested in MacOS or Linux. However, Node.js supports those OS/Platform)
 
-## Prerequisites
+## Getting started
 Install the required packages by running: 
 ### `npm install`
 
