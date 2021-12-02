@@ -1,6 +1,7 @@
 # Atomic - Project Management tool
 
 This tool will help users to track progress of a project and to log the efforts of an individual. It can be used to manage tasks efficiently with ease by prioritizing them.
+PROD_URL: https://my-react-atomic-app.netlify.app/
 This is a React.js project bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Prerequisites
