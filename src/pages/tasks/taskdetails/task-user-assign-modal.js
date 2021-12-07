@@ -4,10 +4,11 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/button'
 import TaskService from "../../../services/tasks";
 import { Ul, Li, SuggestContainer } from '../style';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import AuthService from "../../../services/auth.services";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { assignTaskUser } from "../../../action/tasks";
 
 function TaskUserAssignModal(props){
 
@@ -17,6 +18,7 @@ function TaskUserAssignModal(props){
     const [userId, setUserId] = useState("");
     const[isAddButtonDisabled, setAddButton] = useState(true);
     const[isUserValid, setIsUserValid] = useState(false);
+    const dispatch = useDispatch();
 
     const assignUser = () => {
         const userPayLoad = {
@@ -24,8 +26,8 @@ function TaskUserAssignModal(props){
             userName: leader,
             userId: userId
         }
-
-        TaskService.updateUserByTaskId(userPayLoad).then(response => {
+        
+        dispatch(assignTaskUser(userPayLoad)).then(response => {
             console.log(response);
             console.log(response.data);
             console.log(response.data.message);
@@ -34,10 +36,22 @@ function TaskUserAssignModal(props){
                 props.onHide();
             }
             else{
-                toast("There is an error is update: " + response.message);
+                toast("There is an error in update: " + response.message);
             }
+        }).catch((error) => {console.log(error)});
+        // TaskService.updateUserByTaskId(userPayLoad).then(response => {
+        //     console.log(response);
+        //     console.log(response.data);
+        //     console.log(response.data.message);
+        //     if(response.data.message === "Success"){
+        //         toast("User Assigned Successfully");
+        //         props.onHide();
+        //     }
+        //     else{
+        //         toast("There is an error in update: " + response.message);
+        //     }
             
-        })
+        // })
     }
 
     useEffect(() => {

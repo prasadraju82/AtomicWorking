@@ -14,35 +14,26 @@ function TaskDetailsSummary(props){
     const [taskUserAssignModalShow, setUserAssignModalShow] = useState(false);
     const [taskdetails, setTaskDetails] = useState([]);
     const createMarkup = (usercomment) => {
-        console.log("comment: " + usercomment);
+        //console.log("comment: " + usercomment);
         return { __html: usercomment };
       }
 
     useEffect(() =>{
         TasksService.getTaskById(props.taskId).then(response => {
-            console.log("master page: " + response.data);
+            //console.log("master page: " + response.data);
             setTaskDetails(response.data);
         })
     },[props.taskId])
     
     const refreshState = () => {
         TasksService.getTaskById(props.taskId).then(response => {
-            console.log("master page: " + response.data);
+            //console.log("master page: " + response.data);
             setTaskDetails(response.data);
         })
     }
 
     console.log(taskdetails);
-    //console.log(currentUser);
-    // const { task: currentTask } = useSelector((state) => state.task);
-
-    // console.log("Summary: " + currentTask)
-
-    // console.log("Summary: " + props.taskObject);
-
-    // console.log("id: " + props.taskObject.id);
-    // console.log("taskName: " + props.taskObject.taskName);
-    // console.log("Summary: " + props.taskObject.taskId);
+    
     return(
         
         <div>

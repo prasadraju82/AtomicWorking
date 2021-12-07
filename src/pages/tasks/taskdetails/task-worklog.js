@@ -8,7 +8,6 @@ import TaskWorkLogDeletetModal from "./task-worklog-delete-modal";
 import {getWorkLogByTaskId } from "../../../action/worklog";
 
 function TaskWorkLog(props){
-    const [worklogs, setWorkLogs] = useState([]);
     const [workLogModalShow, setWorkLogModalShow] = useState(false);
     const [workLogId, setWorkLogId] = useState("");
     let taskId = props.taskObject.taskId;

@@ -18,21 +18,20 @@ function Login(){
     const [loader, setLoader] = useState(false);
 
     const [show, setShowItem] = useState(true);
-    const [value, setValue] = useState("");
-    const [password, setPassword] = useState();
+    const [value, setValue] = useState("atomictestproject@gmail.com");
+    const [password, setPassword] = useState("test@123");
     const [showFirstTimeUser, setFirstTimeUser] = useState();
     const [displayTextBox, setdisplayTextBox] = useState("block");
     const [displayContinueButton, setdisplayContinueButton] = useState("block");
     const [userPassword, setUserPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    const[isContinueBtnDisabled, setContinueBtnDisabled] = useState(true);
+    const[isContinueBtnDisabled, setContinueBtnDisabled] = useState(false);
     const[displayErrorMessage, setDisplayErrorMessage] = useState(false);
     const[isEmailExistMessage, setIsEmailExistMessage] = useState(false);
     const[isPasswordMatch, setIsPasswordMatchMessage] = useState(true);
     const [isShowingAlert, setShowingAlert] = useState(false);
     const[isPasswordInCorrect, setPasswordIncorrect] = useState(false);
-    const[isPasswordMatched, setPasswordMatched] = useState(false);
 
     let history = useHistory();
 

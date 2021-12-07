@@ -23,12 +23,12 @@ function RecentTasks(){
                 }
             )
         }
-    },[])
+    },[currentUser])
 
     let history = useHistory();
 
     const gotoTaskDetails = (taskId) => {
-        history.push('/taskdetails/taskdetails-master', { taskid: taskId });
+        history.push('/taskdetails/taskdetails-master/' + taskId)
     }
 
     const gotoAllTasks = (taskId) => {
@@ -73,7 +73,7 @@ function RecentTasks(){
                                                     </td>
                                                     <td>
                                                         <div className="flex-container">
-                                                            <div style={{height:'25px'}}><a onClick={() => gotoTaskDetails(task.taskId)} style={{fontSize: 'large', fontWeight: 'bold', textDecoration:'none', color:'blue'}}>{task.taskName}</a></div>
+                                                            <div style={{height:'25px'}}><a href={'/taskdetails/taskdetails-master/' + task.taskId} style={{fontSize: 'large', fontWeight: 'bold', textDecoration:'none', color:'blue'}}>{task.taskName}</a></div>
                                                         </div>
                                                         <div className="flex-container">
                                                             <div style={{marginLeft:'0px',color:'#546E7A', fontWeight:'lighter', width:'12%'}}>{task.taskId}</div><div style={{marginLeft:'30px',color:'#546E7A', fontWeight:'lighter'}}>{task.projectId.projectName}</div>

@@ -16,8 +16,6 @@ import TaskDetailsSummaryEditModal from "./taskdetails-summary-edit-modal";
 import TaskDetailsCommentEditModal from "./taskdetails-comments-edit-modal";
 import TaskDetailsDeleteCommentModal from "./taskdetails-delete-comment-modal";
 
-const API_URL = "http://localhost:5000/api/activity/";
-
 function TaskDetailsComment(props){
 
     const [comment, setComment] = useState([])

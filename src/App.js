@@ -25,7 +25,7 @@ function App() {
         {/* <Route exact path='/projectlist/:emailId' component ={ProjectList} />  */}
         <PrivateRoute exact path="/projectlist" component={ProjectList} />
         <PrivateRoute exact path="/recenttasks" component={RecentTasks} />
-        <PrivateRoute exact path="/taskdetails/taskdetails-master" component={TaskDetails} />
+        <PrivateRoute exact path="/taskdetails/taskdetails-master/:taskId" component={TaskDetails} />
         <PrivateRoute exact path="/createtask" component={CreateTask} />
         <PrivateRoute exact path="/createproject" component={CreateProject} />
         <PrivateRoute exact path="/adduser" component={AddUser} />

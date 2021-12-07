@@ -87,7 +87,7 @@ function KanbanBoard(props){
     let history = useHistory();
 
     const gotoTaskDetails = (taskId) => {
-        history.push('/taskdetails/taskdetails-master', { taskid: taskId });
+        history.push('/taskdetails/taskdetails-master/' + taskId );
     }
 
     const {state} = history.location;

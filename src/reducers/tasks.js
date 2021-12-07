@@ -1,14 +1,18 @@
 
-const initialState = {};
+const initialState = {
+    usertask:{
+
+    }
+};
 
 // {
-//     usertask:[
+//     usertask:
 //         {
 //             taskId: "",
 //             taskName: "",
 //             taskDescription: ""
 //         }
-//     ]
+    
 // }
 
 
@@ -21,8 +25,13 @@ function tasks(state = initialState, action){
             return{
                 ...state,
                 usertask: payload.task
-            }
-    
+            };
+        case "ASSIGN_USER_TO_TASK":
+            return{
+                ...state,
+                usertask: payload.task
+            };
+
         default:
             return state 
     }
